@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-HitFit.Web-f628a2db-a2bf-419e-aae0-fc113808b930",
 
   "dependencies": {
@@ -37,7 +37,8 @@
     "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview1-final",
       "type": "build"
-    }
+    },
+    "VisualStudioGitIgnore": "1.3.0"
   },
 
   "tools": {
