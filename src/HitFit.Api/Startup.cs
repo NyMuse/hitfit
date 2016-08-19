@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+﻿using HitFit.Api.Models;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace HitFit.Api
 {
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
+
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -28,7 +30,40 @@ namespace HitFit.Api
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            //services.AddMvc();
+
+            var connectionString = Configuration["DataAccessPostgreSqlProvider:ConnectionString"];
+            services.AddDbContext<HitFitDbContext>(options => options.UseNpgsql(connectionString,
+                b => b.MigrationsAssembly("AspNet5MultipleProject")));
+
+            services.AddMvc()
+                .AddJsonOptions(x =>
+                {
+                    x.SerializerSettings.ContractResolver =
+                        new CamelCasePropertyNamesContractResolver();
+                });
+
+            services.Configure<IISOptions>(options => {
+                                                          options.AutomaticAuthentication = true;
+            });
+
+            //services.AddScoped<IDataAccessProvider, DataAccessPostgreSqlProvider.DataAccessPostgreSqlProvider>();
+
+            //JsonOutputFormatter jsonOutputFormatter = new JsonOutputFormatter
+            //{
+            //    SerializerSettings = new JsonSerializerSettings
+            //    {
+            //        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            //    }
+            //};
+
+            //services.AddMvc(
+            //    options =>
+            //    {
+            //        options.OutputFormatters.Clear();
+            //        options.OutputFormatters.Insert(0, jsonOutputFormatter);
+            //    }
+            //);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

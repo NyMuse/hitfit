@@ -2,25 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HitFit.Api.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace HitFit.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class CommonController : Controller
     {
+        private readonly HitFitDbContext _context;
+
+        public CommonController(HitFitDbContext context)
+        {
+            _context = context;
+        }
+
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<User> GetUsers()
         {
-            return new string[] { "value1", "value2" };
+            return _context.Users;
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public User GetUser(int id)
         {
-            return "value";
+            return _context.Users.FirstOrDefault(u => u.Id == id);
         }
 
         // POST api/values
