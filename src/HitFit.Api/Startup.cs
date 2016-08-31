@@ -29,9 +29,6 @@ namespace HitFit.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            //services.AddMvc();
-
             var connectionString = Configuration["DataAccessPostgreSqlProvider:ConnectionString"];
             services.AddDbContext<HitFitDbContext>(options => options.UseNpgsql(connectionString,
                 b => b.MigrationsAssembly("AspNet5MultipleProject")));
@@ -43,27 +40,7 @@ namespace HitFit.Api
                         new CamelCasePropertyNamesContractResolver();
                 });
 
-            services.Configure<IISOptions>(options => {
-                                                          options.AutomaticAuthentication = true;
-            });
-
-            //services.AddScoped<IDataAccessProvider, DataAccessPostgreSqlProvider.DataAccessPostgreSqlProvider>();
-
-            //JsonOutputFormatter jsonOutputFormatter = new JsonOutputFormatter
-            //{
-            //    SerializerSettings = new JsonSerializerSettings
-            //    {
-            //        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            //    }
-            //};
-
-            //services.AddMvc(
-            //    options =>
-            //    {
-            //        options.OutputFormatters.Clear();
-            //        options.OutputFormatters.Insert(0, jsonOutputFormatter);
-            //    }
-            //);
+            services.Configure<IISOptions>(options => { options.AutomaticAuthentication = true; });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
