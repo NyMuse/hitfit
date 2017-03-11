@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HitFit.Api", "HitFit.Api\Hi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HitFit.Web", "HitFit.Web\HitFit.Web.csproj", "{6345E624-4FF8-46AE-955E-35D732004F3F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hitfit.app", "HitFit.App\hitfit.app.csproj", "{CE2461F6-8A44-4322-AEB3-0AE3BFA2401F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6345E624-4FF8-46AE-955E-35D732004F3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6345E624-4FF8-46AE-955E-35D732004F3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6345E624-4FF8-46AE-955E-35D732004F3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE2461F6-8A44-4322-AEB3-0AE3BFA2401F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE2461F6-8A44-4322-AEB3-0AE3BFA2401F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE2461F6-8A44-4322-AEB3-0AE3BFA2401F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE2461F6-8A44-4322-AEB3-0AE3BFA2401F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

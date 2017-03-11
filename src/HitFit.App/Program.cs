@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
 
-namespace HitFit.Api
+namespace hitfit.app
 {
     public class Program
     {

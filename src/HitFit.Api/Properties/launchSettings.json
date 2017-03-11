@@ -18,11 +18,13 @@
     },
     "HitFit.Api": {
       "commandName": "Project",
+      "workingDirectory": "C:\\Repositories\\git\\hitfit\\src\\HitFit.Api",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:5000/api/values",
+      "launchUrl": "http://localhost/api/common",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "http://localhost/api/"
     }
   }
 }
