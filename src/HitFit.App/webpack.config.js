@@ -16,7 +16,7 @@
     },
     {
         entry: {
-            app: './wwwroot/app/main.ts'
+            app: './wwwroot/app/app.ts'
         },
         output: {
             filename: './wwwroot/app/bundle.js'

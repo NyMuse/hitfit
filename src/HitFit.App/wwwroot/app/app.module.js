@@ -10,7 +10,7 @@ const http_1 = require("@angular/http");
 const forms_1 = require("@angular/forms");
 const platform_browser_1 = require("@angular/platform-browser");
 const app_component_1 = require("./app.component");
-const person_service_1 = require("./person.service");
+const person_service_1 = require("./services/person.service");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([

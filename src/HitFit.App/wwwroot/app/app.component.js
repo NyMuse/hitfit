@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 const core_1 = require("@angular/core");
-const person_service_1 = require("./person.service");
+const person_service_1 = require("./services/person.service");
 let AppComponent = class AppComponent extends core_1.OnInit {
     constructor(_service) {
         super();
@@ -29,9 +29,9 @@ AppComponent = __decorate([
     <h1>My First Angular 2 App</h1>
     <ul>
     <li *ngFor="let person of persons">
-    <strong>person.name</strong><br>
-    from: <br>
-    date of birth: 
+    <strong>{{person.name}}</strong><br>
+    from: {{person.city}}<br>
+    date of birth: {{person.dob}}
     </li>
     </ul>
     `,

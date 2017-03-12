@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { PersonService, Person } from './person.service';
+import { PersonService, Person } from './services/person.service';
 
 @Component({
     selector: 'my-app',
