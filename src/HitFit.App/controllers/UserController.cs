@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using hitfit.app.models;
+using Microsoft.AspNetCore.Http.Features.Authentication;
 
 namespace hitfit.app.controllers
 {
-    [Route("api/authenticate")]
-    public class CommonController : Controller
+    [Route("api/users")]
+    public class UserController : Controller
     {
         private readonly HitFitDbContext _context;
 
-        public CommonController(HitFitDbContext context)
+        public UserController(HitFitDbContext context)
         {
             _context = context;
         }
@@ -20,7 +21,7 @@ namespace hitfit.app.controllers
         {
             return _context.Users;
         }
-        
+
         // GET api/values/5
         [HttpGet("{id}")]
         public User GetUser(int id)

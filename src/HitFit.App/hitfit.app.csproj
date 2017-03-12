@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
+    <PackageTargetFallback>portable-net45+win8</PackageTargetFallback>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,11 +11,11 @@
     <Content Include="wwwroot\app\app.js.map" />
     <Content Include="wwwroot\app\app.module.ts" />
     <Content Include="wwwroot\app\app.ts" />
-    <Content Include="wwwroot\app\main.ts" />
-    <Content Include="wwwroot\app\person.service.ts" />
+    <Content Include="wwwroot\app\services\authentication.service.ts" />
     <Content Include="wwwroot\app\services\person.service.js" />
     <Content Include="wwwroot\app\services\person.service.js.map" />
     <Content Include="wwwroot\app\services\person.service.ts" />
+    <Content Include="wwwroot\app\services\user.service.ts" />
     <Content Include="wwwroot\css\site.css" />
     <Content Include="wwwroot\index.html" />
     <Content Include="wwwroot\models\user.ts" />
