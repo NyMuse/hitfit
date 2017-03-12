@@ -7,9 +7,9 @@ import { PersonService, Person } from './person.service';
     <h1>My First Angular 2 App</h1>
     <ul>
     <li *ngFor="let person of persons">
-    <strong></strong><br>
-    from: <br>
-    date of birth: 
+    <strong>{{person.name}}</strong><br>
+    from: {{person.city}}<br>
+    date of birth: {{person.dob}}
     </li>
     </ul>
     `,
