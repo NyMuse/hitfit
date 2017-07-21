@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Registration";
+}
+<h2>@ViewData["Title"].</h2>
+<h3>@ViewData["Message"]</h3>
+
+<form method="post">
+    <div class="row">
+        <div class="col-md-3">
+            <h2>Enter your data:</h2>
+            <div>
+                <label>Login</label>
+                <input id="username" name="username" />
+            </div>
+            <div>
+                <label>Password</label>
+                <input type="password" id="password" name="password" />
+            </div>
+            <div>
+                <label>First name</label>
+                <input id="userfirstname" name="userfirstname" />
+            </div>
+            <div>
+                <label>Middle name</label>
+                <input id="usermiddlename" name="usermiddlename" />
+            </div>
+            <div>
+                <label>Last name</label>
+                <input id="userlastname" name="userlastname" />
+            </div>
+            <div>
+                <input type="submit" id="register_button" name="submit.Register" />
+            </div>
+        </div>
+    </div>
+</form>
