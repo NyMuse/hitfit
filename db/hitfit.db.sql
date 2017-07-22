@@ -1,8 +1,8 @@
-﻿-- Database: "hitfit.db"
+﻿-- Database: "hitfitdb"
 
-DROP DATABASE IF EXISTS "hitfit.db";
+DROP DATABASE IF EXISTS hitfitdb;
 
-CREATE DATABASE "hitfit.db"
+CREATE DATABASE hitfitdb
   WITH OWNER = postgres
        ENCODING = 'UTF8'
        TABLESPACE = pg_default
@@ -13,15 +13,44 @@ CREATE DATABASE "hitfit.db"
 CREATE TABLE public."Users"
 (
   "Id" SERIAL PRIMARY KEY,
-  "FirstName" character varying(255),
-  "MiddleName" character varying(255),
-  "LastName" character varying(255),
-  "Birthday" date,
-  "Growth" smallint,
-  "Weight" smallint
+  "IsAdministrator" boolean,
+  "Name" character varying(256) NOT NULL CONSTRAINT "UC_Name" UNIQUE,
+  "Password" character varying(256),
+  "PasswordSalt" character varying(256),
+  "FirstName" character varying(256),
+  "MiddleName" character varying(256),
+  "LastName" character varying(256),
+  "Birthday" date
 )
 WITH (
   OIDS=FALSE
 );
 ALTER TABLE public."Users"
+  OWNER TO postgres;
+
+CREATE TABLE public."UserMeasurements"
+(
+  "Id" SERIAL PRIMARY KEY,
+  "UserId" int NOT NULL,
+  "Type" smallint,
+  "Growth" smallint,
+  "Weight" smallint,
+  "Wrist" smallint,
+  "Hand" smallint,
+  "Breast" smallint,
+  "WaistTop" smallint,
+  "WaistMiddle" smallint,
+  "WaistBottom" smallint,
+  "Buttocks" smallint,
+  "Things" smallint,
+  "Leg" smallint,
+  "KneeTop" smallint,
+  CONSTRAINT "FK_UserMeasurements_UserId" FOREIGN KEY ("UserId")
+      REFERENCES public."Users" ("Id") MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public."UserMeasurements"
   OWNER TO postgres;

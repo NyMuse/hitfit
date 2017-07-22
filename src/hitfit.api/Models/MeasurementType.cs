@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 
 namespace hitfit.api.Models
 {
-    public enum UserType
+    public enum MeasurementType
     {
-        Administrator = 0,
+        Before = 0,
 
-        Client = 1
+        InTheMiddle = 1,
+
+        After = 3
     }
 }

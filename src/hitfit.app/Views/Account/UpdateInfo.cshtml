@@ -1,16 +1,24 @@
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Detailed info";
 }
 <h2>@ViewData["Title"].</h2>
 <h3>@ViewData["Message"]</h3>
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>UpdateInfo</title>
-</head>
-<body>
-</body>
-</html>
+<form method="post">
+    <div class="row">
+        <div class="col-md-3">
+            <h2>Enter your detailed info:</h2>
+            <div>
+                <label>Growth</label>
+                <input type="number" id="growth" name="growth" />
+            </div>
+            <div>
+                <label>Weight</label>
+                <input type="number" id="weight" name="weight" />
+            </div>
+            <div>
+            <input type="submit" id="update_button" name="submit.UpdateMeasurements" />
+            </div>
+        </div>
+    </div>
+</form>

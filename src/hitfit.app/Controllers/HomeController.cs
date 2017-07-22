@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 namespace hitfit.app.Controllers
 {
     //[Authorize]
-    public class HomeController : BaseController
+    public class HomeController : AppController
     {
         public IActionResult Index()
         {

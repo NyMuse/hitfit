@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace hitfit.app.Controllers
 {
-    public class AccountController : BaseController
+    public class AccountController : AppController
     {
         public IActionResult Login()
         {
@@ -22,7 +22,7 @@ namespace hitfit.app.Controllers
                     var username = this.Request.Form["username"];
                     var password = this.Request.Form["password"];
 
-
+                    this.GetJwtToken(username, password);
                 }
 
                 return RedirectToAction("Index", "Home");
@@ -34,33 +34,30 @@ namespace hitfit.app.Controllers
         public IActionResult Registration()
         {
             ViewData["Message"] = "Your registration page.";
-
-            User createdUser;
-
+            
             if (this.Request.Method == "POST")
             {
                 if (this.Request.Form.ContainsKey("submit.Register"))
                 {
                     var user = new User
                     {
-                        Username = this.Request.Form["username"],
+                        Name = this.Request.Form["username"],
                         Password = this.Request.Form["password"],
                         FirstName = this.Request.Form["userfirstname"],
                         MiddleName = this.Request.Form["usermiddlename"],
-                        LastName = this.Request.Form["userlastname"]
+                        LastName = this.Request.Form["userlastname"],
+                        Birthday = Convert.ToDateTime(this.Request.Form["birthday"])
                     };
 
                     var stringData = JsonConvert.SerializeObject(user);
 
-                    createdUser = this.PostAction<User>("/account/register", stringData);
+                    var createdUser = this.PostAction<User>("/account/register", stringData);
 
                     if (createdUser != null)
                     {
                         return RedirectToAction("UpdateInfo", new { id = createdUser.Id });
                     }
                 }
-
-                return View();
             }
 
             return View();
@@ -68,7 +65,26 @@ namespace hitfit.app.Controllers
 
         public IActionResult UpdateInfo(int id)
         {
-            var user = this.GetAction<User>("/api/users/", id.ToString());
+            ViewData["Message"] = "Your registration page.";
+
+            if (this.Request.Method == "POST")
+            {
+                if (this.Request.Form.ContainsKey("submit.UpdateMeasurements"))
+                {
+                    var userMeasurements = new UserMeasurements
+                    {
+                        UserId = id,
+                        Growth = short.Parse(this.Request.Form["growth"]),
+                        Weight = short.Parse(this.Request.Form["weight"])
+                    };
+
+                    var stringData = JsonConvert.SerializeObject(userMeasurements);
+
+                    var createdUserMeasurements = this.PostAction<UserMeasurements>("api/users/measurements", stringData);
+
+                    return RedirectToAction("Index", "Home");
+                }
+            }
 
             return View();
         }

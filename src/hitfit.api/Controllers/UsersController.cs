@@ -26,7 +26,7 @@ namespace hitfit.api.Controllers
         [HttpGet]
         public IEnumerable<User> GetUsers()
         {
-            return _context.Users;
+            return _context.Users.Include(u => u.UserMeasurements).Select(e => e.ToDto());
         }
 
         // GET: api/Users/5
@@ -38,14 +38,14 @@ namespace hitfit.api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
+            var user = await _context.Users.Include(u => u.UserMeasurements).SingleOrDefaultAsync(m => m.Id == id);
 
             if (user == null)
             {
                 return NotFound();
             }
 
-            return Ok(user);
+            return Ok(user.ToDto());
         }
 
         // PUT: api/Users/5
@@ -91,11 +91,29 @@ namespace hitfit.api.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            
             _context.Users.Add(user);
+            
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction("GetUser", new { id = user.Id });
+        }
+
+        [HttpPost("measurements")]
+        public async Task<IActionResult> AddUserMeasurements([FromBody] UserMeasurements userMeasurements)
+        {
+            var identity = this.User.Identity;
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.UserMeasurements.Add(userMeasurements);
+
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetUser", new { id = userMeasurements.UserId });
         }
 
         // DELETE: api/Users/5

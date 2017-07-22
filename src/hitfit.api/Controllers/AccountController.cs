@@ -22,21 +22,11 @@ namespace hitfit.api.Controllers
 {
     [Produces("application/json")]
     [Route("[controller]")]
-    public class AccountController : Controller
+    public class AccountController : ApiController
     {
-        private readonly HitFitDbContext _context;
-
-        public IConfigurationRoot Configuration { get; }
-
-        public AccountController(HitFitDbContext context)
+        public AccountController(HitFitDbContext context) : base(context)
         {
-            _context = context;
-
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-
-            Configuration = builder.Build();
+            
         }
 
         [HttpPost("token")]
@@ -53,41 +43,17 @@ namespace hitfit.api.Controllers
             }
             else
             {
+                var encodedJwt = this.GenerateToken(identity);
 
-                var now = DateTime.UtcNow;
-                // создаем JWT-токен
-                var jwt = new JwtSecurityToken(
-                    issuer: Configuration["JwtTokenConfiguration:ValidIssuer"],
-                    audience: Configuration["JwtTokenConfiguration:ValidAudience"],
-                    notBefore: now,
-                    claims: identity.Claims,
-                    expires: now.Add(TimeSpan.FromDays(1)),
-                    signingCredentials:
-                    new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["JwtTokenConfiguration:Key"])),
-                        SecurityAlgorithms.HmacSha256));
-
-                try
+                var response = new
                 {
-                    var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+                    access_token = encodedJwt,
+                    username = identity.Name
+                };
 
-                    var response = new
-                    {
-                        access_token = encodedJwt,
-                        username = identity.Name
-                    };
-
-                    // сериализация ответа
-                    Response.ContentType = "application/json";
-                    await Response.WriteAsync(JsonConvert.SerializeObject(response,
-                        new JsonSerializerSettings { Formatting = Formatting.Indented }));
-                }
-                catch (Exception e)
-                {
-                    Response.StatusCode = 400;
-                    await Response.WriteAsync(e.Message);
-                }
-
-                
+                Response.ContentType = "application/json";
+                await Response.WriteAsync(JsonConvert.SerializeObject(response,
+                    new JsonSerializerSettings { Formatting = Formatting.Indented }));
             }
         }
 
@@ -106,57 +72,10 @@ namespace hitfit.api.Controllers
             user.Password = hashedPassword;
             user.PasswordSalt = Convert.ToBase64String(passwordSalt);
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            this.Context.Users.Add(user);
+            await this.Context.SaveChangesAsync();
 
             return CreatedAtAction("GetUser", "Users", new { id = user.Id }, user);
-        }
-
-        private async Task<ClaimsIdentity> GetIdentity(string username, string password)
-        {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Username == username);
-
-            if (user != null)
-            {
-                var passwordHash = this.HashPassword(password, Convert.FromBase64String(user.PasswordSalt));
-
-                if (user.Password.Equals(passwordHash))
-                {
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimsIdentity.DefaultNameClaimType, user.Username)
-                    };
-                    ClaimsIdentity claimsIdentity =
-                        new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
-                            ClaimsIdentity.DefaultRoleClaimType);
-                    return claimsIdentity;
-                }
-
-                return null;
-            }
-
-            return null;
-        }
-
-        private string HashPassword(string password, byte[] salt)
-        {
-            return Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password: password,
-                salt: salt,
-                prf: KeyDerivationPrf.HMACSHA1,
-                iterationCount: 10000,
-                numBytesRequested: 256 / 8));
-        }
-
-        private byte[] GeneratePasswordSalt()
-        {
-            byte[] salt = new byte[128 / 8];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(salt);
-            }
-
-            return salt;
         }
     }
 }
