@@ -1,15 +1,3 @@
-﻿-- Database: "hitfitdb"
-
-DROP DATABASE IF EXISTS hitfitdb;
-
-CREATE DATABASE hitfitdb
-  WITH OWNER = postgres
-       ENCODING = 'UTF8'
-       TABLESPACE = pg_default
-       LC_COLLATE = 'English_United States.1252'
-       LC_CTYPE = 'English_United States.1252'
-       CONNECTION LIMIT = -1;
-
 CREATE TABLE public."Users"
 (
   "Id" SERIAL PRIMARY KEY,
@@ -32,7 +20,7 @@ CREATE TABLE public."UserMeasurements"
 (
   "Id" SERIAL PRIMARY KEY,
   "UserId" int NOT NULL,
-  "Type" smallint,
+  "Type" character varying(64) REFERENCES public."MeasurementsTypes" ("Key"),
   "Growth" smallint,
   "Weight" smallint,
   "Wrist" smallint,
@@ -45,6 +33,7 @@ CREATE TABLE public."UserMeasurements"
   "Things" smallint,
   "Leg" smallint,
   "KneeTop" smallint,
+
   CONSTRAINT "FK_UserMeasurements_UserId" FOREIGN KEY ("UserId")
       REFERENCES public."Users" ("Id") MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
@@ -53,4 +42,22 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE public."UserMeasurements"
+  OWNER TO postgres;
+
+CREATE TABLE public."Reports"
+(
+  "Id" SERIAL PRIMARY KEY,
+  "UserId" int NOT NULL,
+  "Type" smallint,
+  "ReportTime" date,
+
+
+  CONSTRAINT "FK_Reports_UserId" FOREIGN KEY ("UserId")
+      REFERENCES public."Users" ("Id") MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public."Reports"
   OWNER TO postgres;

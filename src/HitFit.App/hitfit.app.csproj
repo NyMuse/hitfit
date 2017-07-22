@@ -9,6 +9,12 @@
     <AssemblyName>hitfit.app</AssemblyName>
     <RootNamespace>hitfit.app</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\css\login.css" />
+    <Content Include="wwwroot\css\login.scss" />
+    <Content Include="wwwroot\js\login.js" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
