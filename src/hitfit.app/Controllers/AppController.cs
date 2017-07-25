@@ -53,14 +53,16 @@ namespace hitfit.app.Controllers
                     {
                         var json = (JObject) JsonSerializer.CreateDefault().Deserialize(jsonReader);
                         var token = json["access_token"].Value<string>();
-                        var userId = json["userId"].Value<string>();
+                        var login = json["username"].Value<string>();
+                        var role = json["role"].Value<string>();
 
                         CookieOptions options = new CookieOptions();
                         options.Expires = DateTime.Now.AddDays(1);
                         options.HttpOnly = true;
 
                         Response.Cookies.Append("token", token, options);
-                        Response.Cookies.Append("userId", userId, options);
+                        Response.Cookies.Append("login", login, options);
+                        Response.Cookies.Append("role", role, options);
                     }
                 }
             }

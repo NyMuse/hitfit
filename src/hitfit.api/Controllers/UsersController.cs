@@ -39,7 +39,12 @@ namespace hitfit.api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _context.Users.Include(u => u.UserMeasurements).SingleOrDefaultAsync(m => m.Id == id);
+            var user = await _context.Users
+                .Include(u => u.Details)
+                .Include(u => u.UserPrograms)
+                .Include(u => u.UserMeasurements)
+                .Include(u => u.Reports)
+                .SingleOrDefaultAsync(m => m.Id == id);
 
             if (user == null)
             {
@@ -136,7 +141,7 @@ namespace hitfit.api.Controllers
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
 
-            return Ok(user);
+            return Ok();
         }
 
         private bool UserExists(int id)

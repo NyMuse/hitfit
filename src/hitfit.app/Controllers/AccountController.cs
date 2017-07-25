@@ -51,19 +51,20 @@ namespace hitfit.app.Controllers
             {
                 if (this.Request.Form.ContainsKey("submit.Register"))
                 {
-                    var user = new UserDto
+                    var user = new User
                     {
-                        Name = this.Request.Form["username"],
+                        Login = this.Request.Form["username"],
                         Password = this.Request.Form["password"],
+                        Email = this.Request.Form["email"],
                         FirstName = this.Request.Form["userfirstname"],
                         MiddleName = this.Request.Form["usermiddlename"],
                         LastName = this.Request.Form["userlastname"],
-                        Birthday = Convert.ToDateTime(this.Request.Form["birthday"])
+                        //Birthday = Convert.ToDateTime(this.Request.Form["birthday"])
                     };
 
                     var stringData = JsonConvert.SerializeObject(user);
 
-                    var createdUser = this.PostAction<UserDto>("/account/register", stringData);
+                    var createdUser = this.PostAction<User>("/account/register", stringData);
 
                     if (createdUser != null)
                     {
@@ -99,7 +100,7 @@ namespace hitfit.app.Controllers
             }
             else
             {
-                var user = this.GetAction<UserDto>("/api/users/", id.ToString());
+                var user = this.GetAction<User>("/api/users/", id.ToString());
 
                 if (user != null)
                 {

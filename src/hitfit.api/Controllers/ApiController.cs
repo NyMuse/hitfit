@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using hitfit.api.Models;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -55,7 +56,7 @@ namespace hitfit.api.Controllers
 
         protected async Task<ClaimsIdentity> GetIdentity(string username, string password)
         {
-            var user = await Context.Users.SingleOrDefaultAsync(x => x.Name == username);
+            var user = await Context.Users.SingleOrDefaultAsync(x => x.Login == username);
 
             if (user != null)
             {
@@ -65,8 +66,9 @@ namespace hitfit.api.Controllers
                 {
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimsIdentity.DefaultNameClaimType, user.Name),
-                        new Claim("userId", user.Id.ToString())
+                        new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim(ClaimTypes.Role, user.IsAdministrator ? "admin" : "user")
                     };
                     ClaimsIdentity claimsIdentity =
                         new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,

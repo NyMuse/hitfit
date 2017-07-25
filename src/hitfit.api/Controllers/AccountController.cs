@@ -48,7 +48,7 @@ namespace hitfit.api.Controllers
                 {
                     access_token = encodedJwt,
                     username = identity.Name,
-                    userId = identity.Claims.FirstOrDefault(c => c.Type == "userId").Value
+                    role = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value
                 };
 
                 Response.ContentType = "application/json";

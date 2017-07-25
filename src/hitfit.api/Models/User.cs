@@ -8,7 +8,7 @@ using hitfit.api.Dto;
 
 namespace hitfit.api.Models
 {
-    public class User : IIdentity
+    public class User
     {
         [NotMapped]
         public bool IsAuthenticated { get; set; }
@@ -18,7 +18,8 @@ namespace hitfit.api.Models
         public int Id { get; set; }
         public bool IsAdministrator { get; set; }
         public bool IsActive { get; set; }
-        public string Name { get; set; }
+        public string Login { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
         public string PasswordSalt { get; set; }
         public string FirstName { get; set; }
@@ -37,12 +38,11 @@ namespace hitfit.api.Models
             return new UserDto
             {
                 Id = Id,
-                IsAdministrator = IsAdministrator,
-                Name = Name,
+                Login = Login,
                 FirstName = FirstName,
                 MiddleName = MiddleName,
                 LastName = LastName,
-                UserMeasurements = UserMeasurements.Select(e => e.ToDto()).ToList()
+                //UserMeasurements = UserMeasurements.Select(e => e.ToDto()).ToList()
             };
         }
     }

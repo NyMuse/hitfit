@@ -3,11 +3,12 @@ CREATE TABLE public."Users"
   "Id" SERIAL PRIMARY KEY,
   "IsAdministrator" boolean NOT NULL DEFAULT(false),
   "IsActive" boolean NOT NULL DEFAULT(true),
-  "Name" character varying(256) NOT NULL CONSTRAINT "UC_Name" UNIQUE,
+  "Login" character varying(64) NOT NULL CONSTRAINT "UC_Login" UNIQUE,
+  "Email" character varying(256) NOT NULL CONSTRAINT "UC_Email" UNIQUE,
   "Password" character varying(256) NOT NULL,
   "PasswordSalt" character varying(256) NOT NULL,
   "FirstName" character varying(256) NOT NULL,
-  "MiddleName" character varying(256) NOT NULL,
+  "MiddleName" character varying(256),
   "LastName" character varying(256) NOT NULL,
   "CreatedOn" timestamp without time zone DEFAULT (now() at time zone 'utc') NOT NULL,
   "ModifiedOn" timestamp without time zone DEFAULT (now() at time zone 'utc') NOT NULL
@@ -19,9 +20,9 @@ CREATE TABLE public."UsersDetails"
   "Id" SERIAL PRIMARY KEY,
   "UserId" int NOT NULL CONSTRAINT "UC_UserId" UNIQUE,
   "Birthday" timestamp without time zone DEFAULT (now() at time zone 'utc') NOT NULL,
-  "Sex" character varying(64),
-  "Notes" text,
+  "Sex" character varying(8),
   "Photo" bytea,
+  "Notes" text,
 
   CONSTRAINT "UsersDetails_UserId_fkey" FOREIGN KEY ("UserId")
       REFERENCES public."Users" ("Id") MATCH SIMPLE
