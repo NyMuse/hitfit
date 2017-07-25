@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace hitfit.app.ViewModels
 {
-    public class UserMeasurements
+    public class UserMeasurementsDto
     {
         public int Id { get; set; }
         public int UserId { get; set; }

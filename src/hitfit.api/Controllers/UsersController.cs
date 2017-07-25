@@ -46,7 +46,10 @@ namespace hitfit.api.Controllers
                 return NotFound();
             }
 
-            return Ok(user.ToDto());
+            var userDto = user.ToDto();
+
+
+            return Ok(userDto);
         }
 
         // PUT: api/Users/5
@@ -103,14 +106,12 @@ namespace hitfit.api.Controllers
         [HttpPost("measurements")]
         public async Task<IActionResult> AddUserMeasurements([FromBody] UserMeasurements userMeasurements)
         {
-            var identity = this.User.Identity;
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.UserMeasurements.Add(userMeasurements);
+            _context.UsersMeasurements.Add(userMeasurements);
 
             await _context.SaveChangesAsync();
 

@@ -44,16 +44,16 @@ namespace hitfit.api.Controllers
             else
             {
                 var encodedJwt = this.GenerateToken(identity);
-
                 var response = new
                 {
                     access_token = encodedJwt,
-                    username = identity.Name
+                    username = identity.Name,
+                    userId = identity.Claims.FirstOrDefault(c => c.Type == "userId").Value
                 };
 
                 Response.ContentType = "application/json";
                 await Response.WriteAsync(JsonConvert.SerializeObject(response,
-                    new JsonSerializerSettings { Formatting = Formatting.Indented }));
+                    new JsonSerializerSettings { Formatting = Formatting.Indented, PreserveReferencesHandling = PreserveReferencesHandling.Objects }));
             }
         }
 

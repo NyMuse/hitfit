@@ -17,14 +17,20 @@ namespace hitfit.api.Models
 
         public int Id { get; set; }
         public bool IsAdministrator { get; set; }
+        public bool IsActive { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }
         public string PasswordSalt { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
-        public DateTime Birthday { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public DateTime ModifiedOn { get; set; }
+
+        public UserDetails Details { get; set; }
+        public ICollection<UserProgram> UserPrograms { get; set; }
         public ICollection<UserMeasurements> UserMeasurements { get; set; }
+        public ICollection<Report> Reports { get; set; }
 
         public UserDto ToDto()
         {
@@ -36,7 +42,6 @@ namespace hitfit.api.Models
                 FirstName = FirstName,
                 MiddleName = MiddleName,
                 LastName = LastName,
-                Birthday = Birthday,
                 UserMeasurements = UserMeasurements.Select(e => e.ToDto()).ToList()
             };
         }

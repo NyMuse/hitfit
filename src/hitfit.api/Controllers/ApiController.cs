@@ -65,7 +65,8 @@ namespace hitfit.api.Controllers
                 {
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimsIdentity.DefaultNameClaimType, user.Name)
+                        new Claim(ClaimsIdentity.DefaultNameClaimType, user.Name),
+                        new Claim("userId", user.Id.ToString())
                     };
                     ClaimsIdentity claimsIdentity =
                         new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,

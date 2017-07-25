@@ -31,6 +31,18 @@ namespace hitfit.app.Controllers
             return View();
         }
 
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("token");
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        //public IActionResult MyAccount()
+        //{
+            
+        //}
+
         public IActionResult Registration()
         {
             ViewData["Message"] = "Your registration page.";
@@ -39,7 +51,7 @@ namespace hitfit.app.Controllers
             {
                 if (this.Request.Form.ContainsKey("submit.Register"))
                 {
-                    var user = new User
+                    var user = new UserDto
                     {
                         Name = this.Request.Form["username"],
                         Password = this.Request.Form["password"],
@@ -51,7 +63,7 @@ namespace hitfit.app.Controllers
 
                     var stringData = JsonConvert.SerializeObject(user);
 
-                    var createdUser = this.PostAction<User>("/account/register", stringData);
+                    var createdUser = this.PostAction<UserDto>("/account/register", stringData);
 
                     if (createdUser != null)
                     {
@@ -65,13 +77,13 @@ namespace hitfit.app.Controllers
 
         public IActionResult UpdateInfo(int id)
         {
-            ViewData["Message"] = "Your registration page.";
+            id = id == 0 ? int.Parse(Request.Cookies["userId"]) : id;
 
             if (this.Request.Method == "POST")
             {
                 if (this.Request.Form.ContainsKey("submit.UpdateMeasurements"))
                 {
-                    var userMeasurements = new UserMeasurements
+                    var userMeasurements = new UserMeasurementsDto
                     {
                         UserId = id,
                         Growth = short.Parse(this.Request.Form["growth"]),
@@ -80,9 +92,19 @@ namespace hitfit.app.Controllers
 
                     var stringData = JsonConvert.SerializeObject(userMeasurements);
 
-                    var createdUserMeasurements = this.PostAction<UserMeasurements>("api/users/measurements", stringData);
+                    var createdUserMeasurements = this.PostAction<UserMeasurementsDto>("api/users/measurements", stringData);
 
                     return RedirectToAction("Index", "Home");
+                }
+            }
+            else
+            {
+                var user = this.GetAction<UserDto>("/api/users/", id.ToString());
+
+                if (user != null)
+                {
+                    ViewBag.UserGrowth = user.UserMeasurements.Last().Growth;
+                    ViewBag.UserWeight = user.UserMeasurements.Last().Weight;
                 }
             }
 

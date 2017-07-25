@@ -1,5 +1,3 @@
-DROP DATABASE IF EXISTS hitfitdb;
-
 CREATE DATABASE hitfitdb
   WITH OWNER = postgres
        ENCODING = 'UTF8'

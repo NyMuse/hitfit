@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace hitfit.app.ViewModels
 {
-    public class User
+    public class UserDto
     {
         public int Id { get; set; }
         public bool IsAdministrator { get; set; }
@@ -15,6 +15,6 @@ namespace hitfit.app.ViewModels
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public DateTime? Birthday { get; set; }
-        public UserMeasurements UserMeasurements { get; set; }
+        public List<UserMeasurementsDto> UserMeasurements { get; set; }
     }
 }

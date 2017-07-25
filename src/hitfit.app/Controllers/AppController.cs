@@ -53,12 +53,14 @@ namespace hitfit.app.Controllers
                     {
                         var json = (JObject) JsonSerializer.CreateDefault().Deserialize(jsonReader);
                         var token = json["access_token"].Value<string>();
+                        var userId = json["userId"].Value<string>();
 
                         CookieOptions options = new CookieOptions();
                         options.Expires = DateTime.Now.AddDays(1);
                         options.HttpOnly = true;
 
                         Response.Cookies.Append("token", token, options);
+                        Response.Cookies.Append("userId", userId, options);
                     }
                 }
             }
@@ -105,12 +107,16 @@ namespace hitfit.app.Controllers
         {
             using (var client = new HttpClient())
             {
+                var token = Request.Cookies["token"];
+                var request = new HttpRequestMessage(HttpMethod.Get, string.Format("{0}{1}", uri, id));
+                request.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
                 client.BaseAddress = new Uri(_apiUrl);
 
-                HttpResponseMessage response = client.GetAsync(string.Format("{0}{1}", uri, id)).Result;
-
-                return JsonConvert.DeserializeObject<T>(response.Content.ReadAsStringAsync().Result);
-
+                HttpResponseMessage response = client.SendAsync(request).Result;
+                var result = response.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<T>(result);
             }
         }
     }
