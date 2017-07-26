@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using hitfit.api.Models;
-using hitfit.api.Models.Dictionaries;
+using hitfit.app.Models;
+using hitfit.app.Models.Dictionaries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace hitfit.api.Controllers
+namespace hitfit.app.ApiControllers
 {
     [Authorize]
     [Produces("application/json")]

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace hitfit.api.Models
+namespace hitfit.app.Models
 {
     public class UserProgram
     {

@@ -13,12 +13,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using hitfit.api.Models;
+using hitfit.app.Models;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace hitfit.api.Controllers
+namespace hitfit.app.ApiControllers
 {
     [Produces("application/json")]
     [Route("[controller]")]

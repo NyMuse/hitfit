@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace hitfit.api.Models.Dictionaries
+namespace hitfit.app.Models.Dictionaries
 {
-    public class ReportType
+    public class ProgramType
     {
         public int Id { get; set; }
         public string Key { get; set; }

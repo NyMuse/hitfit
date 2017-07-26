@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using hitfit.app.ViewModels;
 
-namespace hitfit.api.Dto
+namespace hitfit.app.Models
 {
-    public class UserMeasurementsDto
+    public class UserMeasurements
     {
         public int Id { get; set; }
         public int UserId { get; set; }
@@ -21,5 +25,7 @@ namespace hitfit.api.Dto
         public short? Things { get; set; }
         public short? Leg { get; set; }
         public short? KneeTop { get; set; }
+
+        public User User { get; set; }
     }
 }

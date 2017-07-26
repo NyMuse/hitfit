@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using hitfit.api.Models.Dictionaries;
+using hitfit.app.Models.Dictionaries;
 using Microsoft.EntityFrameworkCore;
 
-namespace hitfit.api.Models
+namespace hitfit.app.Models
 {
     public class HitFitDbContext : DbContext
     {

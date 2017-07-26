@@ -4,9 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using hitfit.api.Dto;
 
-namespace hitfit.api.Models
+namespace hitfit.app.Models
 {
     public class User
     {
@@ -32,18 +31,5 @@ namespace hitfit.api.Models
         public ICollection<UserProgram> UserPrograms { get; set; }
         public ICollection<UserMeasurements> UserMeasurements { get; set; }
         public ICollection<Report> Reports { get; set; }
-
-        public UserDto ToDto()
-        {
-            return new UserDto
-            {
-                Id = Id,
-                Login = Login,
-                FirstName = FirstName,
-                MiddleName = MiddleName,
-                LastName = LastName,
-                //UserMeasurements = UserMeasurements.Select(e => e.ToDto()).ToList()
-            };
-        }
     }
 }

@@ -2,14 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using hitfit.api.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using hitfit.api.Models;
+using hitfit.app.Models;
 using Microsoft.AspNetCore.Authorization;
 
-namespace hitfit.api.Controllers
+namespace hitfit.app.ApiControllers
 {
     [Authorize]
     [Produces("application/json")]
@@ -25,9 +24,9 @@ namespace hitfit.api.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public IEnumerable<UserDto> GetUsers()
+        public IEnumerable<User> GetUsers()
         {
-            return _context.Users.Include(u => u.UserMeasurements).Select(e => e.ToDto());
+            return _context.Users.Include(u => u.UserMeasurements);
         }
 
         // GET: api/Users/5
@@ -51,10 +50,7 @@ namespace hitfit.api.Controllers
                 return NotFound();
             }
 
-            var userDto = user.ToDto();
-
-
-            return Ok(userDto);
+            return Ok(user);
         }
 
         // PUT: api/Users/5
