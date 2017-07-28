@@ -12,7 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace hitfit.app.Controllers
+namespace hitfit.app.Controllers.App
 {
     public class AppController : Controller
     {

@@ -4,21 +4,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace hitfit.app.Models
 {
-    public class User
+    public class User : IdentityUser<int>
     {
         [NotMapped]
         public bool IsAuthenticated { get; set; }
         [NotMapped]
         public string AuthenticationType { get; set; }
 
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public bool IsAdministrator { get; set; }
         public bool IsActive { get; set; }
         public string Login { get; set; }
-        public string Email { get; set; }
+        //public string Email { get; set; }
         public string Password { get; set; }
         public string PasswordSalt { get; set; }
         public string FirstName { get; set; }

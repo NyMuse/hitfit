@@ -18,13 +18,13 @@ using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace hitfit.app.ApiControllers
+namespace hitfit.app.Controllers.Api
 {
     [Produces("application/json")]
     [Route("[controller]")]
-    public class AccountController : ApiController
+    public class AccountApiController : ApiController
     {
-        public AccountController(HitFitDbContext context) : base(context)
+        public AccountApiController(HitFitDbContext context) : base(context)
         {
             
         }
@@ -70,7 +70,7 @@ namespace hitfit.app.ApiControllers
             var hashedPassword = this.HashPassword(user.Password, passwordSalt);
 
             user.Password = hashedPassword;
-            user.PasswordSalt = Convert.ToBase64String(passwordSalt);
+            //user.PasswordSalt = Convert.ToBase64String(passwordSalt);
 
             this.Context.Users.Add(user);
             await this.Context.SaveChangesAsync();

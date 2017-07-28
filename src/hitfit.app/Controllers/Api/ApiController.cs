@@ -17,7 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
-namespace hitfit.app.ApiControllers
+namespace hitfit.app.Controllers.Api
 {
     public class ApiController : Controller
     {
@@ -60,9 +60,9 @@ namespace hitfit.app.ApiControllers
 
             if (user != null)
             {
-                var passwordHash = this.HashPassword(password, Convert.FromBase64String(user.PasswordSalt));
+                //var passwordHash = this.HashPassword(password, Convert.FromBase64String(user.PasswordSalt));
 
-                if (user.Password.Equals(passwordHash))
+                if (user.Password.Equals("passwordHash"))
                 {
                     var claims = new List<Claim>
                     {

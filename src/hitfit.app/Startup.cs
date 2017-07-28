@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using hitfit.app.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,12 +37,46 @@ namespace hitfit.app
             //services.AddMemoryCache();
             //services.AddSession(/* options go here */);
             // Add framework services.
-            services.AddMvc();
+            
 
             services.AddDbContext<HitFitDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("NpgsqlConnection")));
+
+            services.AddIdentity<User, Role>().AddEntityFrameworkStores<HitFitDbContext, int>()
+                .AddDefaultTokenProviders();
+
+            services.AddScoped<IUserClaimsPrincipalFactory<User>, UserClaimsPrincipalFactory>();
+
+            services.AddMvc();
+
+            // Configure Identity
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = false;
+
+                // Lockout settings
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 10;
+
+                // Cookie settings
+                options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
+                options.Cookies.ApplicationCookie.LoginPath = "/Account/LogIn";
+                options.Cookies.ApplicationCookie.LogoutPath = "/Account/LogOut";
+
+                // User settings
+                options.User.RequireUniqueEmail = true;
+            });
+
+            // Add application services.
+            //services.AddTransient<IEmailSender, AuthMessageSender>();
+            //services.AddTransient<ISmsSender, AuthMessageSender>();
+
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
@@ -58,7 +94,7 @@ namespace hitfit.app
 
             app.UseStaticFiles();
 
-            //app.UseSession();
+            app.UseIdentity();
 
             app.UseJwtBearerAuthentication(new JwtBearerOptions
             {

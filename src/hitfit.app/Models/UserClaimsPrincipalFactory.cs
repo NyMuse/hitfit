@@ -1,0 +1,46 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+
+namespace hitfit.app.Models
+{
+    public class UserClaimsPrincipalFactory : IUserClaimsPrincipalFactory<User>
+    {
+        public IdentityOptions Options { get; }
+
+        public UserClaimsPrincipalFactory(IOptions<IdentityOptions> optionsAccessor)
+        {
+            Options = optionsAccessor.Value;
+        }
+
+        public virtual Task<ClaimsPrincipal> CreateAsync(User user)
+        {
+            //var principal = await base.CreateAsync(user);
+            
+            var identity = new ClaimsIdentity(Options.Cookies.ApplicationCookieAuthenticationScheme,
+            Options.ClaimsIdentity.UserNameClaimType,
+            Options.ClaimsIdentity.RoleClaimType);
+            identity.AddClaims(new[]
+            {
+                new Claim(Options.ClaimsIdentity.UserIdClaimType, user.Id.ToString()),
+                new Claim(Options.ClaimsIdentity.UserNameClaimType, user.Login),
+                new Claim(ClaimTypes.NameIdentifier, user.Login),
+                new Claim(ClaimTypes.Name, user.Login),
+                new Claim(ClaimTypes.Role, user.IsAdministrator ? "admin" : "user"), 
+                new Claim(ClaimTypes.GivenName, user.FirstName),
+                new Claim(ClaimTypes.Surname, user.LastName),
+                new Claim(ClaimTypes.Email, user.Email)
+            });
+
+            return Task.FromResult(new ClaimsPrincipal(identity));
+        }
+    }
+}

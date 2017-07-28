@@ -1,7 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Login";
 }
-@*<h3>@ViewData["Message"]</h3>*@
+@using System.Collections.Generic
+@using hitfit.app.Models
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
 
 <link rel='stylesheet prefetch' href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
 

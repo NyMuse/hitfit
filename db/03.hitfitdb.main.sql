@@ -7,6 +7,7 @@ CREATE TABLE public."Users"
   "Email" character varying(256) NOT NULL CONSTRAINT "UC_Email" UNIQUE,
   "Password" character varying(256) NOT NULL,
   "PasswordSalt" character varying(256) NOT NULL,
+  "SecurityStamp" character varying(256) NOT NULL,
   "FirstName" character varying(256) NOT NULL,
   "MiddleName" character varying(256),
   "LastName" character varying(256) NOT NULL,
@@ -14,6 +15,15 @@ CREATE TABLE public."Users"
   "ModifiedOn" timestamp without time zone DEFAULT (now() at time zone 'utc') NOT NULL
 );
 ALTER TABLE public."Users" OWNER TO postgres;
+
+CREATE TABLE public."UserClaims"
+(
+  "Id" SERIAL PRIMARY KEY,
+  "UserId" int,
+  "ClaimTYpe" character varying(256),
+  "ClaimValue" character varying(256)
+);
+ALTER TABLE public."UserClaims" OWNER TO postgres;
 
 CREATE TABLE public."UsersDetails"
 (

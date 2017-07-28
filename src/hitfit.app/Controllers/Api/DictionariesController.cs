@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace hitfit.app.ApiControllers
+namespace hitfit.app.Controllers.Api
 {
     [Authorize]
     [Produces("application/json")]

@@ -11,13 +11,14 @@ using hitfit.app.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 
-namespace hitfit.app.Controllers
+namespace hitfit.app.Controllers.App
 {
     //[Authorize]
     public class HomeController : AppController
     {
         public IActionResult Index()
         {
+            var currentUser = this.User;
             return View();
         }
 

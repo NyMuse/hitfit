@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using hitfit.app.Models;
 using Microsoft.AspNetCore.Authorization;
 
-namespace hitfit.app.ApiControllers
+namespace hitfit.app.Controllers.Api
 {
     [Authorize]
     [Produces("application/json")]
