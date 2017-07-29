@@ -11,7 +11,6 @@ CREATE TABLE public."Users"
   "PhoneNumber" character varying(256) NOT NULL CONSTRAINT "UC_PhoneNumber" UNIQUE,
   "PhoneNumberConfirmed" boolean NOT NULL DEFAULT(false),
   "PasswordHash" character varying(256) NOT NULL,
-  "PasswordSalt" character varying(256) NOT NULL,
   "FirstName" character varying(256) NOT NULL,
   "MiddleName" character varying(256),
   "LastName" character varying(256) NOT NULL,

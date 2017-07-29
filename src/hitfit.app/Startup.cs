@@ -47,6 +47,8 @@ namespace hitfit.app
 
             services.AddScoped<IUserClaimsPrincipalFactory<User>, UserClaimsPrincipalFactory>();
 
+            services.AddSingleton<IConfiguration>(Configuration);
+
             services.AddMvc()
                 .AddJsonOptions(o =>
                 {

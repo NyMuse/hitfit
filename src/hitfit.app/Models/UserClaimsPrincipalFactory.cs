@@ -23,8 +23,6 @@ namespace hitfit.app.Models
 
         public virtual Task<ClaimsPrincipal> CreateAsync(User user)
         {
-            //var principal = await base.CreateAsync(user);
-            
             var identity = new ClaimsIdentity(Options.Cookies.ApplicationCookieAuthenticationScheme,
             Options.ClaimsIdentity.UserNameClaimType,
             Options.ClaimsIdentity.RoleClaimType);

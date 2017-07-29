@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
@@ -25,106 +26,87 @@ namespace hitfit.app.Controllers
     //[Route("/")]
     public class AccountController : Controller
     {
-        private readonly HitFitDbContext _context;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
-        private readonly IConfigurationRoot _configuration;
+        private readonly IConfiguration _configuration;
+        private readonly IUserClaimsPrincipalFactory<User> _claimsPrincipalFactory;
 
-        public AccountController(HitFitDbContext context, SignInManager<User> signInManager, UserManager<User> userManager)
+        public AccountController(HitFitDbContext context, SignInManager<User> signInManager, UserManager<User> userManager, IConfiguration configuration, IUserClaimsPrincipalFactory<User> claimsPrincipalFactory)
         {
-            _context = context;
             _signInManager = signInManager;
             _userManager = userManager;
-
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-
-            _configuration = builder.Build();
+            _configuration = configuration;
+            _claimsPrincipalFactory = claimsPrincipalFactory;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return RedirectToAction("Index", "Home");
         }
-        
-        public async Task<IActionResult> Login()
+
+        [HttpGet]
+        public IActionResult Login()
         {
-            ViewData["Message"] = "Login page.";
+            return View();
+        }
 
-            if (this.Request.Method == "POST")
+        [HttpPost]
+        public async Task<IActionResult> Login(string username, string password)
+        {
+            if (this.Request.Form.ContainsKey("submit.Login"))
             {
-                if (this.Request.Form.ContainsKey("submit.Login"))
+                var result = await _signInManager.PasswordSignInAsync(username, password, false, false);
+
+                if (result.Succeeded)
                 {
-                    var username = this.Request.Form["username"];
-                    var password = this.Request.Form["password"];
-
-                    var result = await _signInManager.PasswordSignInAsync(username, password, false, false);
-
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                    if (result.IsLockedOut)
-                    {
-                        //_logger.LogWarning(2, "User account locked out.");
-                        //return View("Lockout");
-                        return BadRequest("User account locked out.");
-                    }
-                    else
-                    {
-                        return BadRequest("Invalid login attempt.");
-                        //ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                        //return View(model);
-                    }
+                    return RedirectToAction("Index", "Home");
                 }
-
-                
+                if (result.IsLockedOut)
+                {
+                    //_logger.LogWarning(2, "User account locked out.");
+                    //return View("Lockout");
+                    return BadRequest("User account locked out.");
+                }
+                else
+                {
+                    return BadRequest("Invalid login attempt.");
+                    //ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    //return View(model);
+                }
             }
 
             return View();
         }
-        
+
+        [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
 
             return RedirectToAction("Index", "Home");
         }
-        
+
+        [HttpPost]
         public async Task<IActionResult> Token()
         {
             var username = Request.Form["username"];
             var password = Request.Form["password"];
 
             var user = await _userManager.FindByNameAsync(username);
-                //await _context.Users.SingleOrDefaultAsync(x => x.UserName.Equals(username, StringComparison.OrdinalIgnoreCase));
             
             if (user != null)
             {
                 if (await _userManager.CheckPasswordAsync(user, password))
                 {
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
-                        new Claim(ClaimTypes.NameIdentifier, user.UserName),
-                        new Claim(ClaimTypes.Name, user.UserName),
-                        new Claim(ClaimTypes.Email, user.Email),
-                        new Claim(ClaimTypes.Role, user.IsAdministrator ? "admin" : "user"),
-                        new Claim(ClaimTypes.GivenName, user.FirstName),
-                        new Claim(ClaimTypes.Surname, user.LastName),
-                        new Claim(ClaimTypes.Email, user.Email)
-                    };
-
-                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Token",
-                        ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+                    var claimsPrincipal = await _claimsPrincipalFactory.CreateAsync(user);
 
                     var now = DateTime.UtcNow;
                     var jwt = new JwtSecurityToken(
                         issuer: _configuration["JwtTokenConfiguration:ValidIssuer"],
                         audience: _configuration["JwtTokenConfiguration:ValidAudience"],
                         notBefore: now,
-                        claims: claimsIdentity.Claims,
+                        claims: claimsPrincipal.Claims,
                         expires: now.Add(TimeSpan.FromDays(1)),
                         signingCredentials:
                         new SigningCredentials(
@@ -136,8 +118,8 @@ namespace hitfit.app.Controllers
                     var response = new
                     {
                         access_token = encodedJwt,
-                        username = claimsIdentity.Name,
-                        role = claimsIdentity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value
+                        username = claimsPrincipal.Identity.Name,
+                        role = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value
                     };
 
                     Response.ContentType = "application/json";
@@ -153,45 +135,38 @@ namespace hitfit.app.Controllers
 
             return BadRequest("Innvalid credentials");
         }
-        
-        public async Task<IActionResult> Register()
+
+        [HttpGet]
+        public IActionResult Register()
         {
-            ViewData["Message"] = "Your registration page.";
-            
-            if (this.Request.Method == "POST")
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(string userName, string password, string email, string phoneNumber, string userFirstName, string userMiddleName, string userLastName)
+        {
+            if (this.Request.Form.ContainsKey("submit.Register"))
             {
-                if (this.Request.Form.ContainsKey("submit.Register"))
+                var user = new User
                 {
-                    var password = this.Request.Form["password"];
+                    UserName = userName,
+                    Email = email,
+                    PhoneNumber = phoneNumber,
+                    FirstName = userFirstName,
+                    MiddleName = userMiddleName,
+                    LastName = userLastName
+                };
 
-                    var user = new User
-                    {
-                        UserName = this.Request.Form["username"],
-                        Email = this.Request.Form["email"],
-                        PhoneNumber = this.Request.Form["phonenumber"],
-                        FirstName = this.Request.Form["userfirstname"],
-                        MiddleName = this.Request.Form["usermiddlename"],
-                        LastName = this.Request.Form["userlastname"],
-                        SecurityStamp = Guid.NewGuid().ToString(),
-                        PasswordSalt = Guid.NewGuid().ToString()
-                    };
+                var result = await _userManager.CreateAsync(user, password);
 
-                    //var passwordSalt = GetPasswordSalt();
-
-                    //user.PasswordHash = this.GetPasswordHash(password, passwordSalt);
-                    //user.PasswordSalt = Convert.ToBase64String(passwordSalt);
-
-                    //_context.Users.Add(user);
-                    //await _context.SaveChangesAsync();
-
-                    var result = await _userManager.CreateAsync(user, password);
-
+                if (result.Succeeded)
+                {
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
                     return RedirectToAction("Index", "Home");
                 }
             }
-
+            
             return View();
         }
 
