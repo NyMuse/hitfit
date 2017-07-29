@@ -5,6 +5,12 @@ VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hitfit.app", "hitfit.app\hitfit.app.csproj", "{53CA4F85-EC23-4A01-BF24-A118B5C11E71}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9D2800C1-4BCF-49C2-ACFB-F4FDC34D2242}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hitfit.tests.api", "hitfit.tests.api\hitfit.tests.api.csproj", "{464E16B9-0FEA-4D2A-B9B4-3DBAFBDC0DD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hitfit.tests.app", "hitfit.tests.app\hitfit.tests.app.csproj", "{B0B4123E-92E3-40C7-8143-C816EFFDB284}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,8 +21,20 @@ Global
 		{53CA4F85-EC23-4A01-BF24-A118B5C11E71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53CA4F85-EC23-4A01-BF24-A118B5C11E71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53CA4F85-EC23-4A01-BF24-A118B5C11E71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{464E16B9-0FEA-4D2A-B9B4-3DBAFBDC0DD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{464E16B9-0FEA-4D2A-B9B4-3DBAFBDC0DD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{464E16B9-0FEA-4D2A-B9B4-3DBAFBDC0DD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{464E16B9-0FEA-4D2A-B9B4-3DBAFBDC0DD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0B4123E-92E3-40C7-8143-C816EFFDB284}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0B4123E-92E3-40C7-8143-C816EFFDB284}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0B4123E-92E3-40C7-8143-C816EFFDB284}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0B4123E-92E3-40C7-8143-C816EFFDB284}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{464E16B9-0FEA-4D2A-B9B4-3DBAFBDC0DD2} = {9D2800C1-4BCF-49C2-ACFB-F4FDC34D2242}
+		{B0B4123E-92E3-40C7-8143-C816EFFDB284} = {9D2800C1-4BCF-49C2-ACFB-F4FDC34D2242}
 	EndGlobalSection
 EndGlobal
