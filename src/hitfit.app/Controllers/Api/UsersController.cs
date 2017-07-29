@@ -26,13 +26,19 @@ namespace hitfit.app.Controllers.Api
         [HttpGet]
         public IEnumerable<User> GetUsers()
         {
-            return _context.Users.Include(u => u.UserMeasurements);
+            return _context.Users
+                .Include(u => u.Details)
+                .Include(u => u.UserPrograms)
+                .Include(u => u.UserMeasurements)
+                .Include(u => u.Reports);
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser([FromRoute] int id)
         {
+            var userId = this.User;
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

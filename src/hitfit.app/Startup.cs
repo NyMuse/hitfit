@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 namespace hitfit.app
 {
@@ -46,8 +47,13 @@ namespace hitfit.app
 
             services.AddScoped<IUserClaimsPrincipalFactory<User>, UserClaimsPrincipalFactory>();
 
-            services.AddMvc();
-
+            services.AddMvc()
+                .AddJsonOptions(o =>
+                {
+                    //o.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Ignore;
+                    o.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                });
+            
             // Configure Identity
             services.Configure<IdentityOptions>(options =>
             {

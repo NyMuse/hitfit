@@ -31,9 +31,10 @@ namespace hitfit.app.Models
             identity.AddClaims(new[]
             {
                 new Claim(Options.ClaimsIdentity.UserIdClaimType, user.Id.ToString()),
-                new Claim(Options.ClaimsIdentity.UserNameClaimType, user.Login),
-                new Claim(ClaimTypes.NameIdentifier, user.Login),
-                new Claim(ClaimTypes.Name, user.Login),
+                new Claim(Options.ClaimsIdentity.UserNameClaimType, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.UserName),
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, user.IsAdministrator ? "admin" : "user"), 
                 new Claim(ClaimTypes.GivenName, user.FirstName),
                 new Claim(ClaimTypes.Surname, user.LastName),

@@ -3,27 +3,25 @@ CREATE TABLE public."Users"
   "Id" SERIAL PRIMARY KEY,
   "IsAdministrator" boolean NOT NULL DEFAULT(false),
   "IsActive" boolean NOT NULL DEFAULT(true),
-  "Login" character varying(64) NOT NULL CONSTRAINT "UC_Login" UNIQUE,
+  "UserName" character varying(64) NOT NULL CONSTRAINT "UC_UserName" UNIQUE,
+  "NormalizedUserName" character varying(64) NOT NULL CONSTRAINT "UC_NormalizedUserName" UNIQUE,
   "Email" character varying(256) NOT NULL CONSTRAINT "UC_Email" UNIQUE,
-  "Password" character varying(256) NOT NULL,
+  "NormalizedEmail" character varying(256) NOT NULL CONSTRAINT "UC_NormalizedEmail" UNIQUE,
+  "EmailConfirmed" boolean NOT NULL DEFAULT(false),
+  "PhoneNumber" character varying(256) NOT NULL CONSTRAINT "UC_PhoneNumber" UNIQUE,
+  "PhoneNumberConfirmed" boolean NOT NULL DEFAULT(false),
+  "PasswordHash" character varying(256) NOT NULL,
   "PasswordSalt" character varying(256) NOT NULL,
-  "SecurityStamp" character varying(256) NOT NULL,
   "FirstName" character varying(256) NOT NULL,
   "MiddleName" character varying(256),
   "LastName" character varying(256) NOT NULL,
   "CreatedOn" timestamp without time zone DEFAULT (now() at time zone 'utc') NOT NULL,
-  "ModifiedOn" timestamp without time zone DEFAULT (now() at time zone 'utc') NOT NULL
+  "ModifiedOn" timestamp without time zone DEFAULT (now() at time zone 'utc') NOT NULL,
+  "LockoutEnabled" boolean NOT NULL DEFAULT(true),
+  "AccessFailedCount" smallint NOT NULL DEFAULT(0),
+  "LockoutEnd" timestamp without time zone
 );
 ALTER TABLE public."Users" OWNER TO postgres;
-
-CREATE TABLE public."UserClaims"
-(
-  "Id" SERIAL PRIMARY KEY,
-  "UserId" int,
-  "ClaimTYpe" character varying(256),
-  "ClaimValue" character varying(256)
-);
-ALTER TABLE public."UserClaims" OWNER TO postgres;
 
 CREATE TABLE public."UsersDetails"
 (

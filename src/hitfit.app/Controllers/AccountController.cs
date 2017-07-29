@@ -22,16 +22,19 @@ using User = hitfit.app.Models.User;
 
 namespace hitfit.app.Controllers
 {
+    //[Route("/")]
     public class AccountController : Controller
     {
         private readonly HitFitDbContext _context;
         private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
         private readonly IConfigurationRoot _configuration;
 
-        public AccountController(HitFitDbContext context, SignInManager<User> signInManager)
+        public AccountController(HitFitDbContext context, SignInManager<User> signInManager, UserManager<User> userManager)
         {
             _context = context;
             _signInManager = signInManager;
+            _userManager = userManager;
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -40,6 +43,11 @@ namespace hitfit.app.Controllers
             _configuration = builder.Build();
         }
 
+        public IActionResult Index()
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        
         public async Task<IActionResult> Login()
         {
             ViewData["Message"] = "Login page.";
@@ -51,51 +59,61 @@ namespace hitfit.app.Controllers
                     var username = this.Request.Form["username"];
                     var password = this.Request.Form["password"];
 
-                    var user = await _context.Users.SingleOrDefaultAsync(x => x.Login.Equals(username));
+                    var result = await _signInManager.PasswordSignInAsync(username, password, false, false);
 
-                    if (user != null)
+                    if (result.Succeeded)
                     {
-                        if (this.CheckPassword(user, password))
-                        {
-                            await _signInManager.SignInAsync(user, true);
-                        }
+                        return RedirectToAction("Index", "Home");
+                    }
+                    if (result.IsLockedOut)
+                    {
+                        //_logger.LogWarning(2, "User account locked out.");
+                        //return View("Lockout");
+                        return BadRequest("User account locked out.");
                     }
                     else
                     {
-                        return BadRequest();
+                        return BadRequest("Invalid login attempt.");
+                        //ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                        //return View(model);
                     }
                 }
 
-                return RedirectToAction("Index", "Home");
+                
             }
 
             return View();
         }
-
+        
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
 
             return RedirectToAction("Index", "Home");
         }
-
-        [HttpPost("token")]
+        
         public async Task<IActionResult> Token()
         {
             var username = Request.Form["username"];
             var password = Request.Form["password"];
 
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Login == username);
-
+            var user = await _userManager.FindByNameAsync(username);
+                //await _context.Users.SingleOrDefaultAsync(x => x.UserName.Equals(username, StringComparison.OrdinalIgnoreCase));
+            
             if (user != null)
             {
-                if (this.CheckPassword(user, password))
+                if (await _userManager.CheckPasswordAsync(user, password))
                 {
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
+                        new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
+                        new Claim(ClaimTypes.NameIdentifier, user.UserName),
+                        new Claim(ClaimTypes.Name, user.UserName),
                         new Claim(ClaimTypes.Email, user.Email),
-                        new Claim(ClaimTypes.Role, user.IsAdministrator ? "admin" : "user")
+                        new Claim(ClaimTypes.Role, user.IsAdministrator ? "admin" : "user"),
+                        new Claim(ClaimTypes.GivenName, user.FirstName),
+                        new Claim(ClaimTypes.Surname, user.LastName),
+                        new Claim(ClaimTypes.Email, user.Email)
                     };
 
                     ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Token",
@@ -123,12 +141,17 @@ namespace hitfit.app.Controllers
                     };
 
                     Response.ContentType = "application/json";
-                    await Response.WriteAsync(JsonConvert.SerializeObject(response,
-                        new JsonSerializerSettings { Formatting = Formatting.Indented, PreserveReferencesHandling = PreserveReferencesHandling.Objects }));
+
+                    return Ok(JsonConvert.SerializeObject(response,
+                        new JsonSerializerSettings
+                        {
+                            Formatting = Formatting.Indented,
+                            PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                        }));
                 }
-                return null;
             }
-            return null;
+
+            return BadRequest("Innvalid credentials");
         }
         
         public async Task<IActionResult> Register()
@@ -139,27 +162,29 @@ namespace hitfit.app.Controllers
             {
                 if (this.Request.Form.ContainsKey("submit.Register"))
                 {
+                    var password = this.Request.Form["password"];
+
                     var user = new User
                     {
-                        Login = this.Request.Form["username"],
                         UserName = this.Request.Form["username"],
-                        Password = this.Request.Form["password"],
                         Email = this.Request.Form["email"],
+                        PhoneNumber = this.Request.Form["phonenumber"],
                         FirstName = this.Request.Form["userfirstname"],
                         MiddleName = this.Request.Form["usermiddlename"],
                         LastName = this.Request.Form["userlastname"],
-                        SecurityStamp = Guid.NewGuid().ToString()
+                        SecurityStamp = Guid.NewGuid().ToString(),
+                        PasswordSalt = Guid.NewGuid().ToString()
                     };
 
-                    var passwordSalt = GetPasswordSalt();
+                    //var passwordSalt = GetPasswordSalt();
 
-                    var hashedPassword = this.GetHashPassword(user.Password, passwordSalt);
+                    //user.PasswordHash = this.GetPasswordHash(password, passwordSalt);
+                    //user.PasswordSalt = Convert.ToBase64String(passwordSalt);
 
-                    user.Password = hashedPassword;
-                    user.PasswordSalt = Convert.ToBase64String(passwordSalt);
+                    //_context.Users.Add(user);
+                    //await _context.SaveChangesAsync();
 
-                    _context.Users.Add(user);
-                    await _context.SaveChangesAsync();
+                    var result = await _userManager.CreateAsync(user, password);
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
@@ -209,55 +234,32 @@ namespace hitfit.app.Controllers
         //    return View();
         //}
 
-        private bool CheckPassword(User user, string password)
-        {
-            var passwordHash = this.GetHashPassword(password, Convert.FromBase64String(user.PasswordSalt));
+        //private bool CheckPassword(User user, string password)
+        //{
+        //    var passwordHash = this.GetPasswordHash(password, Convert.FromBase64String(user.PasswordSalt));
 
-            if (user.Password.Equals(passwordHash))
-            {
-                return true;
-            }
+        //    return user.PasswordHash.Equals(passwordHash);
+        //}
 
-            return false;
-        }
+        //private string GetPasswordHash(string password, byte[] salt)
+        //{
+        //    return Convert.ToBase64String(KeyDerivation.Pbkdf2(
+        //        password: password,
+        //        salt: salt,
+        //        prf: KeyDerivationPrf.HMACSHA1,
+        //        iterationCount: 10000,
+        //        numBytesRequested: 256 / 8));
+        //}
 
-        private string GetHashPassword(string password, byte[] salt)
-        {
-            return Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password: password,
-                salt: salt,
-                prf: KeyDerivationPrf.HMACSHA1,
-                iterationCount: 10000,
-                numBytesRequested: 256 / 8));
-        }
+        //private byte[] GetPasswordSalt()
+        //{
+        //    byte[] salt = new byte[128 / 8];
+        //    using (var rng = RandomNumberGenerator.Create())
+        //    {
+        //        rng.GetBytes(salt);
+        //    }
 
-        private byte[] GetPasswordSalt()
-        {
-            byte[] salt = new byte[128 / 8];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(salt);
-            }
-
-            return salt;
-        }
-
-        private string GenerateToken(ClaimsIdentity identity)
-        {
-            var now = DateTime.UtcNow;
-            var jwt = new JwtSecurityToken(
-                issuer: _configuration["JwtTokenConfiguration:ValidIssuer"],
-                audience: _configuration["JwtTokenConfiguration:ValidAudience"],
-                notBefore: now,
-                claims: identity.Claims,
-                expires: now.Add(TimeSpan.FromDays(1)),
-                signingCredentials:
-                new SigningCredentials(
-                    new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["JwtTokenConfiguration:Key"])),
-                    SecurityAlgorithms.HmacSha256));
-
-            return new JwtSecurityTokenHandler().WriteToken(jwt);
-
-        }
+        //    return salt;
+        //}
     }
 }

@@ -14,11 +14,10 @@ using Newtonsoft.Json;
 namespace hitfit.app.Controllers.App
 {
     //[Authorize]
-    public class HomeController : AppController
+    public class HomeController : Controller
     {
         public IActionResult Index()
         {
-            var currentUser = this.User;
             return View();
         }
 
@@ -35,10 +34,6 @@ namespace hitfit.app.Controllers.App
 
             return View();
         }
-
-        
-
-        
 
         public IActionResult Error()
         {

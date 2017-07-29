@@ -1,11 +1,4 @@
-﻿@using hitfit.app.Models
-@using Microsoft.AspNetCore.Identity
-@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
-@inject SignInManager<User> SignInManager
-@{
-    var isSignedIn = SignInManager.IsSignedIn(this.User);
-    var authenticated = !string.IsNullOrEmpty(Context.Request.Cookies["token"]);
-}
+﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 
 <!DOCTYPE html>
 <html>
@@ -43,17 +36,8 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    @if (!SignInManager.IsSignedIn(this.User))
-                    {
-                        <li><a asp-area="" asp-controller="Account" asp-action="Register">Registration</a></li>
-                        <li><a asp-area="" asp-controller="Account" asp-action="Login">Login</a></li>
-                    }
-                    else
-                    {
-                        <li><a asp-area="" asp-controller="Account" asp-action="UpdateInfo">My Account</a></li>
-                        <li><a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
-                    }
                 </ul>
+                @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
     </nav>
