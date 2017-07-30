@@ -9,7 +9,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using hitfit.app.Models;
-using hitfit.app.ViewModels;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Http;
@@ -23,7 +22,6 @@ using User = hitfit.app.Models.User;
 
 namespace hitfit.app.Controllers
 {
-    //[Route("/")]
     public class AccountController : Controller
     {
         private readonly SignInManager<User> _signInManager;

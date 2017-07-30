@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using hitfit.app.Models;
+using hitfit.app.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -78,6 +79,9 @@ namespace hitfit.app
                 // User settings
                 options.User.RequireUniqueEmail = true;
             });
+
+            services.AddTransient<IImageService, HitFitServices>();
+            services.AddTransient<IClientService, HitFitServices>();
 
             // Add application services.
             //services.AddTransient<IEmailSender, AuthMessageSender>();

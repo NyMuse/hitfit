@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using hitfit.app.ViewModels;
 
 namespace hitfit.app.Models
 {
@@ -13,6 +6,10 @@ namespace hitfit.app.Models
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+        public int UserProgramId { get; set; }
+        public string Type { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public DateTime ModifiedOn { get; set; }
         public short? Growth { get; set; }
         public short? Weight { get; set; }
         public short? Wrist { get; set; }

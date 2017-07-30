@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace hitfit.app.Models
 {
@@ -11,6 +9,7 @@ namespace hitfit.app.Models
         public int UserId { get; set; }
         public int ProgramId { get; set; }
         public DateTime CreatedOn { get; set; }
+        public DateTime ModifiedOn { get; set; }
         public DateTime StartedOn { get; set; }
         public DateTime FinishedOn { get; set; }
         public string Notes { get; set; }

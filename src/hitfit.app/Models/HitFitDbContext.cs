@@ -67,9 +67,11 @@ namespace hitfit.app.Models
         public virtual DbSet<UserDetails> UsersDetails { get; set; }
         public virtual DbSet<UserMeasurements> UsersMeasurements { get; set; }
         public virtual DbSet<UserProgram> UsersPrograms { get; set; }
+        public virtual DbSet<ImageObject> Images { get; set; }
 
         public virtual DbSet<MeasurementType> MeasurementTypes { get; set; }
         public virtual DbSet<ProgramType> ProgramTypes { get; set; }
         public virtual DbSet<ReportType> ReportTypes { get; set; }
+        public virtual DbSet<ImageRelationType> ImageRelationTypes { get; set; }
     }
 }

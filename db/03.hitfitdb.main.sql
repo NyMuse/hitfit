@@ -36,6 +36,15 @@ CREATE TABLE public."UsersDetails"
 );
 ALTER TABLE public."Users" OWNER TO postgres;
 
+CREATE TABLE public."Images"
+(
+  "Id" SERIAL PRIMARY KEY,
+  "RelationType" character varying(64) REFERENCES public."ImageRelationTypes" ("Key"),
+  "OwnerId" int NOT NULL,
+  "Image" bytea
+);
+ALTER TABLE public."Images" OWNER TO postgres;
+
 CREATE TABLE public."Programs"
 (
   "Id" SERIAL PRIMARY KEY,
@@ -55,7 +64,9 @@ CREATE TABLE public."UsersPrograms"
   "Id" SERIAL PRIMARY KEY,
   "UserId" int NOT NULL,
   "ProgramId" int NOT NULL,
+  "Activated" boolean NOT NULL DEFAULT(false),
   "CreatedOn" timestamp without time zone DEFAULT (now() at time zone 'utc') NOT NULL,
+  "ModifiedOn" timestamp without time zone DEFAULT (now() at time zone 'utc') NOT NULL,
   "StartedOn" timestamp without time zone,
   "FinishedOn" timestamp without time zone,
   "Notes" text,
@@ -74,6 +85,7 @@ CREATE TABLE public."UsersMeasurements"
   "UserProgramId" int NOT NULL,
   "Type" character varying(64) REFERENCES public."MeasurementTypes" ("Key"),
   "CreatedOn" timestamp without time zone DEFAULT (now() at time zone 'utc') NOT NULL,
+  "ModifiedOn" timestamp without time zone DEFAULT (now() at time zone 'utc') NOT NULL,
   "Growth" smallint,
   "Weight" smallint,
   "Wrist" smallint,
@@ -101,7 +113,6 @@ CREATE TABLE public."Reports"
   "UserProgramId" int NOT NULL,
   "Type" character varying(64),
   "CreatedOn" timestamp without time zone DEFAULT (now() at time zone 'utc') NOT NULL,
-  "Photo" bytea,
   "Description" text,
 
   CONSTRAINT "Reports_UserId_fkey" FOREIGN KEY ("UserId")
