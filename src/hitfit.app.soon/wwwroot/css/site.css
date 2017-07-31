@@ -1,29 +1,15 @@
-﻿div {
+﻿svg {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    left: 0;
+    right: 0;
+    margin: auto;
     text-align: center;
-    position: relative;
-    margin: 0 auto;
-    top: 40%;
-    transform: translateY(-40%);
-}
-
-p {
-    font-size: 15vw;
-}
-
-.linear-wipe {
-    text-align: center;
-    background: linear-gradient(to right, blue, red, green, #FF0, #FFF );
-    background-size: 200% auto;
-    color: #000;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shine 1s linear infinite;
-    
-}
-@keyframes shine {
-    to {
-        background-position: 200% center;
-    }
+    font-weight: bold;
 }
