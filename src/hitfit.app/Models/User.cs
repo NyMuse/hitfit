@@ -71,9 +71,6 @@ namespace hitfit.app.Models
 
         [JsonIgnore]
         public override string PasswordHash { get; set; }
-
-        [JsonIgnore]
-        public string PasswordSalt { get; set; }
         
         [JsonIgnore]
         public override string ConcurrencyStamp { get; set; }

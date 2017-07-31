@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hitfit.app", "hitfit.app\hitfit.app.csproj", "{53CA4F85-EC23-4A01-BF24-A118B5C11E71}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hitfit.tests.api", "hitfit.tests.api\hitfit.tests.api.csproj", "{464E16B9-0FEA-4D2A-B9B4-3DBAFBDC0DD2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hitfit.tests.app", "hitfit.tests.app\hitfit.tests.app.csproj", "{B0B4123E-92E3-40C7-8143-C816EFFDB284}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hitfit.app.soon", "hitfit.app.soon\hitfit.app.soon.csproj", "{A3DB907B-837B-4C09-975C-3934CDFA9E1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{B0B4123E-92E3-40C7-8143-C816EFFDB284}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0B4123E-92E3-40C7-8143-C816EFFDB284}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0B4123E-92E3-40C7-8143-C816EFFDB284}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3DB907B-837B-4C09-975C-3934CDFA9E1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3DB907B-837B-4C09-975C-3934CDFA9E1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3DB907B-837B-4C09-975C-3934CDFA9E1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3DB907B-837B-4C09-975C-3934CDFA9E1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
