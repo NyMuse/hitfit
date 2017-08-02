@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace hitfit.app.Services
 {
-    public class HitFitServices : IImageService, IClientService
+    public class HitFitServices : IDbImageService, IClientService
     {
         private readonly HitFitDbContext _context;
 

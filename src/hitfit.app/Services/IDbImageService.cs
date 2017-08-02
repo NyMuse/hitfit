@@ -6,7 +6,7 @@ using hitfit.app.Models;
 
 namespace hitfit.app.Services
 {
-    public interface IImageService
+    public interface IDbImageService
     {
         Task<int> SaveImageAsync(ImageObject image);
 

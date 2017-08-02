@@ -75,7 +75,7 @@ namespace hitfit.app
                 options.User.RequireUniqueEmail = true;
             });
 
-            services.AddTransient<IImageService, HitFitServices>();
+            services.AddTransient<IDbImageService, HitFitServices>();
             services.AddTransient<IClientService, HitFitServices>();
 
             // Add application services.

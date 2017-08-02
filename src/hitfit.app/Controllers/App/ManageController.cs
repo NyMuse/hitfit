@@ -12,9 +12,9 @@ namespace hitfit.app.Controllers.App
 {
     public class ManageController : Controller
     {
-        private readonly IImageService _imageService;
+        private readonly IDbImageService _imageService;
 
-        public ManageController(IImageService imageService)
+        public ManageController(IDbImageService imageService)
         {
             _imageService = imageService;
         }
