@@ -1765,7 +1765,7 @@ input, select, textarea {
 }
 
 a {
-    color: #8a4680;
+    color: #abd148;
 }
 
 strong, b {
@@ -2020,7 +2020,7 @@ button,
     input[type="button"].special,
     button.special,
     .button.special {
-        background-color: #8a4680;
+        background-color: #abd148;
         color: #ffffff !important;
     }
 
@@ -2226,8 +2226,8 @@ textarea {
     input[type="email"]:focus,
     select:focus,
     textarea:focus {
-        border-color: #8a4680;
-        box-shadow: 0 0 0 1px #8a4680;
+        border-color: #abd148;
+        box-shadow: 0 0 0 1px #abd148;
     }
 
 .select-wrapper:before {
@@ -2247,15 +2247,15 @@ input[type="radio"] + label {
 
 input[type="checkbox"]:checked + label:before,
 input[type="radio"]:checked + label:before {
-    background-color: #8a4680;
-    border-color: #8a4680;
+    background-color: #abd148;
+    border-color: #abd148;
     color: #ffffff;
 }
 
 input[type="checkbox"]:focus + label:before,
 input[type="radio"]:focus + label:before {
-    border-color: #8a4680;
-    box-shadow: 0 0 0 1px #8a4680;
+    border-color: #abd148;
+    box-shadow: 0 0 0 1px #abd148;
 }
 
 ::-webkit-input-placeholder {
@@ -2662,7 +2662,7 @@ table {
     }
 
     .wrapper.style1 {
-        background-color: #8a4680;
+        background-color: #abd148;
         color: #e2d1df;
     }
 
@@ -2764,7 +2764,7 @@ table {
             .wrapper.style1 button.special,
             .wrapper.style1 .button.special {
                 background-color: #ffffff;
-                color: #8a4680 !important;
+                color: #abd148 !important;
             }
 
         .wrapper.style1 label {
@@ -2808,7 +2808,7 @@ table {
         .wrapper.style1 input[type="radio"]:checked + label:before {
             background-color: #ffffff;
             border-color: #ffffff;
-            color: #8a4680;
+            color: #abd148;
         }
 
         .wrapper.style1 input[type="checkbox"]:focus + label:before,
@@ -2879,7 +2879,7 @@ table {
         }
 
         .wrapper.style2 a {
-            color: #8a4680;
+            color: #abd148;
         }
 
         .wrapper.style2 strong, .wrapper.style2 b {
@@ -2955,7 +2955,7 @@ table {
             .wrapper.style2 input[type="button"].special,
             .wrapper.style2 button.special,
             .wrapper.style2 .button.special {
-                background-color: #8a4680;
+                background-color: #abd148;
                 color: #ffffff !important;
             }
 
@@ -2993,8 +2993,8 @@ table {
             .wrapper.style2 input[type="email"]:focus,
             .wrapper.style2 select:focus,
             .wrapper.style2 textarea:focus {
-                border-color: #8a4680;
-                box-shadow: 0 0 0 1px #8a4680;
+                border-color: #abd148;
+                box-shadow: 0 0 0 1px #abd148;
             }
 
         .wrapper.style2 .select-wrapper:before {
@@ -3014,15 +3014,15 @@ table {
 
         .wrapper.style2 input[type="checkbox"]:checked + label:before,
         .wrapper.style2 input[type="radio"]:checked + label:before {
-            background-color: #8a4680;
-            border-color: #8a4680;
+            background-color: #abd148;
+            border-color: #abd148;
             color: #ffffff;
         }
 
         .wrapper.style2 input[type="checkbox"]:focus + label:before,
         .wrapper.style2 input[type="radio"]:focus + label:before {
-            border-color: #8a4680;
-            box-shadow: 0 0 0 1px #8a4680;
+            border-color: #abd148;
+            box-shadow: 0 0 0 1px #abd148;
         }
 
         .wrapper.style2 ::-webkit-input-placeholder {
@@ -3092,7 +3092,7 @@ table {
         }
 
         .wrapper.style3 a {
-            color: #8a4680;
+            color: #abd148;
         }
 
         .wrapper.style3 strong, .wrapper.style3 b {
@@ -3184,7 +3184,7 @@ table {
             .wrapper.style3 input[type="button"].special,
             .wrapper.style3 button.special,
             .wrapper.style3 .button.special {
-                background-color: #8a4680;
+                background-color: #abd148;
                 color: #ffffff !important;
             }
 
@@ -3222,8 +3222,8 @@ table {
             .wrapper.style3 input[type="email"]:focus,
             .wrapper.style3 select:focus,
             .wrapper.style3 textarea:focus {
-                border-color: #8a4680;
-                box-shadow: 0 0 0 1px #8a4680;
+                border-color: #abd148;
+                box-shadow: 0 0 0 1px #abd148;
             }
 
         .wrapper.style3 .select-wrapper:before {
@@ -3243,15 +3243,15 @@ table {
 
         .wrapper.style3 input[type="checkbox"]:checked + label:before,
         .wrapper.style3 input[type="radio"]:checked + label:before {
-            background-color: #8a4680;
-            border-color: #8a4680;
+            background-color: #abd148;
+            border-color: #abd148;
             color: #ffffff;
         }
 
         .wrapper.style3 input[type="checkbox"]:focus + label:before,
         .wrapper.style3 input[type="radio"]:focus + label:before {
-            border-color: #8a4680;
-            box-shadow: 0 0 0 1px #8a4680;
+            border-color: #abd148;
+            box-shadow: 0 0 0 1px #abd148;
         }
 
         .wrapper.style3 ::-webkit-input-placeholder {
@@ -3632,7 +3632,7 @@ table {
 /* Header */
 
 body.subpage {
-    padding-top: 3.25em;
+    /*padding-top: 3.25em;*/
 }
 
 @-moz-keyframes reveal-header {
@@ -3969,7 +3969,7 @@ body.subpage {
 /* Banner */
 
 .banner {
-    background-color: #8a4680;
+    background-color: #abd148;
     color: #e2d1df;
     padding: 8em 0;
     position: relative;

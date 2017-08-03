@@ -27,6 +27,11 @@ namespace hitfit.app.Controllers.App
             return View();
         }
 
+        public IActionResult Elements()
+        {
+            return View();
+        }
+
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
