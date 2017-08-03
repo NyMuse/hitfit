@@ -20,7 +20,7 @@
             </div>
             <div class="6u$ 12u$(xsmall)">
                 @*<h3>Почта</h3>*@
-                <input type="email" name="email" id="email" value="" placeholder="E-mail" required/>
+                <input type="email" name="email" id="email" value="" placeholder="E-mail" required pattern="^[a-zA-Z0-9._+-]+@("@")[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" oninvalid="this.setCustomValidity('Пожалуйста, введите e-mail адрес в прафильном формате.')" oninput="setCustomValidity('')"/>
             </div>
             <div class="6u 12u$(xsmall)">
                 @*<h3>Пароль</h3>*@
@@ -40,9 +40,9 @@
             </div>
             <div class="6u 12u$(xsmall)">
                 @*<h3>Номер телефона</h3>*@
-                <input type="text" name="phonenumber" id="phonenumber" value="" placeholder="Номер телефона" required/>
+                <input type="text" name="phonenumber" id="phonenumber" value="" placeholder="Номер телефона" required maxlength="10" minle pattern="\d*" oninvalid="this.setCustomValidity('Пожалуйста, введите номер телефона в формате ХХХ ХХХ ХХ ХХ.')" oninput="setCustomValidity('')"/>
             </div>
-            <div align="center">
+            <div>
                 <input class="button special fit small" type="submit" id="register_button" name="submit.Register" value="Регистрация"/>
             </div>
         </div>

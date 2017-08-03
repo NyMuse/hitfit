@@ -181,7 +181,7 @@ namespace hitfit.app.Controllers
                 }
                 else
                 {
-                    ViewData["ErrorMessage"] = String.Join(" ", result.Errors.Select(e => e.Description));
+                    ViewData["ErrorMessage"] = string.Join(Environment.NewLine, result.Errors.Select(e => e.Description));
                     return View();
                 }
             }
