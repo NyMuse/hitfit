@@ -35,6 +35,8 @@
 <nav id="menu">
     <ul class="links">
         <li><a asp-area="" asp-controller="Home" asp-action="Index">Главная</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Index">Программы</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Index">Статьи</a></li>
         @if (SignInManager.IsSignedIn(User))
         {
             <li><a asp-area="" asp-controller="Account" asp-action="Logout">Выйти</a></li>

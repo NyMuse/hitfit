@@ -3080,7 +3080,7 @@ table {
     .wrapper.style3 {
         background-color: #000;
         color: #bfbfbf;
-        background-image: url(../../images/bg.jpg);
+        background-image: url(../../images/hitfitbg.svg);
         background-size: cover;
         background-attachment: fixed;
         background-position: center;
@@ -3969,7 +3969,7 @@ body.subpage {
 /* Banner */
 
 .banner {
-    background-color: #abd148;
+    /*background-color: #abd148;*/
     color: #e2d1df;
     padding: 8em 0;
     position: relative;
@@ -4141,9 +4141,9 @@ body.subpage {
             }
 
         .banner > article p {
-            color: rgba(255, 255, 255, 0.65);
+            color: rgba(255, 255, 255, 0.75);
             text-transform: uppercase;
-            font-size: 1rem;
+            font-size: 1.25rem;
             font-weight: 300;
             margin: 0;
             padding-bottom: 1.75rem;

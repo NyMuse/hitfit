@@ -9,41 +9,45 @@
     
 <div id="main" class="container">
     <form method="post">
+        @if (ViewData["ErrorMessage"] != null)
+        {
+            <h3 style="color: red; ">@ViewData["ErrorMessage"]</h3>
+        }
         <div class="row uniform">
             <div class="6u 12u$(xsmall)">
                 @*<h3>Логин</h3>*@
-                <input type="text" name="username" id="username" value="" placeholder="Логин"/>
+                <input type="text" name="username" id="username" value="" placeholder="Логин" required/>
             </div>
             <div class="6u$ 12u$(xsmall)">
                 @*<h3>Почта</h3>*@
-                <input type="email" name="email" id="email" value="" placeholder="E-mail" />
+                <input type="email" name="email" id="email" value="" placeholder="E-mail" required/>
             </div>
             <div class="6u 12u$(xsmall)">
                 @*<h3>Пароль</h3>*@
-                <input type="password" name="password" id="password" value="" placeholder="Пароль"/>
+                <input type="password" name="password" id="password" value="" placeholder="Пароль" required/>
             </div>
             <div class="6u$ 12u$(xsmall)">
                 @*<h3>Повторите пароль</h3>*@
-                <input type="password" name="password_confirm" id="password_confirm" value="" placeholder="Повторите пароль"/>
+                <input type="password" name="passwordConfirm" id="passwordConfirm" value="" placeholder="Повторите пароль" required/>
             </div>
             <div class="6u 12u$(xsmall)">
                 @*<h3>Имя</h3>*@
-                <input type="text" name="userfirstname" id="userfirstname" value="" placeholder="Имя" />
+                <input type="text" name="userfirstname" id="userfirstname" value="" placeholder="Имя" required/>
             </div>
             <div class="6u$ 12u$(xsmall)">
                 @*<h3>Фамилия</h3>*@
-                <input type="text" name="userlastname" id="userlastname" value="" placeholder="Фамилия" />
+                <input type="text" name="userlastname" id="userlastname" value="" placeholder="Фамилия" required/>
             </div>
             <div class="6u 12u$(xsmall)">
                 @*<h3>Номер телефона</h3>*@
-                <input type="text" name="phonenumber" id="phonenumber" value="" placeholder="Номер телефона" />
+                <input type="text" name="phonenumber" id="phonenumber" value="" placeholder="Номер телефона" required/>
             </div>
             <div align="center">
-                <input class="button special fit small" type="submit" id="register_button" name="submit.Register"  value="Регистрация"/>
+                <input class="button special fit small" type="submit" id="register_button" name="submit.Register" value="Регистрация"/>
             </div>
         </div>
-        
-</form>
+
+    </form>
 </div>
 
     @*<div class="row">

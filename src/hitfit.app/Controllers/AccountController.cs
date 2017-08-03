@@ -152,8 +152,14 @@ namespace hitfit.app.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(string userName, string password, string email, string phoneNumber, string userFirstName, string userMiddleName, string userLastName)
+        public async Task<IActionResult> Register(string userName, string password, string passwordConfirm, string email, string phoneNumber, string userFirstName, string userMiddleName, string userLastName)
         {
+            if (!password.Equals(passwordConfirm))
+            {
+                ViewData["ErrorMessage"] = "¬веденные пароли не совпадают";
+                return View();
+            }
+
             if (this.Request.Form.ContainsKey("submit.Register"))
             {
                 var user = new User
@@ -162,7 +168,6 @@ namespace hitfit.app.Controllers
                     Email = email,
                     PhoneNumber = userName,
                     FirstName = userFirstName,
-                    //MiddleName = userMiddleName,
                     LastName = userLastName
                 };
 
@@ -174,8 +179,14 @@ namespace hitfit.app.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
+                else
+                {
+                    ViewData["ErrorMessage"] = String.Join(" ", result.Errors.Select(e => e.Description));
+                    return View();
+                }
             }
-            
+
+            ViewData["ErrorMessage"] = null;
             return View();
         }
     }
