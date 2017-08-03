@@ -1951,7 +1951,7 @@ button,
     input[type="button"],
     button,
     .button {
-        padding: 0;
+        padding: 0 1.5rem;
         width: 100%;
     }
 }
@@ -2029,7 +2029,7 @@ button,
         input[type="button"].special:hover,
         button.special:hover,
         .button.special:hover {
-            background-color: #9b4f90;
+            background-color: #b2d655;
         }
 
         input[type="submit"].special:active,
@@ -2037,7 +2037,7 @@ button,
         input[type="button"].special:active,
         button.special:active,
         .button.special:active {
-            background-color: #793d70;
+            background-color: #748e30;
         }
 
 /* Form */
@@ -2964,7 +2964,7 @@ table {
                 .wrapper.style2 input[type="button"].special:hover,
                 .wrapper.style2 button.special:hover,
                 .wrapper.style2 .button.special:hover {
-                    background-color: #9b4f90;
+                    background-color: #b2d655;
                 }
 
                 .wrapper.style2 input[type="submit"].special:active,
@@ -2972,7 +2972,7 @@ table {
                 .wrapper.style2 input[type="button"].special:active,
                 .wrapper.style2 button.special:active,
                 .wrapper.style2 .button.special:active {
-                    background-color: #793d70;
+                    background-color: #748e30;
                 }
 
         .wrapper.style2 label {
@@ -3193,7 +3193,7 @@ table {
                 .wrapper.style3 input[type="button"].special:hover,
                 .wrapper.style3 button.special:hover,
                 .wrapper.style3 .button.special:hover {
-                    background-color: #9b4f90;
+                    background-color: #b2d655;
                 }
 
                 .wrapper.style3 input[type="submit"].special:active,
@@ -3201,7 +3201,7 @@ table {
                 .wrapper.style3 input[type="button"].special:active,
                 .wrapper.style3 button.special:active,
                 .wrapper.style3 .button.special:active {
-                    background-color: #793d70;
+                    background-color: #748e30;
                 }
 
         .wrapper.style3 label {

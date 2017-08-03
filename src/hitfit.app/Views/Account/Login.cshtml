@@ -1,7 +1,7 @@
 ﻿<section id="One" class="wrapper style3">
     <div class="inner">
         <header class="align-center">
-            <p>Войдите, используя номер телефона или E-mail</p>
+            <p>Войдите, используя логин или E-mail</p>
             <h2>Вход</h2>
         </header>
     </div>
@@ -9,18 +9,31 @@
 
 <div id="main" class="container">
     <form method="post">
+        @if (ViewData["ErrorMessage"] != null)
+        {
+            <h3 style="color: red; ">@ViewData["ErrorMessage"]</h3>
+        }
         <div class="row uniform">
             <div class="6u 12u$(xsmall)">
-                <h3>Логин</h3>
-                <input type="text" name="username" id="username" value="" placeholder="Phone or Email" />
+                <input autofocus type="text" name="username" id="username" value="" placeholder="Логин или e-mail" required oninvalid="this.setCustomValidity('Пожалуйста, введите логин или e-mail.')"/>
             </div>
             <div class="6u 12u$(xsmall)">
-                <h3>Пароль</h3>
-                <input type="password" name="password" id="password" value="" placeholder="Password" />
+                <input type="password" name="password" id="password" value="" placeholder="Пароль" required oninvalid="this.setCustomValidity('Пожалуйста, введите пароль.')"/>
             </div>
-            <div align="center">
-                <input class="button special" type="submit" name="submit.Login" value="Вход" />
+            
+            <div>
+                <input class="button special small fit" type="submit" name="submit.Login" value="Вход"/>
             </div>
+            <div>
+                <a class="button" asp-area="" asp-controller="Account" asp-action="Register">Регистрация</a>
+            </div>
+            <div>
+                <a class="button alt" asp-area="" asp-controller="Account" asp-action="Register">Забыли пароль?</a>
+            </div>
+            @*<div class="6u 12u$(xsmall)">
+                <input type="checkbox" id="remember" name="remember" value="true">
+                <label for="remember">Запомнить меня</label>
+            </div>*@
         </div>
     </form>
 </div>

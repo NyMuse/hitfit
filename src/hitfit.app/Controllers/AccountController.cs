@@ -46,38 +46,46 @@ namespace hitfit.app.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            ViewData["ErrorMessage"] = null;
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(string username, string password)
+        public async Task<IActionResult> Login(string username, string password, bool remember = false)
         {
             if (this.Request.Form.ContainsKey("submit.Login"))
             {
-                var result = await _signInManager.PasswordSignInAsync(username, password, false, false);
+                var user = await _userManager.FindByNameAsync(username) ?? await _userManager.FindByEmailAsync(username);
+
+                if (user == null)
+                {
+                    ViewData["ErrorMessage"] = "Пользователь с таким именем или e-mail не существует.";
+                    return View();
+                }
+
+                var result = await _signInManager.PasswordSignInAsync(user, password, remember, false);
 
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
                 }
+                
                 if (result.IsLockedOut)
                 {
-                    //_logger.LogWarning(2, "User account locked out.");
-                    //return View("Lockout");
-                    return BadRequest("User account locked out.");
+                    ViewData["ErrorMessage"] = "Аккаунт заблокирован.";
+                    return View();
                 }
                 else
                 {
-                    return BadRequest("Invalid login attempt.");
-                    //ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    //return View(model);
+                    ViewData["ErrorMessage"] = "Неверный пароль.";
+                    return View();
                 }
             }
 
+            ViewData["ErrorMessage"] = null;
             return View();
         }
 
-        [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -91,52 +99,55 @@ namespace hitfit.app.Controllers
             var username = Request.Form["username"];
             var password = Request.Form["password"];
 
-            var user = await _userManager.FindByNameAsync(username);
-            
-            if (user != null)
+            var user = await _userManager.FindByNameAsync(username) ?? await _userManager.FindByEmailAsync(username);
+
+            if (user == null)
             {
-                if (await _userManager.CheckPasswordAsync(user, password))
-                {
-                    var claimsPrincipal = await _claimsPrincipalFactory.CreateAsync(user);
-
-                    var now = DateTime.UtcNow;
-                    var jwt = new JwtSecurityToken(
-                        issuer: _configuration["JwtTokenConfiguration:ValidIssuer"],
-                        audience: _configuration["JwtTokenConfiguration:ValidAudience"],
-                        notBefore: now,
-                        claims: claimsPrincipal.Claims,
-                        expires: now.Add(TimeSpan.FromDays(1)),
-                        signingCredentials:
-                        new SigningCredentials(
-                            new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["JwtTokenConfiguration:Key"])),
-                            SecurityAlgorithms.HmacSha256));
-
-                    var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-                    
-                    var response = new
-                    {
-                        access_token = encodedJwt,
-                        username = claimsPrincipal.Identity.Name,
-                        role = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value
-                    };
-
-                    Response.ContentType = "application/json";
-
-                    return Ok(JsonConvert.SerializeObject(response,
-                        new JsonSerializerSettings
-                        {
-                            Formatting = Formatting.Indented,
-                            PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                        }));
-                }
+                return BadRequest("User not found.");
             }
 
-            return BadRequest("Innvalid credentials");
+            if (!await _userManager.CheckPasswordAsync(user, password))
+            {
+                return BadRequest("Invalid password.");
+            }
+
+            var claimsPrincipal = await _claimsPrincipalFactory.CreateAsync(user);
+
+            var now = DateTime.UtcNow;
+            var jwt = new JwtSecurityToken(
+                issuer: _configuration["JwtTokenConfiguration:ValidIssuer"],
+                audience: _configuration["JwtTokenConfiguration:ValidAudience"],
+                notBefore: now,
+                claims: claimsPrincipal.Claims,
+                expires: now.Add(TimeSpan.FromDays(1)),
+                signingCredentials:
+                new SigningCredentials(
+                    new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["JwtTokenConfiguration:Key"])),
+                    SecurityAlgorithms.HmacSha256));
+
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+            var response = new
+            {
+                access_token = encodedJwt,
+                username = claimsPrincipal.Identity.Name,
+                role = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value
+            };
+
+            Response.ContentType = "application/json";
+
+            return Ok(JsonConvert.SerializeObject(response,
+                new JsonSerializerSettings
+                {
+                    Formatting = Formatting.Indented,
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                }));
         }
 
         [HttpGet]
         public IActionResult Register()
         {
+            ViewData["ErrorMessage"] = null;
             return View();
         }
 
@@ -149,9 +160,9 @@ namespace hitfit.app.Controllers
                 {
                     UserName = userName,
                     Email = email,
-                    PhoneNumber = phoneNumber,
+                    PhoneNumber = userName,
                     FirstName = userFirstName,
-                    MiddleName = userMiddleName,
+                    //MiddleName = userMiddleName,
                     LastName = userLastName
                 };
 
@@ -167,72 +178,5 @@ namespace hitfit.app.Controllers
             
             return View();
         }
-
-        //public IActionResult UpdateInfo()
-        //{
-        //    var userIdentity = this.User;
-
-        //    var id = 0;
-            
-
-        //    if (this.Request.Method == "POST")
-        //    {
-        //        if (this.Request.Form.ContainsKey("submit.UpdateMeasurements"))
-        //        {
-        //            var userMeasurements = new UserMeasurementsDto
-        //            {
-        //                UserId = id,
-        //                Growth = short.Parse(this.Request.Form["growth"]),
-        //                Weight = short.Parse(this.Request.Form["weight"])
-        //            };
-
-        //            var stringData = JsonConvert.SerializeObject(userMeasurements);
-
-        //            var createdUserMeasurements = this.PostAction<UserMeasurementsDto>("api/users/measurements", stringData);
-
-        //            return RedirectToAction("Index", "Home");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        var user = this.GetAction<User>("/api/users/", id.ToString());
-
-        //        if (user != null)
-        //        {
-        //            ViewBag.UserGrowth = user.UserMeasurements.Last().Growth;
-        //            ViewBag.UserWeight = user.UserMeasurements.Last().Weight;
-        //        }
-        //    }
-
-        //    return View();
-        //}
-
-        //private bool CheckPassword(User user, string password)
-        //{
-        //    var passwordHash = this.GetPasswordHash(password, Convert.FromBase64String(user.PasswordSalt));
-
-        //    return user.PasswordHash.Equals(passwordHash);
-        //}
-
-        //private string GetPasswordHash(string password, byte[] salt)
-        //{
-        //    return Convert.ToBase64String(KeyDerivation.Pbkdf2(
-        //        password: password,
-        //        salt: salt,
-        //        prf: KeyDerivationPrf.HMACSHA1,
-        //        iterationCount: 10000,
-        //        numBytesRequested: 256 / 8));
-        //}
-
-        //private byte[] GetPasswordSalt()
-        //{
-        //    byte[] salt = new byte[128 / 8];
-        //    using (var rng = RandomNumberGenerator.Create())
-        //    {
-        //        rng.GetBytes(salt);
-        //    }
-
-        //    return salt;
-        //}
     }
 }
