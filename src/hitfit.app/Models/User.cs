@@ -63,6 +63,9 @@ namespace hitfit.app.Models
         [JsonProperty(Order = 17)]
         public ICollection<Report> Reports { get; set; }
 
+        [JsonProperty(Order = 18)]
+        public ICollection<Article> Articles { get; set; }
+
         [JsonIgnore]
         public override string NormalizedUserName { get; set; }
 

@@ -12,3 +12,4 @@ psql \connect hitfitdb
 
 psql --host=localhost --dbname=hitfitdb --username=postgres --file="02.hitfitdb.dictionaries.sql"
 psql --host=localhost --dbname=hitfitdb --username=postgres --file="03.hitfitdb.main.sql"
+psql --host=localhost --dbname=hitfitdb --username=postgres --file="04.hitfitdb.sampledata.sql"

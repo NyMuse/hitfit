@@ -16,6 +16,8 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="~/css/main.css" />
+        <link type="text/css" rel="stylesheet" href="~/lib/jodit/jodit.min.css">
+        <link rel="stylesheet" type="text/css" href="~/css/droparea.css" />
     </environment>
     <environment names="Staging,Production">
         <meta charset="utf-8" />
@@ -35,8 +37,9 @@
 <nav id="menu">
     <ul class="links">
         <li><a asp-area="" asp-controller="Home" asp-action="Index">Главная</a></li>
+        <li><a asp-area="" asp-controller="Article" asp-action="Index">Статьи</a></li>
         <li><a asp-area="" asp-controller="Home" asp-action="Index">Программы</a></li>
-        <li><a asp-area="" asp-controller="Home" asp-action="Index">Статьи</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Index">Результаты</a></li>
         @if (SignInManager.IsSignedIn(User))
         {
             <li><a asp-area="" asp-controller="Account" asp-action="Logout">Выйти</a></li>
@@ -56,6 +59,7 @@
 <script src="~/js/main.js"></script>
            
 <div>
+    
     @RenderBody()
     <!-- Footer -->
     <footer id="footer">
@@ -73,9 +77,9 @@
 </div>
 
 <environment names="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/js/droparea.js"></script>
     </environment>
 <environment names="Staging,Production">
     <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"

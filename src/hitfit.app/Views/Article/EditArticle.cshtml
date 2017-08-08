@@ -1,0 +1,70 @@
+﻿@using hitfit.app.Models
+@using System.Collections.Generic
+@using hitfit.app.Models.Dictionaries
+
+@{
+    Article article = ViewBag.Article;
+}
+
+<section id="One" class="wrapper style3">
+    <div class="inner">
+        <header class="align-center">
+            <p>Здесь можно будет отредактировать статью</p>
+            <h2>Статья</h2>
+        </header>
+    </div>
+</section>
+
+
+<script type="text/javascript">
+      $(document).ready(function(){
+        $('#droparea').droparea();
+      });
+</script>
+
+<div id="main" class="container">
+    <form method="post" enctype="multipart/form-data" asp-controller="Article" asp-action="EditArticle">
+        <div class="12u$(medium)" id="droparea" name="droparea">
+            <span class="image fit" style="border: thin dashed #ccc; min-height: 150px; cursor: pointer">
+                <img alt="" src="data:image/jpeg;base64,@article.ImageBase64" id="file_preview" />
+            </span>
+
+        </div>
+        <input type="file" name="file" id="file" accept="image/*" style="display: none;">
+        <div class="row uniform">
+            <div class="12u$">
+                <div class="select-wrapper">
+                    <select name="category" id="category" >
+                        <option value="">- Категория -</option>
+                        @foreach (var category in ((List<ArticleCategory>)ViewBag.ArticleCategories))
+                        {
+                            if (category.Id == article.CategoryId)
+                            {
+                                <option selected="selected" value="@category.Id">@category.Key</option>
+                            }
+                            else
+                            {
+                                <option value="@category.Id">@category.Key</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="12u$">
+                <textarea name="articleTitle" id="title" placeholder="Заголовок статьи" rows="1">@article.Title</textarea>
+            </div>
+            <div class="12u">
+                <textarea name="articleContent" id="content" rows="10" placeholder="Тест статьи" autofocus style="min-height: 100px;">@article.Content</textarea>
+            </div>
+            <div class="row uniform">
+                <div class="12u">
+                    <input type="checkbox" id="publish" name="publish" checked=@(article.IsPublished ? "checked" : "")>
+                    <label for="publish">Опубликовать статью</label>
+                </div>
+                <div class="6u$ 12u$(xsmall)">
+                    <input class="button" type="submit" value="Сохранить"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

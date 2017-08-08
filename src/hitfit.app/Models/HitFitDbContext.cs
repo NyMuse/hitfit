@@ -60,6 +60,16 @@ namespace hitfit.app.Models
                 .HasOne(u => u.UserProgram)
                 .WithMany(r => r.Reports)
                 .HasForeignKey(r => r.UserProgramId);
+
+            modelBuilder.Entity<Article>()
+                .HasOne(u => u.Author)
+                .WithMany(a => a.Articles)
+                .HasForeignKey(a => a.AuthorId);
+
+            modelBuilder.Entity<Article>()
+                .HasOne(u => u.Category)
+                .WithMany(a => a.Articles)
+                .HasForeignKey(u => u.CategoryId);
         }
 
         public virtual DbSet<Program> Programs { get; set; }
@@ -68,10 +78,12 @@ namespace hitfit.app.Models
         public virtual DbSet<UserMeasurements> UsersMeasurements { get; set; }
         public virtual DbSet<UserProgram> UsersPrograms { get; set; }
         public virtual DbSet<ImageObject> Images { get; set; }
+        public virtual DbSet<Article> Articles { get; set; }
 
         public virtual DbSet<MeasurementType> MeasurementTypes { get; set; }
         public virtual DbSet<ProgramType> ProgramTypes { get; set; }
         public virtual DbSet<ReportType> ReportTypes { get; set; }
         public virtual DbSet<ImageRelationType> ImageRelationTypes { get; set; }
+        public virtual DbSet<ArticleCategory> ArticleCategories { get; set; }
     }
 }

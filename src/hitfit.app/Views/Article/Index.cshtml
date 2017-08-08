@@ -1,0 +1,76 @@
+﻿@using hitfit.app.Models
+@using System.Collections.Generic
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@{
+    User user = null;
+    if (SignInManager.IsSignedIn(User))
+    {
+        user = await UserManager.FindByNameAsync(User.Identity.Name);
+    }
+}
+
+<section id="One" class="wrapper style3">
+    <div class="inner">
+        <header class="align-center">
+            <p>Здесь все статьи</p>
+            <h2>Статьи</h2>
+        </header>
+    </div>
+</section>
+
+@if (user != null && user.IsAdministrator)
+{
+    <div id="main" class="container">
+        <form method="post">
+            <div class="align-center">
+                <a class="button cpecial" asp-area="" asp-controller="Article" asp-action="AddArticle">Добавить статью</a>
+            </div>
+        </form>
+    </div>
+}
+
+<form>
+    <section id="one" class="wrapper style2">
+        <div class="inner">
+            <div class="grid-style">
+                @foreach (var article in ((List<Article>)ViewBag.Articles))
+                {
+                    <div>
+                        <div class="box">
+                            <div class="image fit">
+                                <img src="data:image/jpeg;base64,@article.ImageBase64" alt="" style="object-fit: cover; height: 40vh;" />
+                            </div>
+                            <div class="content">
+                                <header class="align-center">
+                                    <p>@article.Category.Key</p>
+                                    <h2>@article.Title</h2>
+                                </header>
+                                <p>
+                                    @if (@article.Content.Length > 200)
+                                    {
+                                        @Html.Raw(string.Format("{0}...", article.Content.Substring(0, 200).TrimEnd()));
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw(article.Content);
+                                    }
+                                </p>
+                                <footer class="align-center">
+                                    <a class="button alt" asp-route-id="@article.Id" asp-controller="Article" asp-action="ViewArticle">Читать далее</a>
+                                    @if (user != null && user.IsAdministrator)
+                                    {
+                                        <a class="button special" asp-route-id="@article.Id" asp-controller="Article" asp-action="EditArticle">Редактировать</a>
+                                    }
+                                </footer>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+</form>

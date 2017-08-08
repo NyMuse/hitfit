@@ -1,0 +1,29 @@
+﻿@using hitfit.app.Models
+@using System.Collections.Generic
+
+@{
+    Article article = @ViewBag.Article;
+}
+
+<section id="One" class="wrapper style3">
+    <div class="inner">
+        <header class="align-center">
+            <p>@article.Title</p>
+            <h2>@article.Category.Key</h2>
+        </header>
+    </div>
+</section>
+
+<div id="main" class="container">
+    <div class="row 200%">
+        <div class=" 12u$">
+                
+            <span class="image left"><img src="data:image/jpeg;base64,@article.ImageBase64" alt=""/></span>
+            <header>
+                <h2>@article.Title</h2>
+                <p>@article.Category.Key</p>
+            </header>
+            <p>@Html.Raw(article.Content.Replace(Environment.NewLine, "<br/>"))</p>
+        </div>
+    </div>
+</div>

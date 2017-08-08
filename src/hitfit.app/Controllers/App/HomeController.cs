@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using hitfit.app.Services;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 
@@ -15,8 +16,24 @@ namespace hitfit.app.Controllers.App
     //[Authorize]
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly ArticleService _articleService;
+
+        public HomeController(ArticleService articleService)
         {
+            _articleService = articleService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var articles = await _articleService.GetRandomAsync(2);
+            
+            foreach (var article in articles)
+            {
+                article.ImageBase64 = Convert.ToBase64String(article.Image);
+            }
+
+            ViewBag.Articles = articles;
+
             return View();
         }
 

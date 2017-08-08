@@ -56,10 +56,10 @@ namespace hitfit.app
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings
-                options.Password.RequireDigit = true;
-                options.Password.RequiredLength = 8;
+                options.Password.RequireDigit = false;
+                //options.Password.RequiredLength = 8;
                 options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = true;
+                options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
 
                 // Lockout settings
@@ -77,6 +77,8 @@ namespace hitfit.app
 
             services.AddTransient<IDbImageService, HitFitServices>();
             services.AddTransient<IClientService, HitFitServices>();
+
+            services.AddTransient<ArticleService, ArticleService>();
 
             // Add application services.
             //services.AddTransient<IEmailSender, AuthMessageSender>();

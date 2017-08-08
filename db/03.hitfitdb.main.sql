@@ -121,3 +121,24 @@ CREATE TABLE public."Reports"
       REFERENCES public."UsersPrograms" ("Id") MATCH SIMPLE
 );
 ALTER TABLE public."Reports" OWNER TO postgres;
+
+CREATE TABLE public."Articles"
+(
+  "Id" SERIAL PRIMARY KEY,
+  "AuthorId" int NOT NULL,
+  "CreatorId" int NOT NULL,
+  "CategoryId" int NOT NULL,
+  "Title" character varying(512),
+  "SubTitle" character varying(512),
+  "Content" text,
+  "Image" bytea,
+  "CreatedOn" timestamp without time zone DEFAULT (now() at time zone 'utc') NOT NULL,
+  "UpdatedOn" timestamp without time zone DEFAULT (now() at time zone 'utc') NOT NULL,
+  "IsPublished" boolean NOT NULL DEFAULT(false),
+
+  CONSTRAINT "Articles_AuthorId_fkey" FOREIGN KEY ("AuthorId")
+      REFERENCES public."Users" ("Id") MATCH SIMPLE,
+  CONSTRAINT "Articles_CategoryId_fkey" FOREIGN KEY ("CategoryId")
+      REFERENCES public."ArticleCategories" ("Id") MATCH SIMPLE
+);
+ALTER TABLE public."Articles" OWNER TO postgres;
