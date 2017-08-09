@@ -3,12 +3,14 @@ using System.IO;
 using System.Threading.Tasks;
 using hitfit.app.Models;
 using hitfit.app.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace hitfit.app.Controllers.App
 {
+    [Authorize]
     public class ArticleController : Controller
     {
         private readonly ArticleService _articleService;
@@ -21,6 +23,7 @@ namespace hitfit.app.Controllers.App
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var articles = await _articleService.GetAllAsync();
@@ -36,8 +39,14 @@ namespace hitfit.app.Controllers.App
         }
 
         [HttpGet("[controller]/{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> ViewArticle(int id)
         {
+            if (id == 0)
+            {
+                RedirectToAction("Index");
+            }
+
             var article = await _articleService.GetArticleAsync(id);
 
             article.ImageBase64 = Convert.ToBase64String(article.Image);
@@ -88,6 +97,11 @@ namespace hitfit.app.Controllers.App
         [HttpGet("[controller]/{id}/edit")]
         public async Task<IActionResult> EditArticle(int id)
         {
+            if (id == 0)
+            {
+                RedirectToAction("AddArticle");
+            }
+
             var article = await _articleService.GetArticleAsync(id);
             article.ImageBase64 = Convert.ToBase64String(article.Image);
 

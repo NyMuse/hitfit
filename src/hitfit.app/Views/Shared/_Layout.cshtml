@@ -42,6 +42,7 @@
         <li><a asp-area="" asp-controller="Home" asp-action="Index">Результаты</a></li>
         @if (SignInManager.IsSignedIn(User))
         {
+            <li><a asp-area="" asp-controller="Profile" asp-action="Index">Профиль</a></li>
             <li><a asp-area="" asp-controller="Account" asp-action="Logout">Выйти</a></li>
         }
         else

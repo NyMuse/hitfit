@@ -42,7 +42,9 @@
                     <div>
                         <div class="box">
                             <div class="image fit">
-                                <img src="data:image/jpeg;base64,@article.ImageBase64" alt="" style="object-fit: cover; height: 40vh;" />
+                                <a asp-route-id="@article.Id" asp-controller="Article" asp-action="ViewArticle">
+                                    <img src="data:image/jpeg;base64,@article.ImageBase64" alt="" style="object-fit: cover; height: 40vh;" />
+                                </a>
                             </div>
                             <div class="content">
                                 <header class="align-center">

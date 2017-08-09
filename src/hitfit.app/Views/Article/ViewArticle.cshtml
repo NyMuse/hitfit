@@ -1,8 +1,16 @@
 ﻿@using hitfit.app.Models
 @using System.Collections.Generic
+@using Microsoft.AspNetCore.Identity
 
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 @{
     Article article = @ViewBag.Article;
+    User user = null;
+    if (SignInManager.IsSignedIn(User))
+    {
+        user = await UserManager.FindByNameAsync(User.Identity.Name);
+    }
 }
 
 <section id="One" class="wrapper style3">
@@ -17,7 +25,6 @@
 <div id="main" class="container">
     <div class="row 200%">
         <div class=" 12u$">
-                
             <span class="image left"><img src="data:image/jpeg;base64,@article.ImageBase64" alt=""/></span>
             <header>
                 <h2>@article.Title</h2>
@@ -25,5 +32,13 @@
             </header>
             <p>@Html.Raw(article.Content.Replace(Environment.NewLine, "<br/>"))</p>
         </div>
+        @if (user != null && user.IsAdministrator)
+        {
+            <div class="row uniform">
+                <div class="6u$ 12u$(xsmall)">
+                    <a class="button special" asp-route-id="@article.Id" asp-controller="Article" asp-action="EditArticle">Редактировать</a>
+                </div>
+            </div>
+        }
     </div>
 </div>
