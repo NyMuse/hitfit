@@ -12,7 +12,6 @@ CREATE TABLE public."Users"
   "PhoneNumberConfirmed" boolean NOT NULL DEFAULT(false),
   "PasswordHash" character varying(256) NOT NULL,
   "FirstName" character varying(256) NOT NULL,
-  "MiddleName" character varying(256),
   "LastName" character varying(256) NOT NULL,
   "CreatedOn" timestamp without time zone DEFAULT (now() at time zone 'utc') NOT NULL,
   "ModifiedOn" timestamp without time zone DEFAULT (now() at time zone 'utc') NOT NULL,

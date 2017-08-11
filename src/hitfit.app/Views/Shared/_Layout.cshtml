@@ -5,6 +5,14 @@
 @inject UserManager<User> UserManager
 @inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 
+@{
+    User user = null;
+    if (SignInManager.IsSignedIn(User))
+    {
+        user = await UserManager.FindByNameAsync(User.Identity.Name);
+    }
+}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,9 +36,21 @@
 </head>
 <body style="overflow-x: hidden; ">
 <header id="header" class="alt">
-    <div class="logo">
-        <a asp-area="" asp-controller="Home" asp-action="Index" >Hit-Fit</a>
-    </div>
+    @*@if (user != null && user.IsAdministrator)
+    {
+        <div class="admin">
+            <a asp-area="" asp-controller="Home" asp-action="Index">Программы</a>
+            <a asp-area="" asp-controller="Home" asp-action="Index">Клиенты</a>
+            <a asp-area="" asp-controller="Home" asp-action="Index">Отчеты</a>
+        </div>
+    }
+    else
+    {
+        <div class="logo">
+            <a asp-area="" asp-controller="Home" asp-action="Index">Hit-Fit</a>
+        </div>
+    }*@
+    @*<a href="#admin">Администрирование</a>*@
     <a href="#menu">Меню</a>
 </header>
 
@@ -42,7 +62,15 @@
         <li><a asp-area="" asp-controller="Home" asp-action="Index">Результаты</a></li>
         @if (SignInManager.IsSignedIn(User))
         {
-            <li><a asp-area="" asp-controller="Profile" asp-action="Index">Профиль</a></li>
+            @if (user != null && user.IsAdministrator)
+             {
+                 <li><a asp-area="" asp-controller="Administration" asp-action="Index">Администрирование</a></li>
+             }
+             else
+             {
+                 <li><a asp-area="" asp-controller="Profile" asp-action="Index">Профиль</a></li>
+             }
+
             <li><a asp-area="" asp-controller="Account" asp-action="Logout">Выйти</a></li>
         }
         else
@@ -52,6 +80,33 @@
         }
     </ul>
 </nav>
+    
+@*<nav id="admin">
+    <ul class="links">
+        <li><a asp-area="" asp-controller="Home" asp-action="Index">Главная</a></li>
+        <li><a asp-area="" asp-controller="Article" asp-action="Index">Статьи</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Index">Программы</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Index">Результаты</a></li>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            @if (user != null && user.IsAdministrator)
+             {
+                 <li><a asp-area="" asp-controller="Administration" asp-action="Index">Администрирование</a></li>
+             }
+             else
+             {
+                 <li><a asp-area="" asp-controller="Profile" asp-action="Index">Профиль</a></li>
+             }
+
+            <li><a asp-area="" asp-controller="Account" asp-action="Logout">Выйти</a></li>
+        }
+        else
+        {
+            <li><a asp-area="" asp-controller="Account" asp-action="Login">Вход</a></li>
+            <li><a asp-area="" asp-controller="Account" asp-action="Register">Регистрация</a></li>
+        }
+    </ul>
+</nav>*@
 
 <script src="~/js/jquery.min.js"></script>
 <script src="~/js/jquery.scrollex.min.js"></script>

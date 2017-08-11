@@ -5,6 +5,7 @@ using hitfit.app.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -77,13 +78,17 @@ namespace hitfit.app
 
             services.AddTransient<IDbImageService, HitFitServices>();
             services.AddTransient<IClientService, HitFitServices>();
+            
+            services.AddTransient<ArticleService>();
 
-            services.AddTransient<ArticleService, ArticleService>();
-
-            // Add application services.
-            //services.AddTransient<IEmailSender, AuthMessageSender>();
-            //services.AddTransient<ISmsSender, AuthMessageSender>();
-
+            if (Configuration["ImageService"] == "DiskStorage")
+            {
+                services.AddTransient<IImageService, FileStorageImageService>();
+            }
+            else
+            {
+                services.AddTransient<IImageService, BlobStorageImageService>();
+            }
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

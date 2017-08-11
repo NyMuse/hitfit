@@ -47,6 +47,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="Views\Administration\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Views\Administration\Index.cshtml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
