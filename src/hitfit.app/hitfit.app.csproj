@@ -23,6 +23,9 @@
     <Content Include="wwwroot\js\login.js" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Google.Apis.Drive.v3" Version="1.28.0.946" />
+    <PackageReference Include="Google.Apis.Plus.v1" Version="1.28.0.928" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.5.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.1.2" />

@@ -22,7 +22,7 @@
     </div>
 </section>
 
-@if (user != null && user.IsAdministrator)
+@*@if (user != null && user.IsAdministrator)
 {
     <div id="main" class="container">
         <form method="post">
@@ -31,7 +31,7 @@
             </div>
         </form>
     </div>
-}
+}*@
 
 <form>
     <section id="one" class="wrapper style2">
@@ -42,31 +42,24 @@
                     <div>
                         <div class="box">
                             <div class="image fit">
-                                <a asp-route-id="@article.Id" asp-controller="Article" asp-action="ViewArticle">
-                                    <img src="data:image/jpeg;base64,@article.ImageBase64" alt="" style="object-fit: cover; height: 40vh;" />
+                                <a asp-route-id="@article.DocumentId" asp-controller="Article" asp-action="ViewArticle">
+                                    <img src="@article.ImageBase64" alt="" style="object-fit: cover; height: 40vh;" />
                                 </a>
                             </div>
                             <div class="content">
                                 <header class="align-center">
-                                    <p>@article.Category.Key</p>
+                                    <p>Здоровье</p>
                                     <h2>@article.Title</h2>
                                 </header>
                                 <p>
-                                    @if (@article.Content.Length > 200)
-                                    {
-                                        @Html.Raw(string.Format("{0}...", article.Content.Substring(0, 200).TrimEnd()));
-                                    }
-                                    else
-                                    {
-                                        @Html.Raw(article.Content);
-                                    }
+                                    @Html.Raw(article.Content)
                                 </p>
                                 <footer class="align-center">
-                                    <a class="button alt" asp-route-id="@article.Id" asp-controller="Article" asp-action="ViewArticle">Читать далее</a>
-                                    @if (user != null && user.IsAdministrator)
+                                    <a class="button alt" asp-route-id="@article.DocumentId" asp-controller="Article" asp-action="ViewArticle">Читать далее</a>
+                                    @*@if (user != null && user.IsAdministrator)
                                     {
                                         <a class="button special" asp-route-id="@article.Id" asp-controller="Article" asp-action="EditArticle">Редактировать</a>
-                                    }
+                                    }*@
                                 </footer>
                             </div>
                         </div>

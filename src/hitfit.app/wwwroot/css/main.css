@@ -3691,7 +3691,6 @@ body.subpage {
     left: 0;
     line-height: 3.25em;
     position: fixed;
-    text-align: right;
     top: 0;
     width: 100%;
     z-index: 10001;
@@ -3743,6 +3742,7 @@ body.subpage {
         #header > a[href="#menu"] {
             text-decoration: none;
             -webkit-tap-highlight-color: transparent;
+            float: right;
         }
 
             #header > a[href="#menu"]:before {
@@ -3765,6 +3765,31 @@ body.subpage {
             margin-left: 0.5em;
         }
 
+        #header > a[href="#admin"] {
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+            #header > a[href="#admin"]:before {
+                content: "";
+                -moz-osx-font-smoothing: grayscale;
+                -webkit-font-smoothing: antialiased;
+                font-family: FontAwesome;
+                font-style: normal;
+                font-weight: normal;
+                text-transform: none !important;
+            }
+
+            #header > a[href="#admin"]:before {
+                margin: 0 0.5em 0 0;
+            }
+
+        #header > a + a[href="#admin"]:last-child {
+            border-right: solid 1px rgba(0, 0, 0, 0.15);
+            padding-right: 1.25em;
+            margin-right: 0.5em;
+        }
+
         #header > a:last-child {
             padding-right: 1.25em;
         }
@@ -3778,6 +3803,11 @@ body.subpage {
         #header > a + a[href="#menu"]:last-child {
             padding-left: 1em;
             margin-left: 0.25em;
+        }
+
+        #header > a + a[href="#admin"]:last-child {
+            padding-right: 1em;
+            margin-right: 0.25em;
         }
 
         #header > a:last-child {
@@ -3861,7 +3891,7 @@ body.subpage {
     right: 0;
     top: 0;
     visibility: hidden;
-    width: 20rem;
+    width: 15rem;
     z-index: 10002;
 }
 
@@ -3961,6 +3991,134 @@ body.subpage {
 @media screen and (max-width: 736px) {
 
     #menu {
+        padding: 2.5rem 1.75rem;
+    }
+}
+
+/* Admin menu */
+
+#admin {
+    -moz-transform: translateX(-20rem);
+    -webkit-transform: translateX(-20rem);
+    -ms-transform: translateX(-20rem);
+    transform: translateX(-20rem);
+    -moz-transition: -moz-transform 0.5s ease, box-shadow 0.5s ease, visibility 0.5s;
+    -webkit-transition: -webkit-transform 0.5s ease, box-shadow 0.5s ease, visibility 0.5s;
+    -ms-transition: -ms-transform 0.5s ease, box-shadow 0.5s ease, visibility 0.5s;
+    transition: transform 0.5s ease, box-shadow 0.5s ease, visibility 0.5s;
+    -webkit-overflow-scrolling: touch;
+    background: rgba(0, 0, 0, 0.95);
+    box-shadow: none;
+    color: #000;
+    height: 100%;
+    max-width: 80%;
+    overflow-y: auto;
+    padding: 3rem 2rem;
+    position: fixed;
+    left: 0;
+    top: 0;
+    visibility: visible;
+    width: 15rem;
+    z-index: 10002;
+}
+
+    #admin > ul {
+        margin: 1em 0 0 0;
+    }
+
+        #admin > ul.links {
+            list-style: none;
+            padding: 0;
+        }
+
+            #admin > ul.links > li {
+                padding: 0;
+                text-align: right;
+            }
+
+                #admin > ul.links > li > a:not(.button) {
+                    border: 0;
+                    border-top: solid 1px rgba(255, 255, 255, 0.125);
+                    color: rgba(255, 255, 255, 0.5);
+                    display: block;
+                    line-height: 3.5rem;
+                    text-decoration: none;
+                    text-transform: uppercase;
+                }
+
+                    #admin > ul.links > li > a:not(.button):hover {
+                        color: #FFF;
+                    }
+
+                #admin > ul.links > li > .button {
+                    display: block;
+                    margin: 0.5rem 0 0 0;
+                }
+
+                #admin > ul.links > li:first-child > a:not(.button) {
+                    border-top: 0 !important;
+                }
+
+    #admin .close {
+        text-decoration: none;
+        -moz-transition: color 0.2s ease-in-out;
+        -webkit-transition: color 0.2s ease-in-out;
+        -ms-transition: color 0.2s ease-in-out;
+        transition: color 0.2s ease-in-out;
+        -webkit-tap-highlight-color: transparent;
+        border: 0;
+        color: #999999;
+        cursor: pointer;
+        display: block;
+        height: 3.25rem;
+        line-height: 3.25rem;
+        padding-left: 1.25rem;
+        position: absolute;
+        left: 0;
+        text-align: left;
+        top: 0;
+        vertical-align: middle;
+        width: 7rem;
+    }
+
+        #admin .close:before {
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-font-smoothing: antialiased;
+            font-family: FontAwesome;
+            font-style: normal;
+            font-weight: normal;
+            text-transform: none !important;
+        }
+
+        #admin .close:before {
+            content: '\f00d';
+            font-size: 1.25rem;
+        }
+
+        #admin .close:hover {
+            color: #000;
+        }
+
+@media screen and (max-width: 736px) {
+
+    #admin .close {
+        height: 4rem;
+        line-height: 4rem;
+    }
+}
+
+#admin.visible {
+    -moz-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    -ms-transform: translateX(0);
+    transform: translateX(0);
+    box-shadow: 0 0 1.5rem 0 rgba(0, 0, 0, 0.2);
+    visibility: visible;
+}
+
+@media screen and (max-width: 736px) {
+
+    #admin {
         padding: 2.5rem 1.75rem;
     }
 }

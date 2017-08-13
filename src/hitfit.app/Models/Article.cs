@@ -13,6 +13,9 @@ namespace hitfit.app.Models
         public int AuthorId { get; set; }
         public int CreatorId { get; set; }
         public int CategoryId { get; set; }
+
+        [NotMapped]
+        public string DocumentId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public byte[] Image { get; set; }

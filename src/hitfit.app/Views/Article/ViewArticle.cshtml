@@ -17,7 +17,7 @@
     <div class="inner">
         <header class="align-center">
             <p>@article.Title</p>
-            <h2>@article.Category.Key</h2>
+            <h2>Здоровье</h2>
         </header>
     </div>
 </section>
@@ -25,20 +25,20 @@
 <div id="main" class="container">
     <div class="row 200%">
         <div class=" 12u$">
-            <span class="image left"><img src="data:image/jpeg;base64,@article.ImageBase64" alt=""/></span>
+            @*<span class="image left"><img src="@article.ImageBase64" alt=""/></span>
             <header>
                 <h2>@article.Title</h2>
-                <p>@article.Category.Key</p>
-            </header>
-            <p>@Html.Raw(article.Content.Replace(Environment.NewLine, "<br/>"))</p>
+                <p>Здоровье</p>
+            </header>*@
+            <p>@Html.Raw(article.Content)</p>
         </div>
-        @if (user != null && user.IsAdministrator)
+        @*@if (user != null && user.IsAdministrator)
         {
             <div class="row uniform">
                 <div class="6u$ 12u$(xsmall)">
                     <a class="button special" asp-route-id="@article.Id" asp-controller="Article" asp-action="EditArticle">Редактировать</a>
                 </div>
             </div>
-        }
+        }*@
     </div>
 </div>

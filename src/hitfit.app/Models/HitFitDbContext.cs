@@ -27,8 +27,15 @@ namespace hitfit.app.Models
                 //.Ignore(c => c.NormalizedUserName)
                 .Ignore(c => c.Claims);
 
+            modelBuilder.Entity<IdentityUserRole<int>>()
+                .HasKey(c => new {c.UserId, c.RoleId});
+
+            modelBuilder.Entity<Role>()
+                .Ignore(c => c.Claims)
+                .Ignore(c => c.ConcurrencyStamp);
+
             modelBuilder.Ignore<IdentityUserLogin<int>>();
-            modelBuilder.Ignore<IdentityUserRole<int>>();
+            //modelBuilder.Ignore<IdentityUserRole<int>>();
             modelBuilder.Ignore<IdentityUserToken<int>>();
 
             modelBuilder.Entity<UserDetails>()

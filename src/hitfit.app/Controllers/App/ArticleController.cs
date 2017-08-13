@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using hitfit.app.Models;
 using hitfit.app.Services;
@@ -7,16 +8,18 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using HtmlAgilityPack;
 
 namespace hitfit.app.Controllers.App
 {
     [Authorize]
     public class ArticleController : Controller
     {
-        private readonly ArticleService _articleService;
+        private readonly GoogleDriveArticleService _articleService;
         private readonly UserManager<User> _userManager;
 
-        public ArticleController(ArticleService articleService, UserManager<User> userManager)
+        public ArticleController(GoogleDriveArticleService articleService, UserManager<User> userManager)
         {
             _articleService = articleService;
             _userManager = userManager;
@@ -26,116 +29,104 @@ namespace hitfit.app.Controllers.App
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var articles = await _articleService.GetAllAsync();
-
-            foreach (var article in articles)
-            {
-                article.ImageBase64 = Convert.ToBase64String(article.Image);
-            }
+            var articles = await _articleService.GetArticlesAsync();
 
             ViewBag.Articles = articles;
-
+            
             return View();
         }
 
         [HttpGet("[controller]/{id}")]
         [AllowAnonymous]
-        public async Task<IActionResult> ViewArticle(int id)
+        public async Task<IActionResult> ViewArticle(string id)
         {
-            if (id == 0)
-            {
-                RedirectToAction("Index");
-            }
-
             var article = await _articleService.GetArticleAsync(id);
-
-            article.ImageBase64 = Convert.ToBase64String(article.Image);
 
             ViewBag.Article = article;
 
             return View();
         }
 
-        [HttpGet("[controller]/add")]
-        public async Task<IActionResult> AddArticle()
-        {
-            ViewBag.ArticleCategories = await _articleService.GetArticleCategoriesAsync();
+        //[HttpGet("[controller]/add")]
+        //public async Task<IActionResult> AddArticle()
+        //{
+        //    //ViewBag.ArticleCategories = await _articleService.GetArticleCategoriesAsync();
 
-            return View();
-        }
+        //    return View();
+        //}
 
-        [HttpPost("[controller]/add")]
-        public async Task<IActionResult> AddArticle(IFormFile file, string articleTitle, string articleSubTitle, string articleContent, int category, bool publish = false)
-        {
-            byte[] imageBytes;
+        //[HttpPost("[controller]/add")]
+        //public async Task<IActionResult> AddArticle(IFormFile file, string articleTitle, string articleSubTitle, string articleContent, int category, bool publish = false)
+        //{
+        //    byte[] imageBytes;
 
-            using (var ms = new MemoryStream())
-            {
-                await file.CopyToAsync(ms);
-                imageBytes = ms.ToArray();
-            }
+        //    using (var ms = new MemoryStream())
+        //    {
+        //        await file.CopyToAsync(ms);
+        //        imageBytes = ms.ToArray();
+        //    }
 
-            var author = await _userManager.FindByNameAsync(this.User.Identity.Name);
-            var creator = await _userManager.FindByNameAsync(this.User.Identity.Name);
+        //    var author = await _userManager.FindByNameAsync(this.User.Identity.Name);
+        //    var creator = await _userManager.FindByNameAsync(this.User.Identity.Name);
 
-            var article = new Article
-            {
-                AuthorId = author.Id,
-                CreatorId = creator.Id,
-                CategoryId = category,
-                Title = articleTitle,
-                Content = articleContent,
-                Image = imageBytes,
-                IsPublished = publish
-            };
+        //    var article = new Article
+        //    {
+        //        AuthorId = author.Id,
+        //        CreatorId = creator.Id,
+        //        CategoryId = category,
+        //        Title = articleTitle,
+        //        Content = articleContent,
+        //        Image = imageBytes,
+        //        IsPublished = publish
+        //    };
 
-            await _articleService.AddArticle(article);
+        //    await _articleService.AddArticle(article);
 
-            return RedirectToAction("Index");
-        }
+        //    return RedirectToAction("Index");
+        //}
 
-        [HttpGet("[controller]/{id}/edit")]
-        public async Task<IActionResult> EditArticle(int id)
-        {
-            if (id == 0)
-            {
-                RedirectToAction("AddArticle");
-            }
+        //[HttpGet("[controller]/{id}/edit")]
+        //public async Task<IActionResult> EditArticle(int id)
+        //{
+        //    if (id == 0)
+        //    {
+        //        RedirectToAction("AddArticle");
+        //    }
 
-            var article = await _articleService.GetArticleAsync(id);
-            article.ImageBase64 = Convert.ToBase64String(article.Image);
+        //    var article = await _articleService.GetArticleAsync(id);
+        //    article.ImageBase64 = Convert.ToBase64String(article.Image);
 
-            ViewBag.ArticleCategories = await _articleService.GetArticleCategoriesAsync();
-            ViewBag.Article = article;
+        //    ViewBag.ArticleCategories = await _articleService.GetArticleCategoriesAsync();
+        //    ViewBag.Article = article;
 
-            return View();
-        }
+        //    return View();
+        //}
 
-        [HttpPost("[controller]/{id}/edit")]
-        public async Task<IActionResult> EditArticle(int id, int categoryId, IFormFile file, string articleTitle,
-            string articleSubTitle, string articleContent, int category, bool publish = false)
-        {
-            byte[] imageBytes;
+        //[HttpPost("[controller]/{id}/edit")]
+        //public async Task<IActionResult> EditArticle(int id, int categoryId, IFormFile file, string articleTitle,
+        //    string articleSubTitle, string articleContent, int category, bool publish = false)
+        //{
+        //    byte[] imageBytes;
 
-            using (var ms = new MemoryStream())
-            {
-                await file.CopyToAsync(ms);
-                imageBytes = ms.ToArray();
-            }
+        //    using (var ms = new MemoryStream())
+        //    {
+        //        await file.CopyToAsync(ms);
+        //        imageBytes = ms.ToArray();
+        //    }
 
-            var article = new Article
-            {
-                Id = id,
-                CategoryId = category,
-                Title = articleTitle,
-                Content = articleContent,
-                Image = imageBytes,
-                IsPublished = publish
-            };
+        //    var article = new Article
+        //    {
+        //        Id = id,
+        //        CategoryId = category,
+        //        Title = articleTitle,
+        //        Content = articleContent,
+        //        Image = imageBytes,
+        //        IsPublished = publish
+        //    };
 
-            await _articleService.EditArticle(article);
+        //    await _articleService.EditArticle(article);
 
-            return RedirectToAction("ViewArticle", id);
-        }
+        //    return RedirectToAction("ViewArticle", id);
+        //}
     }
 }

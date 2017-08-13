@@ -24,7 +24,6 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="~/css/main.css" />
-        <link type="text/css" rel="stylesheet" href="~/lib/jodit/jodit.min.css">
         <link rel="stylesheet" type="text/css" href="~/css/droparea.css" />
     </environment>
     <environment names="Staging,Production">
@@ -36,21 +35,16 @@
 </head>
 <body style="overflow-x: hidden; ">
 <header id="header" class="alt">
-    @*@if (user != null && user.IsAdministrator)
+    @if (user != null && user.IsAdministrator)
     {
-        <div class="admin">
-            <a asp-area="" asp-controller="Home" asp-action="Index">Программы</a>
-            <a asp-area="" asp-controller="Home" asp-action="Index">Клиенты</a>
-            <a asp-area="" asp-controller="Home" asp-action="Index">Отчеты</a>
-        </div>
+        <a href="#admin">Администрирование</a>
     }
     else
     {
         <div class="logo">
             <a asp-area="" asp-controller="Home" asp-action="Index">Hit-Fit</a>
         </div>
-    }*@
-    @*<a href="#admin">Администрирование</a>*@
+    }
     <a href="#menu">Меню</a>
 </header>
 
@@ -59,18 +53,10 @@
         <li><a asp-area="" asp-controller="Home" asp-action="Index">Главная</a></li>
         <li><a asp-area="" asp-controller="Article" asp-action="Index">Статьи</a></li>
         <li><a asp-area="" asp-controller="Home" asp-action="Index">Программы</a></li>
-        <li><a asp-area="" asp-controller="Home" asp-action="Index">Результаты</a></li>
+        <li><a asp-area="" asp-controller="Result" asp-action="Index">Результаты</a></li>
         @if (SignInManager.IsSignedIn(User))
         {
-            @if (user != null && user.IsAdministrator)
-             {
-                 <li><a asp-area="" asp-controller="Administration" asp-action="Index">Администрирование</a></li>
-             }
-             else
-             {
-                 <li><a asp-area="" asp-controller="Profile" asp-action="Index">Профиль</a></li>
-             }
-
+            <li><a asp-area="" asp-controller="Profile" asp-action="Index">Профиль</a></li>
             <li><a asp-area="" asp-controller="Account" asp-action="Logout">Выйти</a></li>
         }
         else
@@ -81,34 +67,16 @@
     </ul>
 </nav>
     
-@*<nav id="admin">
+<nav id="admin">
     <ul class="links">
-        <li><a asp-area="" asp-controller="Home" asp-action="Index">Главная</a></li>
-        <li><a asp-area="" asp-controller="Article" asp-action="Index">Статьи</a></li>
         <li><a asp-area="" asp-controller="Home" asp-action="Index">Программы</a></li>
-        <li><a asp-area="" asp-controller="Home" asp-action="Index">Результаты</a></li>
-        @if (SignInManager.IsSignedIn(User))
-        {
-            @if (user != null && user.IsAdministrator)
-             {
-                 <li><a asp-area="" asp-controller="Administration" asp-action="Index">Администрирование</a></li>
-             }
-             else
-             {
-                 <li><a asp-area="" asp-controller="Profile" asp-action="Index">Профиль</a></li>
-             }
-
-            <li><a asp-area="" asp-controller="Account" asp-action="Logout">Выйти</a></li>
-        }
-        else
-        {
-            <li><a asp-area="" asp-controller="Account" asp-action="Login">Вход</a></li>
-            <li><a asp-area="" asp-controller="Account" asp-action="Register">Регистрация</a></li>
-        }
+        <li><a asp-area="" asp-controller="Home" asp-action="Index">Кураторы</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Index">Клиенты</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Index">Отчеты</a></li>
     </ul>
-</nav>*@
+</nav>
 
-<script src="~/js/jquery.min.js"></script>
+<script src="~/js/jquery.js"></script>
 <script src="~/js/jquery.scrollex.min.js"></script>
 <script src="~/js/skel.min.js"></script>
 <script src="~/js/util.js"></script>

@@ -290,7 +290,20 @@ var settings = {
 					resetScroll: true,
 					resetForms: true,
 					side: 'right'
-				});
+                });
+
+            // Admin menu.
+            $('#admin')
+                .append('<a href="#admin" class="close"></a>')
+                .appendTo($body)
+                .panel({
+                    delay: 500,
+                    hideOnClick: true,
+                    hideOnSwipe: true,
+                    resetScroll: true,
+                    resetForms: true,
+                    side: 'left'
+                });
 
 		// Header.
 			if (skel.vars.IEVersion < 9)

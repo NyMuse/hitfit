@@ -1,0 +1,23 @@
+﻿@using hitfit.app.Models
+@using System.Collections.Generic
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@{
+    User user = null;
+    if (SignInManager.IsSignedIn(User))
+    {
+        user = await UserManager.FindByNameAsync(User.Identity.Name);
+    }
+}
+
+<section id="One" class="wrapper style3">
+    <div class="inner">
+        <header class="align-center">
+            <p>Здесь описание программ</p>
+            <h2>Программы</h2>
+        </header>
+    </div>
+</section>

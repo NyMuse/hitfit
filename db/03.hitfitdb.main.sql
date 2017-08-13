@@ -21,6 +21,23 @@ CREATE TABLE public."Users"
 );
 ALTER TABLE public."Users" OWNER TO postgres;
 
+CREATE TABLE public."Roles"
+(
+  "Id" SERIAL PRIMARY KEY,
+  "Name" character varying(256),
+  "NormalizedName" character varying(256),
+  "ConcurrencyStamp" character varying(256)
+);
+ALTER TABLE public."Roles" OWNER TO postgres;
+
+CREATE TABLE public."UserRoles"
+(
+  "Id" SERIAL PRIMARY KEY,
+  "UserId" int,
+  "RoleId" int
+);
+ALTER TABLE public."UserRoles" OWNER TO postgres;
+
 CREATE TABLE public."UsersDetails"
 (
   "Id" SERIAL PRIMARY KEY,

@@ -38,10 +38,7 @@ namespace hitfit.app.Models
 
         [JsonProperty(Order = 9)]
         public string FirstName { get; set; }
-
-        [JsonProperty(Order = 10)]
-        public string MiddleName { get; set; }
-
+        
         [JsonProperty(Order = 11)]
         public string LastName { get; set; }
 

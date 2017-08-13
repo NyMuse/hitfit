@@ -80,6 +80,7 @@ namespace hitfit.app
             services.AddTransient<IClientService, HitFitServices>();
             
             services.AddTransient<ArticleService>();
+            services.AddTransient<GoogleDriveArticleService>();
 
             if (Configuration["ImageService"] == "DiskStorage")
             {

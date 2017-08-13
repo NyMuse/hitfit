@@ -1,0 +1,49 @@
+﻿@using hitfit.app.Models
+@using System.Collections.Generic
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@{
+    User user = null;
+    if (SignInManager.IsSignedIn(User))
+    {
+        user = await UserManager.FindByNameAsync(User.Identity.Name);
+    }
+}
+
+<script type="text/javascript">
+    $(function() {
+        var iframe = $('#ourframe', parent.document.body);
+        iframe.height($(document.body).height());
+    });
+</script>
+
+<script>
+    function resizeIframe(obj) {
+        obj.style.height = parent.document.body.scrollHeight * 2.5 + 'px';
+        obj.contentDocument.body.style.maxWidth = 'max-content';
+        obj.contentDocument.body.style.padding = '0';
+    }
+</script>
+
+<section id="One" class="wrapper style3">
+    <div class="inner">
+        <header class="align-center">
+            <p>Здесь описание программ</p>
+            <h2>Программы</h2>
+        </header>
+    </div>
+</section>
+
+<div id="main" class="container">
+<div class="row 200%">
+    <div class=" 12u$">
+        <p>
+            @Html.Raw(ViewBag.File);
+            @*<iframe frameborder="0" onload="resizeIframe(this)" style="width: -webkit-fill-available;" src="https://docs.google.com/document/d/1AgQf9ouZs5VlJ6Lye2b3AlcZN1uWAf3mC5uUBpD6g_U/pub?embedded=true"></iframe>*@
+        </p>
+    </div>
+</div>
+</div>
