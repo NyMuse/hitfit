@@ -1,35 +1,141 @@
-﻿@{
-    List<string> images = ViewBag.Images;
+﻿@using hitfit.app.Models
+
+@{
+    User user = ViewBag.Profile;
 }
 
-<section id="One" class="wrapper style3">
-    <div class="inner">
-        <header class="align-center">
-            <p>Профиль аккаунта</p>
-            <h2>Профиль</h2>
-        </header>
-    </div>
-</section>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#droparea').droparea();
+    });
+</script>
 
-<div>
-    <form method="post" enctype="multipart/form-data" asp-controller="Profile" asp-action="Index">
-        <div class="form-group">
-            <div class="col-md-10">
-                <p>Upload one or more files using this form:</p>
-                <input type="file" name="images" multiple accept="image/*" />
+<header style="height: 44px; background-color: black">
+</header>
+<div id="main" class="container">
+    <form id="personalDataForm" name="personalDataForm" method="post" asp-controller="Profile" asp-action="Index" enctype="multipart/form-data">
+        <div class="row 100%">
+            <div class="6u 12u$(small)">
+                <div id="droparea" name="droparea">
+                    <span class="image profile">
+                        @if (user.Photo != null)
+                        {
+                            var profilePhoto = Convert.ToBase64String(user.Photo);
+                            <img alt="" src="data:image/jpeg;base64,@profilePhoto" id="file_preview" />
+                        }
+                        else
+                        {
+                            <img alt="" src="~/images/select_image.png" id="file_preview"/>
+                        }
+                    </span>
+
+                </div>
+                <input type="file" name="file" id="file" accept="image/*" style="display: none;">
+            </div>
+            <div class="6u$ 12u$(small)">
+                <div class="row">
+                    <div class="4u 8u$(xsmall)">
+                        <b>Имя: </b>
+                    </div>
+                    <div class="8u$">
+                        <a id="firstNameLabel" name="firstNameLabel" onclick="hide_label(this)">@user.FirstName</a>
+                        <input type="text" id="firstNameInput" name="firstNameInput" value="@user.FirstName" style="display: none; height: 25px" onfocusout="hide_input(this)" />
+                    </div>
+                    <div class="4u 8u$(xsmall)">
+                        <b>Фамилия: </b>
+                    </div>
+                    <div class="8u$">
+                        <a id="lastNameLabel" name="lastNameLabel" onclick="hide_label(this)">@user.LastName</a>
+                        <input type="text" id="lastNameInput" name="lastNameInput" value="@user.LastName" style="display: none; height: 25px" onfocusout="hide_input(this)" />
+                    </div>
+                    <div class="4u 8u$(xsmall)">
+                        <b>E-Mail: </b>
+                    </div>
+                    <div class="8u$">
+                        @user.Email
+                    </div>
+                    <div class="4u 8u$(xsmall)">
+                        <b>Телефон: </b>
+                    </div>
+                    <div class="8u$">
+                        <a id="phoneNumberLabel" name="phoneNumberLabel" onclick="hide_label(this)">@user.PhoneNumber</a>
+                        <input type="text" id="phoneNumberInput" name="phoneNumberInput" value="@user.PhoneNumber" style="display: none; height: 25px" onfocusout="hide_input(this)" />
+                    </div>
+                    <div class="4u 8u$(xsmall)">
+                        <b>Дата рождения: </b>
+                    </div>
+                    <div class="8u$">
+                        <a id="birthdayLabel" name="birthdayLabel" onclick="hide_label(this)">@user.Birthday.Date.ToString("yyyy-MM-dd")</a>
+                        <input type="date" id="birthdayInput" name="birthdayInput" value="@user.Birthday.Date.ToString("yyyy-MM-dd")" style="display: none; height: 25px" onfocusout="hide_input(this)" />
+                    </div>
+                    <div class="4u 8u$(xsmall)">
+                        <b>О себе: </b>
+                    </div>
+                    <div class="8u$">
+                        <a id="notesLabel" name="notesLabel" onclick="hide_label(this)">
+                            @{
+                                var notes = (string.IsNullOrEmpty(@user.Notes)) ? @"Напишите о себе" : user.Notes;
+                            }
+                            @notes
+                        </a>
+                        <textarea name="notesInput" id="notesInput" rows="6" style="display: none;" onfocusout="hide_input(this)" >@user.Notes</textarea>
+                    </div>
+                    <div>
+                        @Html.ActionLink("Обновить", "UpdatePersonalData", "Profile", null, new {id = "updatePersonalData", @class = "button special small fit"})
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-md-10">
-                <input type="submit" value="upload" />
+    </form>
+    
+    <form>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                <tr>
+                    <th>Рост</th>
+                    <th>Вес</th>
+                    <th>Запястье</th>
+                    <th>Рука</th>
+                    <th>Грудь</th>
+                    <th>Верх талии</th>
+                    <th>Середина талии</th>
+                    <th>Низ талии</th>
+                    <th>Якодицы</th>
+                    <th>Бедра</th>
+                    <th>Нога</th>
+                    <th>Колено</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (UserMeasurements measurements in user.UserMeasurements)
+                {
+                    <tr>
+                        <th>@measurements.Growth</th> @*growth*@
+                        <th>@measurements.Weight</th> @*weight*@
+                        <th>@measurements.Wrist</th> @*wrist*@
+                        <th>@measurements.Hand</th> @*hand*@
+                        <th>@measurements.Breast</th> @*breast*@
+                        <th>@measurements.WaistTop</th> @*waisttop*@
+                        <th>@measurements.WaistMiddle</th> @*waistmid*@
+                        <th>@measurements.WaistBottom</th> @*waistbottom*@
+                        <th>@measurements.Buttocks</th> @*buttocks*@
+                        <th>@measurements.Thighs</th> @*things*@
+                        <th>@measurements.Leg</th> @*leg*@
+                        <th>@measurements.KneeTop</th> @*kneetop*@
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <div>
+                @Html.ActionLink("Добавить", "UpdatePersonalData", "Profile", null, new { id = "updatePersonalDatappppp", @class = "button special small fit" })
+        
+
             </div>
         </div>
     </form>
 </div>
 
-@foreach (var image in images)
-{
-    <div class="image fit">
-        <img src="data:image/jpeg;base64,@image" alt="" style="object-fit: cover; height: 40vh;" />
-    </div>
-}
+<script src="~/js/profile.js"></script>

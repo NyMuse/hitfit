@@ -1,17 +1,17 @@
-﻿@using hitfit.app.Models
-@using System.Collections.Generic
-@using Microsoft.AspNetCore.Identity
+﻿@*@using hitfit.app.Models
+    @using System.Collections.Generic
+    @using Microsoft.AspNetCore.Identity
 
-@inject SignInManager<User> SignInManager
-@inject UserManager<User> UserManager
+    @inject SignInManager<User> SignInManager
+    @inject UserManager<User> UserManager
 
-@{
-    User user = null;
-    if (SignInManager.IsSignedIn(User))
-    {
-        user = await UserManager.FindByNameAsync(User.Identity.Name);
-    }
-}
+    @{
+        User user = null;
+        if (SignInManager.IsSignedIn(User))
+        {
+            user = await UserManager.FindByNameAsync(User.Identity.Name);
+        }
+    }*@
 
 <script type="text/javascript">
     $(function() {

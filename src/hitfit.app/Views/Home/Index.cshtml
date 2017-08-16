@@ -4,7 +4,7 @@
 <!-- Banner -->
 <section class="banner full">
     <article>
-        <img src="images/slide06.jpg" alt="" />
+        <img src="~/images/slide06.jpg" alt="" />
         <div class="inner">
             <header>
                 <p>Hit-Fit - это больше, чем спорт</p>
@@ -13,7 +13,7 @@
         </div>
     </article>
     <article>
-        <img src="images/slide07.jpg" alt="" />
+        <img src="~/images/slide07.jpg" alt="" />
         <div class="inner">
             <header>
                 <p>Hit-Fit - это целая культура</p>
@@ -22,7 +22,7 @@
         </div>
     </article>
     <article>
-        <img src="images/slide08.jpg" alt="" />
+        <img src="~/images/slide08.jpg" alt="" />
         <div class="inner">
             <header>
                 <p>Hit-Fit - это про настоящие достижения внутри себя</p>
@@ -31,7 +31,7 @@
         </div>
     </article>
     <article>
-        <img src="images/slide09.jpg" alt="" />
+        <img src="~/images/slide09.jpg" alt="" />
         <div class="inner">
             <header>
                 <p>Hit-Fit - это стиль жизни</p>
@@ -54,28 +54,20 @@
                     <div>
                         <div class="box">
                             <div class="image fit">
-                                <a asp-route-id="@article.Id" asp-controller="Article" asp-action="ViewArticle">
-                                    <img src="data:image/jpeg;base64,@article.ImageBase64" alt="" style="object-fit: cover; height: 40vh;" />
+                                <a asp-route-id="@article.DocumentId" asp-controller="Article" asp-action="ViewArticle">
+                                    <img src="@article.HeaderImage" alt="" style="object-fit: cover; height: 40vh;" />
                                 </a>
                             </div>
                             <div class="content">
                                 <header class="align-center">
-                                    <p>@article.Category.Key</p>
+                                    <p>Здоровье</p>
                                     <h2>@article.Title</h2>
                                 </header>
                                 <p>
-                                    @if (@article.Content.Length > 200)
-                                    {
-                                        @(String.Format("{0}...", article.Content.Substring(0, 200).TrimEnd()));
-                                    }
-                                    else
-                                    {
-                                        @article.Content
-                                        ;
-                                    }
+                                    @article.Content
                                 </p>
                                 <footer class="align-center">
-                                    <a class="button alt" asp-route-id="@article.Id" asp-controller="Article" asp-action="ViewArticle">Читать далее</a>
+                                    <a class="button alt" asp-route-id="@article.DocumentId" asp-controller="Article" asp-action="ViewArticle">Читать далее</a>
                                 </footer>
                             </div>
                         </div>

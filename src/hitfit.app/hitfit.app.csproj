@@ -16,13 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="wwwroot\css\droparea.css" />
-    <Content Include="wwwroot\css\login.css" />
-    <Content Include="wwwroot\css\login.scss" />
-    <Content Include="wwwroot\js\droparea.js" />
-    <Content Include="wwwroot\js\login.js" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Google.Apis.Drive.v3" Version="1.28.0.946" />
     <PackageReference Include="Google.Apis.Plus.v1" Version="1.28.0.928" />
     <PackageReference Include="HtmlAgilityPack" Version="1.5.1" />

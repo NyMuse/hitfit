@@ -27,7 +27,6 @@ namespace hitfit.app.Controllers.Api
         public IEnumerable<User> GetUsers()
         {
             return _context.Users
-                .Include(u => u.Details)
                 .Include(u => u.UserPrograms)
                 .Include(u => u.UserMeasurements)
                 .Include(u => u.Reports);
@@ -45,7 +44,6 @@ namespace hitfit.app.Controllers.Api
             }
 
             var user = await _context.Users
-                .Include(u => u.Details)
                 .Include(u => u.UserPrograms)
                 .Include(u => u.UserMeasurements)
                 .Include(u => u.Reports)

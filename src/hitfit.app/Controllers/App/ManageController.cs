@@ -12,11 +12,8 @@ namespace hitfit.app.Controllers.App
 {
     public class ManageController : Controller
     {
-        private readonly IDbImageService _imageService;
-
-        public ManageController(IDbImageService imageService)
+        public ManageController()
         {
-            _imageService = imageService;
         }
 
         [HttpGet]
@@ -28,31 +25,31 @@ namespace hitfit.app.Controllers.App
         [HttpPost]
         public async Task<IActionResult> UploadImages(List<IFormFile> images)
         {
-            if (images != null)
-            {
-                foreach (var image in images)
-                {
-                    if (image.Length > 0)
-                    {
-                        using (var ms = new MemoryStream())
-                        {
-                            await image.CopyToAsync(ms);
-                            var imageBytes = ms.ToArray();
+            //if (images != null)
+            //{
+            //    foreach (var image in images)
+            //    {
+            //        if (image.Length > 0)
+            //        {
+            //            using (var ms = new MemoryStream())
+            //            {
+            //                await image.CopyToAsync(ms);
+            //                var imageBytes = ms.ToArray();
 
-                            var imageObject = new ImageObject
-                            {
-                                RelationType = "User",
-                                OwnerId = 1,
-                                Image = imageBytes
-                            };
+            //                var imageObject = new ImageObject
+            //                {
+            //                    RelationType = "User",
+            //                    OwnerId = 1,
+            //                    Image = imageBytes
+            //                };
 
-                            await _imageService.SaveImageAsync(imageObject);
-                        }
-                    }
-                }
+            //                await _imageService.SaveImageAsync(imageObject);
+            //            }
+            //        }
+            //    }
 
-                return Ok();
-            }
+            //    return Ok();
+            //}
 
             return View();
         }

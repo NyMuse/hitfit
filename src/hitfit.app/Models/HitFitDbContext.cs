@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using hitfit.app.Models.Dictionaries;
+﻿using hitfit.app.Models.Dictionaries;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,30 +15,26 @@ namespace hitfit.app.Models
         {
             modelBuilder.HasDefaultSchema("public");
 
-            modelBuilder.Entity<User>()
-                .Ignore(c => c.Roles)
+            modelBuilder.Entity<User>().ForNpgsqlToTable("users")
                 .Ignore(c => c.TwoFactorEnabled)
                 .Ignore(c => c.ConcurrencyStamp)
-                //.Ignore(c => c.NormalizedEmail)
                 .Ignore(c => c.SecurityStamp)
-                //.Ignore(c => c.NormalizedUserName)
                 .Ignore(c => c.Claims);
 
-            modelBuilder.Entity<IdentityUserRole<int>>()
+            modelBuilder.Entity<IdentityUserRole<int>>().ForNpgsqlToTable("userroles")
                 .HasKey(c => new {c.UserId, c.RoleId});
 
-            modelBuilder.Entity<Role>()
+            modelBuilder.Entity<IdentityUserRole<int>>().Property(p => p.UserId).ForNpgsqlHasColumnName("userid");
+            modelBuilder.Entity<IdentityUserRole<int>>().Property(p => p.RoleId).ForNpgsqlHasColumnName("roleid");
+
+            modelBuilder.Entity<Role>().ForNpgsqlToTable("roles")
                 .Ignore(c => c.Claims)
                 .Ignore(c => c.ConcurrencyStamp);
 
             modelBuilder.Ignore<IdentityUserLogin<int>>();
-            //modelBuilder.Ignore<IdentityUserRole<int>>();
             modelBuilder.Ignore<IdentityUserToken<int>>();
 
-            modelBuilder.Entity<UserDetails>()
-                .HasOne(u => u.User)
-                .WithOne(d => d.Details)
-                .HasForeignKey<UserDetails>(u => u.UserId);
+            modelBuilder.Entity<UserProgram>().ForNpgsqlToTable("userprograms");
 
             modelBuilder.Entity<UserProgram>()
                 .HasOne(u => u.User)
@@ -53,10 +46,13 @@ namespace hitfit.app.Models
                 .WithMany(p => p.UserPrograms)
                 .HasForeignKey(p => p.ProgramId);
 
-            modelBuilder.Entity<UserMeasurements>()
+            modelBuilder.Entity<UserMeasurements>().ForNpgsqlToTable("usermeasurements")
                 .HasOne(u => u.User)
                 .WithMany(um => um.UserMeasurements)
                 .HasForeignKey(um => um.UserId);
+
+            modelBuilder.Entity<Program>().ForNpgsqlToTable("programs");
+            modelBuilder.Entity<Report>().ForNpgsqlToTable("reports");
 
             modelBuilder.Entity<Report>()
                 .HasOne(u => u.User)
@@ -67,29 +63,15 @@ namespace hitfit.app.Models
                 .HasOne(u => u.UserProgram)
                 .WithMany(r => r.Reports)
                 .HasForeignKey(r => r.UserProgramId);
-
-            modelBuilder.Entity<Article>()
-                .HasOne(u => u.Author)
-                .WithMany(a => a.Articles)
-                .HasForeignKey(a => a.AuthorId);
-
-            modelBuilder.Entity<Article>()
-                .HasOne(u => u.Category)
-                .WithMany(a => a.Articles)
-                .HasForeignKey(u => u.CategoryId);
         }
 
         public virtual DbSet<Program> Programs { get; set; }
         public virtual DbSet<Report> Reports { get; set; }
-        public virtual DbSet<UserDetails> UsersDetails { get; set; }
         public virtual DbSet<UserMeasurements> UsersMeasurements { get; set; }
         public virtual DbSet<UserProgram> UsersPrograms { get; set; }
-        public virtual DbSet<ImageObject> Images { get; set; }
-        public virtual DbSet<Article> Articles { get; set; }
 
         public virtual DbSet<MeasurementType> MeasurementTypes { get; set; }
         public virtual DbSet<ProgramType> ProgramTypes { get; set; }
         public virtual DbSet<ReportType> ReportTypes { get; set; }
-        public virtual DbSet<ArticleCategory> ArticleCategories { get; set; }
     }
 }

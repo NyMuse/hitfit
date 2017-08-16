@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Google.Apis.Auth.OAuth2;
-using Google.Apis.Discovery;
 using Google.Apis.Drive.v3;
 using Google.Apis.Services;
 using hitfit.app.Models;
@@ -30,7 +27,7 @@ namespace hitfit.app.Services
             string[] Scopes = new[] { DriveService.Scope.DriveReadonly };
             UserCredential credential;
 
-            using (var stream = new FileStream("google_credentials.json",
+            using (var stream = new FileStream("appsettings.json",
                 FileMode.Open, FileAccess.Read))
             {
                 credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
@@ -92,7 +89,7 @@ namespace hitfit.app.Services
 
             Article article = new Article
             {
-                ImageBase64 = image,
+                HeaderImage = image,
                 Content = preview ? text.Length > 200 ? text.Substring(0, 200) + "..." : text : docHtml
             };
 

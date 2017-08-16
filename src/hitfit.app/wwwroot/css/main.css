@@ -2317,6 +2317,14 @@ input[type="radio"]:focus + label:before {
         max-width: 40%;
     }
 
+    .image.profile {
+        #width: 100%;
+        #width: 55vh;
+        #min-height: 55vh;
+        cursor: pointer;
+        border: thin dashed #ccc;
+    }
+
         .image.left img, .image.right img {
             width: 100%;
         }
@@ -2343,13 +2351,13 @@ input[type="radio"]:focus + label:before {
             width: 100%;
         }
 
-    .image.main {
+    .image.main, image.profile {
         display: block;
         margin: 0 0 3rem 0;
         width: 100%;
     }
 
-        .image.main img {
+        .image.main img, .image.profile img {
             width: 100%;
         }
 

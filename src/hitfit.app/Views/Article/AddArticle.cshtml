@@ -21,10 +21,8 @@
     <form method="post" enctype="multipart/form-data" asp-controller="Article" asp-action="AddArticle">
         <div class="12u$(medium)" id="droparea" name="droparea" >
             <span class="image fit" style="border: thin dashed #ccc; min-height: 150px; cursor: pointer">
-                @*<span id="select_img" style="position: absolute; top: 70px" align="center">Выберите изображение</span>*@
                 <img alt="" id="file_preview"/>
             </span>
-            
         </div>
         <input type="file" name="file" id="file" accept="image/*" style="display: none;">
         <div class="row uniform">

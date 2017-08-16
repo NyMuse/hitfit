@@ -44,14 +44,14 @@ namespace hitfit.app.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = null)
         {
             ViewData["ErrorMessage"] = null;
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(string username, string password, bool remember = false)
+        public async Task<IActionResult> Login(string username, string password, bool remember = false, string returnUrl = null)
         {
             if (this.Request.Form.ContainsKey("submit.Login"))
             {
@@ -67,7 +67,7 @@ namespace hitfit.app.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToLocal(returnUrl);
                 }
                 
                 if (result.IsLockedOut)
@@ -188,6 +188,18 @@ namespace hitfit.app.Controllers
 
             ViewData["ErrorMessage"] = null;
             return View();
+        }
+
+        private IActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
     }
 }

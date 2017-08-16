@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using hitfit.app.Managers;
 using hitfit.app.Models;
 using hitfit.app.Services;
 using Microsoft.AspNetCore.Builder;
@@ -76,11 +77,12 @@ namespace hitfit.app
                 options.User.RequireUniqueEmail = true;
             });
 
-            services.AddTransient<IDbImageService, HitFitServices>();
+            //services.AddTransient<IDbImageService, HitFitServices>();
             services.AddTransient<IClientService, HitFitServices>();
-            
-            services.AddTransient<ArticleService>();
+
+            services.AddTransient<MeasurementsManager>();
             services.AddTransient<GoogleDriveArticleService>();
+            services.AddTransient<ProfileService>();
 
             if (Configuration["ImageService"] == "DiskStorage")
             {

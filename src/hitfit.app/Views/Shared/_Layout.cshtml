@@ -13,6 +13,34 @@
     }
 }
 
+<environment names="Development">
+    @*<script src="~/lib/jquery/dist/jquery.js"></script>*@
+    
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/jquery.scrollex.min.js"></script>
+    <script src="~/js/skel.min.js"></script>
+    <script src="~/js/util.js"></script>
+    <script src="~/js/main.js"></script>
+    <script src="~/js/droparea.js"></script>
+</environment>
+<environment names="Staging,Production">
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery"
+            crossorigin="anonymous"
+            integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+    </script>
+    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+            crossorigin="anonymous"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+    </script>
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
+</environment>
+
+@RenderSection("Scripts", required: false)
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +63,7 @@
 </head>
 <body style="overflow-x: hidden; ">
 <header id="header" class="alt">
-    @if (user != null && user.IsAdministrator)
+    @if (user != null && await UserManager.IsInRoleAsync(user, "admin"))
     {
         <a href="#admin">Администрирование</a>
     }
@@ -54,7 +82,7 @@
         <li><a asp-area="" asp-controller="Article" asp-action="Index">Статьи</a></li>
         <li><a asp-area="" asp-controller="Home" asp-action="Index">Программы</a></li>
         <li><a asp-area="" asp-controller="Result" asp-action="Index">Результаты</a></li>
-        @if (SignInManager.IsSignedIn(User))
+        @if (user != null)
         {
             <li><a asp-area="" asp-controller="Profile" asp-action="Index">Профиль</a></li>
             <li><a asp-area="" asp-controller="Account" asp-action="Logout">Выйти</a></li>
@@ -76,14 +104,9 @@
     </ul>
 </nav>
 
-<script src="~/js/jquery.js"></script>
-<script src="~/js/jquery.scrollex.min.js"></script>
-<script src="~/js/skel.min.js"></script>
-<script src="~/js/util.js"></script>
-<script src="~/js/main.js"></script>
+
            
 <div>
-    
     @RenderBody()
     <!-- Footer -->
     <footer id="footer">
@@ -99,28 +122,5 @@
         </div>
     </footer>
 </div>
-
-<environment names="Development">
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script type="text/javascript" src="~/js/droparea.js"></script>
-    </environment>
-<environment names="Staging,Production">
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-            asp-fallback-test="window.jQuery"
-            crossorigin="anonymous"
-            integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-    </script>
-    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-            crossorigin="anonymous"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-    </script>
-    <script src="~/js/site.min.js" asp-append-version="true"></script>
-</environment>
-
-    @RenderSection("Scripts", required: false)
 </body>
 </html>

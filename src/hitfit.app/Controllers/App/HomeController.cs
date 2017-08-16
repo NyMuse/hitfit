@@ -16,21 +16,21 @@ namespace hitfit.app.Controllers.App
     //[Authorize]
     public class HomeController : Controller
     {
-        private readonly ArticleService _articleService;
+        private readonly GoogleDriveArticleService _articleService;
 
-        public HomeController(ArticleService articleService)
+        public HomeController(GoogleDriveArticleService articleService)
         {
             _articleService = articleService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var articles = await _articleService.GetRandomAsync(2);
+            var articles = await _articleService.GetArticlesAsync(4);
             
-            foreach (var article in articles)
-            {
-                article.ImageBase64 = Convert.ToBase64String(article.Image);
-            }
+            //foreach (var article in articles)
+            //{
+            //    article.ImageBase64 = Convert.ToBase64String(article.Image);
+            //}
 
             ViewBag.Articles = articles;
 

@@ -10,7 +10,7 @@ namespace hitfit.app.Services
 {
     public interface IImageService
     {
-        Task SaveImagesToDiskAsync(int userId, ImageRelationType relationType, int ownerId, List<IFormFile> images);
+        Task SaveImagesToDiskAsync(int userId, ImageRelationType relationType, int ownerId, List<UploadImage> images);
 
         Task<List<string>> GetImagesFromDiskAsync(int userId, ImageRelationType relationType, int ownerId);
     }

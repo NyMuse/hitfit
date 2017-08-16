@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace hitfit.app.Services
 {
-    public class HitFitServices : IDbImageService, IClientService
+    public class HitFitServices : IClientService
     {
         private readonly HitFitDbContext _context;
 
@@ -16,28 +16,28 @@ namespace hitfit.app.Services
             _context = context;
         }
 
-        public async Task<int> SaveImageAsync(ImageObject image)
-        {
-            await _context.Images.AddAsync(image);
-            await _context.SaveChangesAsync();
+        //public async Task<int> SaveImageAsync(ImageObject image)
+        //{
+        //    await _context.Images.AddAsync(image);
+        //    await _context.SaveChangesAsync();
 
-            return image.Id;
-        }
+        //    return image.Id;
+        //}
 
-        public async Task<ImageObject> GetImageAsync(int id)
-        {
-            return await _context.Images.FirstOrDefaultAsync(i => i.Id.Equals(id));
-        }
+        //public async Task<ImageObject> GetImageAsync(int id)
+        //{
+        //    return await _context.Images.FirstOrDefaultAsync(i => i.Id.Equals(id));
+        //}
 
-        public async Task<List<ImageObject>> GetImagesAsync(int ownerId, string relationType)
-        {
-            if (ownerId == 0 || string.IsNullOrEmpty(relationType))
-            {
-                return null;
-            }
+        //public async Task<List<ImageObject>> GetImagesAsync(int ownerId, string relationType)
+        //{
+        //    if (ownerId == 0 || string.IsNullOrEmpty(relationType))
+        //    {
+        //        return null;
+        //    }
 
-            return await _context.Images.Where(i => i.OwnerId.Equals(ownerId) && i.RelationType.Equals(relationType)).ToListAsync();
-        }
+        //    return await _context.Images.Where(i => i.OwnerId.Equals(ownerId) && i.RelationType.Equals(relationType)).ToListAsync();
+        //}
 
 
 
@@ -165,7 +165,7 @@ namespace hitfit.app.Services
             entity.WaistMiddle = userMeasurements.WaistMiddle;
             entity.WaistBottom = userMeasurements.WaistBottom;
             entity.Buttocks = userMeasurements.Buttocks;
-            entity.Things = userMeasurements.Things;
+            entity.Thighs = userMeasurements.Thighs;
             entity.Leg = userMeasurements.Leg;
             entity.KneeTop = userMeasurements.KneeTop;
 

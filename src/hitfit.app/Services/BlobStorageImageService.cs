@@ -18,7 +18,7 @@ namespace hitfit.app.Services
             _hostingEnvironment = hostingEnvironment;
         }
 
-        public async Task SaveImagesToDiskAsync(int userId, ImageRelationType relationType, int ownerId, List<IFormFile> images)
+        public async Task SaveImagesToDiskAsync(int userId, ImageRelationType relationType, int ownerId, List<UploadImage> images)
         {
             string contentRootPath = _hostingEnvironment.ContentRootPath;
             var userPath = Path.Combine(contentRootPath, "uploads", userId.ToString());
@@ -28,16 +28,23 @@ namespace hitfit.app.Services
 
             foreach (var image in images)
             {
-                if (image.Length > 0)
+                if (image.Image.Length > 0)
                 {
                     var extension = Path.GetExtension(image.FileName);
                     var fileName = Guid.NewGuid().ToString() + extension;
 
                     var filePath = Path.Combine(path, fileName);
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+
+                    using (var sourceStream = File.Open(filePath, FileMode.OpenOrCreate))
                     {
-                        await image.CopyToAsync(fileStream);
+                        sourceStream.Seek(0, SeekOrigin.End);
+                        await sourceStream.WriteAsync(image.Image, 0, image.Image.Length);
                     }
+
+                    //using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    //{
+                    //    await image.CopyToAsync(fileStream);
+                    //}
                 }
             }
         }
