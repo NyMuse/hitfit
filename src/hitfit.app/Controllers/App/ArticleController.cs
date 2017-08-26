@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using hitfit.app.Models;
 using hitfit.app.Services;
@@ -19,9 +20,9 @@ namespace hitfit.app.Controllers.App
         private readonly GoogleDriveArticleService _articleService;
         private readonly UserManager<User> _userManager;
 
-        public ArticleController(GoogleDriveArticleService articleService, UserManager<User> userManager)
+        public ArticleController(UserManager<User> userManager)
         {
-            _articleService = articleService;
+            //_articleService = new GoogleDriveArticleService(new CancellationToken(), this);
             _userManager = userManager;
         }
 

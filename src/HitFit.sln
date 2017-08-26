@@ -1,17 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hitfit.app", "hitfit.app\hitfit.app.csproj", "{53CA4F85-EC23-4A01-BF24-A118B5C11E71}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9D2800C1-4BCF-49C2-ACFB-F4FDC34D2242}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hitfit.tests.api", "hitfit.tests.api\hitfit.tests.api.csproj", "{464E16B9-0FEA-4D2A-B9B4-3DBAFBDC0DD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hitfit.tests.api", "hitfit.tests.api\hitfit.tests.api.csproj", "{464E16B9-0FEA-4D2A-B9B4-3DBAFBDC0DD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hitfit.tests.app", "hitfit.tests.app\hitfit.tests.app.csproj", "{B0B4123E-92E3-40C7-8143-C816EFFDB284}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hitfit.tests.app", "hitfit.tests.app\hitfit.tests.app.csproj", "{B0B4123E-92E3-40C7-8143-C816EFFDB284}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hitfit.app.soon", "hitfit.app.soon\hitfit.app.soon.csproj", "{A3DB907B-837B-4C09-975C-3934CDFA9E1A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hitfit.google.auth.mvc", "google.auth\hitfit.google.auth.mvc.csproj", "{A7D6283E-EA0A-4784-AB82-8446540320C6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.Apis.Core", "Google.Apis.Core\Google.Apis.Core.csproj", "{0B17F13B-1904-49CA-AAD4-7B86EA2D8E2F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.Apis.Auth", "Google.Apis.Auth\Google.Apis.Auth.csproj", "{B759DEE5-D0EC-4B89-84D6-53815D562D05}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Google.Apis", "Google.Apis\Google.Apis.csproj", "{8F3EEC2F-A815-453D-BE0D-38F47EB7337B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +43,22 @@ Global
 		{A3DB907B-837B-4C09-975C-3934CDFA9E1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3DB907B-837B-4C09-975C-3934CDFA9E1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3DB907B-837B-4C09-975C-3934CDFA9E1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7D6283E-EA0A-4784-AB82-8446540320C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7D6283E-EA0A-4784-AB82-8446540320C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7D6283E-EA0A-4784-AB82-8446540320C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7D6283E-EA0A-4784-AB82-8446540320C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B17F13B-1904-49CA-AAD4-7B86EA2D8E2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B17F13B-1904-49CA-AAD4-7B86EA2D8E2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B17F13B-1904-49CA-AAD4-7B86EA2D8E2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B17F13B-1904-49CA-AAD4-7B86EA2D8E2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B759DEE5-D0EC-4B89-84D6-53815D562D05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B759DEE5-D0EC-4B89-84D6-53815D562D05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B759DEE5-D0EC-4B89-84D6-53815D562D05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B759DEE5-D0EC-4B89-84D6-53815D562D05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F3EEC2F-A815-453D-BE0D-38F47EB7337B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F3EEC2F-A815-453D-BE0D-38F47EB7337B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F3EEC2F-A815-453D-BE0D-38F47EB7337B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F3EEC2F-A815-453D-BE0D-38F47EB7337B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -42,5 +66,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{464E16B9-0FEA-4D2A-B9B4-3DBAFBDC0DD2} = {9D2800C1-4BCF-49C2-ACFB-F4FDC34D2242}
 		{B0B4123E-92E3-40C7-8143-C816EFFDB284} = {9D2800C1-4BCF-49C2-ACFB-F4FDC34D2242}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C05CDBBD-65A8-42F3-828D-4386EBCB7998}
 	EndGlobalSection
 EndGlobal

@@ -10,14 +10,19 @@
     <RootNamespace>hitfit.app</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="Properties\PublishProfiles\hitfitapp - Web Deploy.pubxml" />
     <None Remove="ScaffoldingReadMe.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Apis.Drive.v3" Version="1.28.0.946" />
-    <PackageReference Include="Google.Apis.Plus.v1" Version="1.28.0.928" />
+    <PackageReference Include="ChilkatDnCore" Version="9.5.0.68" />
+    <PackageReference Include="Google.Apis.Drive.v3" Version="1.28.0.953" />
     <PackageReference Include="HtmlAgilityPack" Version="1.5.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
@@ -44,6 +49,9 @@
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Views\Administration\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\google.auth\hitfit.google.auth.mvc.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Views\Administration\Index.cshtml">

@@ -4,44 +4,53 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
 using Google.Apis.Services;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Auth.OAuth2.Flows;
+using Google.Apis.Util.Store;
 using hitfit.app.Models;
 using HtmlAgilityPack;
 using File = Google.Apis.Drive.v3.Data.File;
+using hitfit.google.auth.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace hitfit.app.Services
 {
+    
+
     public class GoogleDriveArticleService
     {
         private DriveService _driveService;
 
-        public GoogleDriveArticleService()
+        public GoogleDriveArticleService(DriveService service)
         {
-            GetDriveService();
+            _driveService = service;
         }
 
-        private async void GetDriveService()
+        private async void GetDriveService(CancellationToken cancellationToken, Controller controller)
         {
-            string[] Scopes = new[] { DriveService.Scope.DriveReadonly };
-            UserCredential credential;
+            
 
-            using (var stream = new FileStream("appsettings.json",
-                FileMode.Open, FileAccess.Read))
-            {
-                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.Load(stream).Secrets, Scopes, "user", CancellationToken.None);
-            }
+            //string[] scopes = new[] { DriveService.Scope.DriveReadonly };
+            //UserCredential credential;
 
-            // Create the service.
-            var service = new DriveService(new BaseClientService.Initializer()
-            {
-                HttpClientInitializer = credential,
-                ApplicationName = "hitfit.app",
-            });
+            //using (var stream = new FileStream("appsettings.json",
+            //    FileMode.Open, FileAccess.Read))
+            //{
+            //    credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
+            //        GoogleClientSecrets.Load(stream).Secrets, scopes, "user", CancellationToken.None);
+            //}
 
-            _driveService = service;
+            //// Create the service.
+            //var service = new DriveService(new BaseClientService.Initializer()
+            //{
+            //    //HttpClientInitializer = credential,
+            //    ApiKey = "AIzaSyDadA4baK6po4-wacE7dszbl2iw2qy4Rrk",
+            //    ApplicationName = "hitfit.app"
+            //});
+
+            //_driveService = service;
         }
 
         public async Task<List<Article>> GetArticlesAsync(int pageSize = 4)

@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+
+  <Import Project="..\CommonProjectProperties.xml" />
+
+  <!-- build configuration -->
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.3;net45</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' != 'Windows_NT'">netstandard1.3</TargetFrameworks>
+  </PropertyGroup>
+
+  <!-- nupkg information -->
+  <PropertyGroup>
+    <Title>Google APIs Client Library</Title>
+    <Description>
+The Google APIs Client Library is a runtime client for working with Google services.
+The library supports service requests, media upload and download, etc.
+    
+Supported Platforms:
+- .NET Framework 4.5+
+- NetStandard1.3, providing .NET Core support
+    </Description>
+  </PropertyGroup>
+
+  <!-- package references; common then per-target -->
+  <ItemGroup>
+    <PackageReference Include="System.Net.Http" Version="4.3.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
+    <ProjectReference Include="..\Google.Apis.Core\Google.Apis.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
+    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net45'">
+  </ItemGroup>
+  
+  <!-- build and include the (empty) platformservices dll in package; required for backward compatibility -->
+  <!-- There must be a better way of doing this... -->
+  <Target Name="IncludePlatformServices" BeforeTargets="GenerateNuspec" Condition="'$(OS)' == 'Windows_NT'">
+    <MSBuild Projects="..\Google.Apis.PlatformServices\Google.Apis.PlatformServices.csproj" />
+    <Copy SourceFiles="..\Google.Apis.PlatformServices\bin\$(Configuration)\net45\Google.Apis.PlatformServices.dll" DestinationFolder="$(OutputPath)net45" />
+  </Target>
+  <ItemGroup Condition="'$(OS)' == 'Windows_NT'">
+    <None Include="$(OutputPath)net45\Google.Apis.PlatformServices.dll">
+      <Pack>true</Pack>
+      <PackagePath>lib\net45</PackagePath>
+    </None>
+  </ItemGroup>
+  
+</Project>

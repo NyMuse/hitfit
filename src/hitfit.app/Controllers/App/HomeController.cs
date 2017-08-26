@@ -7,7 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading;
+using Google.Apis.Drive.v3;
+using Google.Apis.Services;
 using hitfit.app.Services;
+using hitfit.google.auth.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 
@@ -16,16 +20,39 @@ namespace hitfit.app.Controllers.App
     //[Authorize]
     public class HomeController : Controller
     {
-        private readonly GoogleDriveArticleService _articleService;
+        //private readonly GoogleDriveArticleService _articleService;
 
-        public HomeController(GoogleDriveArticleService articleService)
+        public HomeController()
         {
-            _articleService = articleService;
+            
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            var articles = await _articleService.GetArticlesAsync(4);
+            GoogleDriveArticleService articleService = null;
+
+            var result = await new AuthorizationCodeMvcApp(this, new Google.AppFlowMetadata()).AuthorizeAsync(cancellationToken);
+            //https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&response_type=code&client_id=703137161297-kcdmjcjk5caa9ampgvraqa4ktt5nsqit.apps.googleusercontent.com&redirect_uri=http:%2F%2Flocalhost:51134%2FAuthCallback%2FIndexAsync&scope=https:%2F%2Fwww.googleapis.com%2Fauth%2Fdrive&state=63161155
+            if (result.Credential == null)
+            {
+                return Redirect(result.RedirectUri);
+            }
+            else
+            {
+                var service = new DriveService(new BaseClientService.Initializer()
+                {
+                    HttpClientInitializer = result.Credential,
+                    ApplicationName = "hitfit.app"
+                });
+
+                articleService = new GoogleDriveArticleService(service);
+
+                //_driveService = service;
+            }
+
+            //var articleService = new GoogleDriveArticleService(new CancellationToken(), this);
+
+            var articles = await articleService.GetArticlesAsync(4);
             
             //foreach (var article in articles)
             //{

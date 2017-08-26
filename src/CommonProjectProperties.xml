@@ -1,0 +1,27 @@
+<Project>
+
+  <!-- common nupkg information -->
+  <PropertyGroup>
+    <Version>1.28.0</Version>
+    <Authors>Google Inc.</Authors>
+    <Copyright>Copyright 2017 Google Inc.</Copyright>
+    <PackageTags>Google</PackageTags>
+    <PackageProjectUrl>https://github.com/google/google-api-dotnet-client</PackageProjectUrl>
+    <PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/google/google-api-dotnet-client</RepositoryUrl>
+  </PropertyGroup>
+  
+  <!-- common build configuration -->
+  <PropertyGroup>
+    <!-- TargetFrameworks cannot be here, VS fails to load project -->
+    <SignAssembly>true</SignAssembly>
+    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
+    <AssemblyOriginatorKeyFile>..\google.apis.snk</AssemblyOriginatorKeyFile>
+    <DebugType>portable</DebugType>
+    <IncludeSymbols>true</IncludeSymbols>
+    <IncludeSource>true</IncludeSource>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+</Project>
