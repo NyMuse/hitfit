@@ -53,6 +53,7 @@ namespace hitfit.app.Models
 
             modelBuilder.Entity<Program>().ForNpgsqlToTable("programs");
             modelBuilder.Entity<Report>().ForNpgsqlToTable("reports");
+            modelBuilder.Entity<Article>().ForNpgsqlToTable("articles");
 
             modelBuilder.Entity<Report>()
                 .HasOne(u => u.User)
@@ -69,6 +70,7 @@ namespace hitfit.app.Models
         public virtual DbSet<Report> Reports { get; set; }
         public virtual DbSet<UserMeasurements> UsersMeasurements { get; set; }
         public virtual DbSet<UserProgram> UsersPrograms { get; set; }
+        public virtual DbSet<Article> Articles { get; set; }
 
         public virtual DbSet<MeasurementType> MeasurementTypes { get; set; }
         public virtual DbSet<ProgramType> ProgramTypes { get; set; }

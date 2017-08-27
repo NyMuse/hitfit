@@ -1,4 +1,6 @@
 ﻿@using hitfit.app.Models
+@using System.Net;
+@using HtmlAgilityPack;
 
 <div>
 <!-- Banner -->
@@ -41,47 +43,55 @@
     </article>
 </section>
 
-<!-- One -->
-    <section id="one" class="wrapper style2">
-        <header class="align-center">
-            <p class="special">Интересная информация о красоте, спорте, питании и др.</p>
-            <h2>Статьи</h2>
-        </header>
-        <div class="inner">
-            <div class="grid-style">
-                @foreach (var article in ((List<Article>) ViewBag.Articles))
-                {
-                    <div>
-                        <div class="box">
-                            <div class="image fit">
-                                <a asp-route-id="@article.DocumentId" asp-controller="Article" asp-action="ViewArticle">
-                                    <img src="@article.HeaderImage" alt="" style="object-fit: cover; height: 40vh;" />
-                                </a>
-                            </div>
-                            <div class="content">
-                                <header class="align-center">
-                                    <p>Здоровье</p>
-                                    <h2>@article.Title</h2>
-                                </header>
-                                <p>
-                                    @article.Content
-                                </p>
-                                <footer class="align-center">
-                                    <a class="button alt" asp-route-id="@article.DocumentId" asp-controller="Article" asp-action="ViewArticle">Читать далее</a>
-                                </footer>
+    <!-- One -->
+    @if (ViewBag.Articles != null)
+    {
+        <section id="one" class="wrapper style2">
+            <header class="align-center">
+                <p class="special">Интересная информация о красоте, спорте, питании и др.</p>
+                <h2>Статьи</h2>
+            </header>
+            <div class="inner">
+                <div class="grid-style">
+                    @foreach (var article in ((List<Article>) ViewBag.Articles))
+                    {
+                        <div>
+                            <div class="box">
+                                <div class="image fit">
+                                    <a asp-route-id="@article.DocumentId" asp-controller="Article" asp-action="ViewArticle">
+                                        <img src="@article.HeaderImage" alt="" style="object-fit: cover; height: 40vh;"/>
+                                    </a>
+                                </div>
+                                <div class="content">
+                                    <header class="align-center">
+                                        <p>Здоровье</p>
+                                        <h2>@article.Title</h2>
+                                    </header>
+                                    <p>
+                                        @{
+                                            var doc = new HtmlDocument();
+                                            doc.LoadHtml(article.Content);
+                                            var text = WebUtility.HtmlDecode(doc.DocumentNode.SelectSingleNode("//body").InnerText);
+                                            var content = text.Length > 200 ? text.Substring(0, 200) + "..." : text;
+                                        }
+                                        @content
+                                    </p>
+                                    <footer class="align-center">
+                                        <a class="button alt" asp-route-id="@article.DocumentId" asp-controller="Article" asp-action="ViewArticle">Читать далее</a>
+                                    </footer>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                }
+                    }
+                </div>
             </div>
-        </div>
-        <div class="container">
-            <div class="align-center">
-                <a class="button cpecial" asp-area="" asp-controller="Article" asp-action="Index">Смотреть все статьи</a>
+            <div class="container">
+                <div class="align-center">
+                    <a class="button cpecial" asp-area="" asp-controller="Article" asp-action="Index">Смотреть все статьи</a>
+                </div>
             </div>
-        </div>
-    </section>
-    
+        </section>
+    }
     
 
     <!-- Two -->

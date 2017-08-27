@@ -16,10 +16,10 @@ namespace hitfit.app.Controllers.App
     [Authorize]
     public class ArticleController : Controller
     {
-        private readonly GoogleDriveArticleService _articleService;
+        private readonly ArticleService _articleService;
         private readonly UserManager<User> _userManager;
 
-        public ArticleController(GoogleDriveArticleService articleService, UserManager<User> userManager)
+        public ArticleController(ArticleService articleService, UserManager<User> userManager)
         {
             _articleService = articleService;
             _userManager = userManager;
