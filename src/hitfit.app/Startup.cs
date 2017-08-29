@@ -6,7 +6,6 @@ using hitfit.app.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -86,11 +85,11 @@ namespace hitfit.app
 
             if (Configuration["ImageService"] == "DiskStorage")
             {
-                services.AddTransient<IImageService, FileStorageImageService>();
+                services.AddScoped<IImageService, FileStorageImageService>();
             }
             else
             {
-                services.AddTransient<IImageService, BlobStorageImageService>();
+                services.AddScoped<IImageService, BlobStorageImageService>();
             }
         }
 
@@ -98,6 +97,7 @@ namespace hitfit.app
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            loggerFactory.AddAzureWebAppDiagnostics();
 
             if (env.IsDevelopment())
             {

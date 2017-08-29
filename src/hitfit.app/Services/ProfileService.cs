@@ -9,18 +9,20 @@ using hitfit.app.Managers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.WebEncoders.Testing;
 
 namespace hitfit.app.Services
 {
     public class ProfileService
     {
         private readonly HitFitDbContext _context;
-        private readonly FileStorageImageService _imageService;
+        private readonly IImageService _imageService;
         private readonly MeasurementsManager _measurementsManager;
 
-        public ProfileService(HitFitDbContext context, FileStorageImageService imageService, MeasurementsManager measurementsManager)
+        public ProfileService(HitFitDbContext context, IImageService imageService, MeasurementsManager measurementsManager)
         {
             _context = context;
+            _imageService = imageService;
             _measurementsManager = measurementsManager;
         }
 
@@ -47,6 +49,8 @@ namespace hitfit.app.Services
             {
                 entity.Photo = photo;
             }
+
+            var iii = await _imageService.GetImagesFromDiskAsync(1, ImageRelationType.Measurements, 1);
             
             entity.FirstName = firstName;
             entity.LastName = lastName;

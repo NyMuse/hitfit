@@ -4,17 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Google.Apis.Util.Store;
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Auth.OAuth2.Responses;
-using Google.Apis.Drive.v3;
-using Google.Apis.Services;
 using hitfit.app.Models;
 using HtmlAgilityPack;
 using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using File = Google.Apis.Drive.v3.Data.File;
 
 namespace hitfit.app.Services
 {
