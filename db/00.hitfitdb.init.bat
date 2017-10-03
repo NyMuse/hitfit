@@ -2,8 +2,8 @@
 
 SET dbserver=localhost
 SET dbname=hitfitdb
-SET user=postgres
-SET PGPASSWORD=Tsunami9
+SET user=user
+SET PGPASSWORD=password
 
 psql --host=localhost --dbname=postgres --username=postgres -c "DROP DATABASE IF EXISTS hitfitdb"
 psql --host=localhost --dbname=postgres --username=postgres --file="01.hitfitdb.create.sql"
