@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using User = hitfit.app.Models.User;
@@ -28,13 +29,15 @@ namespace hitfit.app.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
         private readonly IUserClaimsPrincipalFactory<User> _claimsPrincipalFactory;
+        private readonly ILogger _logger;
 
-        public AccountController(HitFitDbContext context, SignInManager<User> signInManager, UserManager<User> userManager, IConfiguration configuration, IUserClaimsPrincipalFactory<User> claimsPrincipalFactory)
+        public AccountController(HitFitDbContext context, SignInManager<User> signInManager, UserManager<User> userManager, IConfiguration configuration, IUserClaimsPrincipalFactory<User> claimsPrincipalFactory, ILogger<AccountController> logger)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _configuration = configuration;
             _claimsPrincipalFactory = claimsPrincipalFactory;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -59,6 +62,7 @@ namespace hitfit.app.Controllers
 
                 if (user == null)
                 {
+                    _logger.LogInformation("Login failed. User [{0}] not exists.", username);
                     ViewData["ErrorMessage"] = "Пользователь с таким именем или e-mail не существует.";
                     return View();
                 }
@@ -67,16 +71,19 @@ namespace hitfit.app.Controllers
 
                 if (result.Succeeded)
                 {
+                    _logger.LogInformation("User [{0}] logged in.", username);
                     return RedirectToLocal(returnUrl);
                 }
                 
                 if (result.IsLockedOut)
                 {
+                    _logger.LogInformation("Login failed. User [{0}] is locked out.", username);
                     ViewData["ErrorMessage"] = "Аккаунт заблокирован.";
                     return View();
                 }
                 else
                 {
+                    _logger.LogInformation("Login failed. Invalid password for user [{0}].", username);
                     ViewData["ErrorMessage"] = "Неверный пароль.";
                     return View();
                 }
@@ -88,8 +95,10 @@ namespace hitfit.app.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            _logger.LogInformation("User [{0}] logged out.", this.User.Identity.Name);
 
+            await _signInManager.SignOutAsync();
+            
             return RedirectToAction("Index", "Home");
         }
 
@@ -177,10 +186,13 @@ namespace hitfit.app.Controllers
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
+                    _logger.LogInformation("User [{0}] successfully registered.", userName);
+
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
+                    _logger.LogInformation("Registration failed. {0}", string.Join(" ", result.Errors.Select(e => e.Description)));
                     ViewData["ErrorMessage"] = string.Join(Environment.NewLine, result.Errors.Select(e => e.Description));
                     return View();
                 }

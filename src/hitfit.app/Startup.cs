@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.AzureAppServices;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
@@ -95,9 +96,19 @@ namespace hitfit.app
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-            loggerFactory.AddAzureWebAppDiagnostics();
+            loggerFactory
+                .WithFilter(new FilterLoggerSettings
+                {
+                    {"Microsoft", LogLevel.Error},
+                    {"System", LogLevel.Error},
+                    {"HitFit_FilterLogging", LogLevel.Information}
+                })
+                .AddConsole(Configuration.GetSection("Logging"))
+                .AddDebug()
+                .AddAzureWebAppDiagnostics(new AzureAppServicesDiagnosticsSettings
+                {
+                    BlobName = "hitfit.logs.txt"
+                });
 
             if (env.IsDevelopment())
             {

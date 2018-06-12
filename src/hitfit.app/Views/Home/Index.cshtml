@@ -14,20 +14,19 @@
             </header>
         </div>
     </article>
-    <article>
+    @*<article>
         <img src="~/images/slide07.jpg" alt="" />
         <div class="inner">
             <header>
                 <p>Hit-Fit - это целая культура</p>
-                @*<h2>контроль питания</h2>*@
             </header>
         </div>
-    </article>
+    </article>*@
     <article>
         <img src="~/images/slide08.jpg" alt="" />
         <div class="inner">
             <header>
-                <p>Hit-Fit - это про настоящие достижения внутри себя</p>
+                <p>Hit-Fit - это настоящие достижения внутри себя</p>
                 @*<h2>Tempus dolor</h2>*@
             </header>
         </div>
@@ -44,100 +43,100 @@
 </section>
 
     <!-- One -->
-    @if (ViewBag.Articles != null)
-    {
-        <section id="one" class="wrapper style2">
+    <section id="three" class="wrapper style2">
+        <div class="inner">
             <header class="align-center">
-                <p class="special">Интересная информация о красоте, спорте, питании и др.</p>
-                <h2>Статьи</h2>
+                <p class="special">Вдохновляйся результатами и присоединяйся к нашей команде</p>
+                <h2>Результаты</h2>
             </header>
-            <div class="inner">
-                <div class="grid-style">
-                    @foreach (var article in ((List<Article>) ViewBag.Articles))
-                    {
-                        <div>
-                            <div class="box">
-                                <div class="image fit">
-                                    <a asp-route-id="@article.DocumentId" asp-controller="Article" asp-action="ViewArticle">
-                                        <img src="@article.HeaderImage" alt="" style="object-fit: cover; height: 40vh;"/>
-                                    </a>
-                                </div>
-                                <div class="content">
-                                    <header class="align-center">
-                                        <p>Здоровье</p>
-                                        <h2>@article.Title</h2>
-                                    </header>
-                                    <p>
-                                        @{
-                                            var doc = new HtmlDocument();
-                                            doc.LoadHtml(article.Content);
-                                            var text = WebUtility.HtmlDecode(doc.DocumentNode.SelectSingleNode("//body").InnerText);
-                                            var content = text.Length > 200 ? text.Substring(0, 200) + "..." : text;
-                                        }
-                                        @content
-                                    </p>
-                                    <footer class="align-center">
-                                        <a class="button alt" asp-route-id="@article.DocumentId" asp-controller="Article" asp-action="ViewArticle">Читать далее</a>
-                                    </footer>
-                                </div>
+            <div class="gallery">
+                <div>
+                    <div class="image fit">
+                        <a href="#"><img src="images/result001.jpg" alt="" /></a>
+                    </div>
+                </div>
+                <div>
+                    <div class="image fit">
+                        <a href="#"><img src="images/result002.jpg" alt="" /></a>
+                    </div>
+                </div>
+                <div>
+                    <div class="image fit">
+                        <a href="#"><img src="images/result003.jpg" alt="" /></a>
+                    </div>
+                </div>
+                <div>
+                    <div class="image fit">
+                        <a href="#"><img src="images/result004.jpg" alt="" /></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="align-center">
+                <a class="button cpecial" href="#">Смотреть все результаты</a>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- Two -->
+    <section id="two" class="wrapper style3">
+        <div class="inner">
+            <header class="align-center">
+                <p>Программа создана для женщин, которые решили изменить себя</p>
+                <h2>Hit-Fit. Be your own motivation</h2>
+            </header>
+        </div>
+    </section>
+    
+    <!-- Three -->
+    @if (ViewBag.Articles != null)
+{
+    <section id="one" class="wrapper style2">
+        <header class="align-center">
+            <p class="special">Интересная информация о красоте, спорте, питании и др.</p>
+            <h2>Статьи</h2>
+        </header>
+        <div class="inner">
+            <div class="grid-style">
+                @foreach (var article in ((List<Article>)ViewBag.Articles))
+                {
+                    <div>
+                        <div class="box">
+                            <div class="image fit">
+                                <a asp-route-id="@article.DocumentId" asp-controller="Article" asp-action="ViewArticle">
+                                    <img src="@article.HeaderImage" alt="" style="object-fit: cover; height: 40vh;" />
+                                </a>
+                            </div>
+                            <div class="content">
+                                <header class="align-center">
+                                    <p>Здоровье</p>
+                                    <h2>@article.Title</h2>
+                                </header>
+                                <p>
+                                    @{
+                                        var doc = new HtmlDocument();
+                                        doc.LoadHtml(article.Content);
+                                        var text = WebUtility.HtmlDecode(doc.DocumentNode.SelectSingleNode("//body").InnerText);
+                                        var content = text.Length > 200 ? text.Substring(0, 200) + "..." : text;
+                                    }
+                                    @content
+                                </p>
+                                <footer class="align-center">
+                                    <a class="button alt" asp-route-id="@article.DocumentId" asp-controller="Article" asp-action="ViewArticle">Читать далее</a>
+                                </footer>
                             </div>
                         </div>
-                    }
-                </div>
-            </div>
-            <div class="container">
-                <div class="align-center">
-                    <a class="button cpecial" asp-area="" asp-controller="Article" asp-action="Index">Смотреть все статьи</a>
-                </div>
-            </div>
-        </section>
-    }
-    
-
-    <!-- Two -->
-<section id="two" class="wrapper style3">
-    <div class="inner">
-        <header class="align-center">
-            <p>Программа создана для женщин, которые решили изменить себя</p>
-            <h2>Hit-Fit. Be your own motivation</h2>
-        </header>
-    </div>
-</section>
-
-<!-- Three -->
-<section id="three" class="wrapper style2">
-    <div class="inner">
-        <header class="align-center">
-            <p class="special">Вдохновляйся результатами и присоединяйся к нашей команде</p>
-            <h2>Результаты</h2>
-        </header>
-        <div class="gallery">
-            <div>
-                <div class="image fit">
-                    <a href="#"><img src="images/result001.jpg" alt="" /></a>
-                </div>
-            </div>
-            <div>
-                <div class="image fit">
-                    <a href="#"><img src="images/result002.jpg" alt="" /></a>
-                </div>
-            </div>
-            <div>
-                <div class="image fit">
-                    <a href="#"><img src="images/result003.jpg" alt="" /></a>
-                </div>
-            </div>
-            <div>
-                <div class="image fit">
-                    <a href="#"><img src="images/result004.jpg" alt="" /></a>
-                </div>
+                    </div>
+                                        }
             </div>
         </div>
-    </div>
-    <div class="container">
-        <div class="align-center">
-            <a class="button cpecial" href="#">Смотреть все результаты</a>
+        <div class="container">
+            <div class="align-center">
+                <a class="button cpecial" asp-area="" asp-controller="Article" asp-action="Index">Смотреть все статьи</a>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+                                        }
 </div>

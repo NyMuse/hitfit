@@ -1,4 +1,6 @@
-﻿@using hitfit.app.Models
+﻿@using System.Net;
+@using hitfit.app.Models
+@using HtmlAgilityPack;
 @*@using System.Collections.Generic
 @using Microsoft.AspNetCore.Identity
 
@@ -51,7 +53,13 @@
                                     <h2>@article.Title</h2>
                                 </header>
                                 <p>
-                                    @Html.Raw(article.Content)
+                                    @{
+                                        var doc = new HtmlDocument();
+                                        doc.LoadHtml(article.Content);
+                                        var text = WebUtility.HtmlDecode(doc.DocumentNode.SelectSingleNode("//body").InnerText);
+                                        var content = text.Length > 200 ? text.Substring(0, 200) + "..." : text;
+                                    }
+                                    @content
                                 </p>
                                 <footer class="align-center">
                                     <a class="button alt" asp-route-id="@article.DocumentId" asp-controller="Article" asp-action="ViewArticle">Читать далее</a>

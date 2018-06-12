@@ -21,7 +21,7 @@ namespace hitfit.app.Services
             _context = context;
         }
 
-        public async Task<List<Article>> GetArticlesAsync(int count = 0)
+        public async Task<List<Article>> GetArticlesAsync(int count = 9999)
         {
             return await _context.Articles.Where(a => a.Published).OrderBy(a => new Random().Next()).Take(count).ToListAsync();
         }

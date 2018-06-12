@@ -128,6 +128,20 @@ namespace hitfit.tool.articlepublishing
             var doc = new HtmlDocument();
             doc.LoadHtml(docHtml);
 
+            var images = doc.DocumentNode.Descendants("img");
+            foreach (var img in images)
+            {
+                img.SetAttributeValue("style", "max-width: 500px;");
+                img.ParentNode.SetAttributeValue("style", "text-align: -webkit-center;");
+                img.ParentNode.Attributes.Add("class", "image fit");
+            }
+            
+            using (StringWriter writer = new StringWriter())
+            {
+                doc.Save(writer);
+                docHtml = writer.ToString();
+            }
+
             string image = doc.DocumentNode.Descendants("img").FirstOrDefault().GetAttributeValue("src", null);
 
             Article article = new Article
